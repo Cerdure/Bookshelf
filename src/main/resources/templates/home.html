@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="css">
+  <link rel="stylesheet" th:href="@{/css/home.css}">
+</th:block>
+
+<th:block layout:fragment="script">
+  <script th:src="@{/js/home.js}"></script>
+</th:block>
+
+
+<div layout:fragment="content">
+
+  <div class="banner-wrapper">
+    <div class="banner">
+        <a class="banner-img-wrapper" th:each="bannerBook : ${bannerBooks}" th:href="@{/book(id=${bannerBook.id})}">
+          <h1 class="bf-big-0" th:text="${bannerBook.name}"></h1>
+          <h4 class="bf-small-0" th:text="${bannerBook.author}"></h4>
+          <img class="banner-img-0" th:src="${bannerBook.imgPath}">
+        </a>
+      <div class="banner-button-wrapper">
+        <button class="btn-left"><</button>
+            <button class="btn-right">></button>
+      </div>
+      <div class="banner-index-wrapper">
+        <div class="banner-current-index">1</div>
+        <div class="banner-index-fill-box">
+          <div class="banner-index-fill"></div>
+        </div>
+        <div class="banner-last-index">6</div>
+        <div class="banner-stop"></div>
+        <div class="banner-play"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="simple-search-wrapper">
+    <div class="simple-search">
+      <div class="simple-search-title">User 님,</div>
+      <form class="simple-search-input search-input" action="/search-result" method="get" id="search-form">
+        <input id="search-input" name="name" type="text" autocomplete="off" placeholder="찾으시는 책이 있나요?">
+        <img class="icon" onclick="document.getElementById('search-form').submit();" src="/img/icon/search.svg">
+        <input id="category-id-input" name="categoryIds" type="hidden">
+        <img class="reset" src="/img/icon/x-circle-fill.svg">
+      </form>
+    </div>
+  </div>
+
+  <div class="search-result-outer-wrapper">
+  <div class="search-result-wrapper" id="search-input-results">
+    <div class="search-result-category" th:each="category : ${ipCategories}">
+      <div class="title">카테고리</div>
+      <a id="category-box">
+        <span class="data" th:utext="${category.name}"></span>
+        <input id="category-id" th:value="${category.id}" type="hidden">
+      </a>
+    </div>
+
+    <div class="search-result-book" th:each="book : ${ipBooks}">
+      <img src="/img/icon/search.svg">
+      <a th:href="'/book?id=' + ${book.id}">
+        <span class="data" th:utext="${book.name}"></span>
+      </a>
+    </div>
+  </div>
+  </div>
+
+
+  <div class="today-book-wrapper">
+    <div class="today-book-title-wrapper">
+      <span class="today-book-title">오늘의 책</span>
+      <span class="today-book-title2">무엇을 읽을지 고민이라면?</span>
+    </div>
+    <div class="slides">
+      <ul>
+        <a th:each="todayBook : ${todayBooks}"  th:href="@{/book(id=${todayBook.id})}">
+          <div><span th:style="'background-image:url(' + ${todayBook.imgPath} + ');'"></span></div>
+          <img th:src="${todayBook.imgPath}" >
+          <p th:text="${todayBook.name}"></p>
+          <p th:text="${todayBook.author}"></p>
+        </a>
+      </ul>
+      <button class="tb-btn-left">&lt;</button>
+      <button class="tb-btn-right">&gt;</button>
+    </div>
+    <div class="tb-reset-wrapper">
+      <div class="tb-reset-box">
+        <img class="tb-reset-icon" src="/img/icon/arrow-clockwise.svg">
+        <div class="tb-reset-text">다른 책 찾아보기</div>
+      </div>
+    </div>
+  </div>
+  <div class="best-wrapper">
+    <div class="best-title-wrapper">
+      <ul class="best-title-1">
+        <li class="title-best">베스트</li>
+        <li class="top-10">북셸프 통계 top10</li>
+      </ul>
+      <ul class="best-title-2">
+        <li class="best-entire" onclick="bestBook(this, 0)">종합</li>
+        <li class="best-sale" onclick="bestBook(this, 1)">판매부수</li>
+        <li class="best-rating" onclick="bestBook(this, 2)">평점</li>
+      </ul>
+    </div>
+    <div class="best-books-wrapper">
+      <a class="best-book" th:each="bestBook,i : ${bestBooks}" th:href="@{/book(id=${bestBook.id})}">
+        <div class="best-book-inner-box">
+        <img th:src="${bestBook.imgPath}">
+        <div class="number" th:text="${i.count}" th:style="${i.count == 1} ? 'background-color: rgb(227, 178, 0);' : 'background-color: rgba(0, 0, 0, 0.5);'"></div>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="picks-wrapper">
+    <div class="picks">
+      <ul>
+        <li>
+          <h1 class="picks-title-1">Picks</h1>
+          <h1 class="picks-title-2">!</h1>
+          <h5>새로운 즐거움을 드립니다.</h5>
+          <h2>취향에 꼭 맞는 책<br>북셸프가 찾아드려요!</h2>
+          <button onclick="location.href='/login'">로그인하고 추천받기</button>
+        </li>
+        <li>
+          <img src="/img/background/img_welcome_picks_item_01.png" alt="">
+          <span>종합추천</span>
+          <span>고객님의 취향을 분석해<br>
+            이틀밤낮 고민하여<br>
+            고른 책을 확인하세요.</span>
+        </li>
+        <li>
+          <img src="/img/background/img_welcome_picks_item_02.png" alt="">
+          <span>작가 Picks</span>
+          <span>픽스를 통해 고객님의<br>
+            선호 작가와 비슷한<br>
+            새로운 작가를 만나보세요!</span>
+        </li>
+        <li>
+          <img src="/img/background/img_welcome_picks_item_03.png" alt="">
+          <span>내 마음대로 Picks</span>
+          <span>오늘은<br>
+            내 맘대로 이 책 한 권<br>
+            어때요?</span>
+        </li>
+        <li>
+          <img src="/img/background/img_welcome_picks_item_04.png" alt="">
+          <span>소울메이트 Picks</span>
+          <span>고객님과 취향이 비슷한<br>
+            소울메이트들은<br>
+            어떤 책을 읽고 있을까요?</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="notice-wrapper">
+    <div class="notice">
+      <div class="notice-title">
+        <h1>공지사항</h1>
+        <h4 onclick="location.href='/notice'">더보기 +</h4>
+      </div>
+      <div class="notice-box">
+        <ul>
+          <a th:each="notice : ${notices}" th:href="'/notice-detail/' + ${notice.id}">
+            <span th:text="${notice.title}"></span>
+            <p th:utext="${notice.content}"></p>
+            <span th:text="${#temporals.format(notice.regDate, 'yyyy.MM.dd')}"></span>
+          </a>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-banner">
+    <div class="bottom-banner-title">오늘의 문장</div>
+    <div class="bottom-banner-inner-box">
+      <div class="bottom-banner-inner-title">오늘은 무비데이!</div>
+      <img class="bottom-banner-qutoes-left" src="/img/icon/qutoes-top-gray.left.png">
+      <div class="bottom-banner-inner-text">
+        새삼스러울 것 없는<br>
+        얘기지만,<br>
+        우리가 본 영화는<br>
+        우리의 인생과 붙어 있다.<br>
+        몸으로 영화를 본다.</div>
+      <img class="bottom-banner-qutoes-right" src="/img/icon/qutoes-bottom-gray.right.png">
+      <span class="bottom-banner-booktitle">정희진, <혼자서 본 영화></span>
+    </div>
+  </div>
+
+  <div class="top-move-button">
+    <div>∧</div>
+    <div>TOP</div>
+  </div>
+
+</div>
+
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="css">
+  <link rel="stylesheet" th:href="@{/css/book-detail.css}">
+</th:block>
+
+<th:block layout:fragment="script">
+  <script th:src="@{/js/book-detail.js}"></script>
+</th:block>
+
+<div layout:fragment="content">
+
+<div class="meta-wrapper">
+
+<div class="main-wrapper">
+  <div class="header">
+    <div class="left-box">
+    <img class="book-img" th:src="${book.imgPath}">
+  </div>
+    <div class="right-box">
+      <div class="top">
+        <div class="title" th:text="${book.name}"></div>
+        <div class="author" th:text="${book.author}"></div>
+        <div class="price-header">
+          <div th:class="${book.discountRate == 0} ? 'discount-price' : 'origin-price'" th:text="${#numbers.formatInteger(book.originPrice, 3, 'COMMA') + '원'}"></div>
+          <div th:if="${book.discountRate != 0}" class="discount-rate" th:text="'-'+${book.discountRate}+'%'"></div>
+        </div>
+        <div th:if="${book.discountRate != 0}" class="discount-price" th:text="${#numbers.formatInteger(book.discountPrice, 3, 'COMMA') + '원'}"></div>
+      </div>
+      <div class="box">
+        <div class="inner-box">
+        <div class="shelves">
+          <div class="profile">
+          <li><img src="/img/book-cover/search-category-essay.jpg"></li>
+          <li><img src="/img/book-cover/search-category-comic.jpg"></li>
+          <li><img src="/img/book-cover/search-category-politics.jpg"></li>
+          </div>
+        <div class="text">북마크한 사람</div>
+        <div class="number">1,560명</div>
+        </div>
+        <div class="reviews">
+          <img class="icon" src="/img/icon/search-list-theme.svg">
+          <div class="text">이 책의 리뷰</div>
+          <div class="number" th:text="${book.reviews?.size()}+'개'">3개</div>
+        </div>
+        <div class="first-review" th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">
+          <img class="icon" src="/img/icon/search-list-editor.svg">
+          <div class="text">
+            리뷰 작성하고<br>
+            +200포인트
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="body">
+      <div class="book-intro-wrapper">
+        <div class="title">책 소개</div>
+        <p class="content" th:text="${book.intro}"></p>
+        <div class="box">
+          <div class="category">
+            <div class="text">카테고리</div>
+            <div class="data" th:text="${book.category.name}"></div>
+          </div>
+          <div class="publisher">
+            <div class="text">출판사</div>
+            <div class="data" th:text="${book.publisher}"></div>
+          </div>
+          <div class="release-date">
+            <div class="text">출간일</div>
+            <div class="data" th:text="${book.publishDate}"></div>
+          </div>
+          <div class="ISBN">
+            <div class="text">ISBN</div>
+            <div class="data" th:text="${book.ISBN}"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-index-wrapper">
+        <span class="title">목차</span>
+        <img class="fold-btn" src="/img/icon/down-arr.png">
+        <p th:text="${book.bookIndex}"></p>
+      </div>
+
+      <div class="author-intro-wrapper">
+        <span class="title">저자 소개</span>
+        <img class="fold-btn" src="/img/icon/down-arr.png">
+        <span class="data" th:text="${book.author}"></span>
+      </div>
+
+      <div class="publisher-review-wrapper">
+        <span class="title">출판사 서평</span>
+        <img class="fold-btn" src="/img/icon/down-arr.png">
+        <p th:text="${book.publisherReview}"></p>
+      </div>
+
+      <div class="review-wrapper">
+        <span class="title">이 책의 리뷰</span>
+
+        <div class="review-null" th:if="${book.reviews!=null}">이 책의 첫 리뷰어가 되어주세요.</div>
+
+        <div class="my-review" th:each="review: ${book.reviews}">
+          <input id="review-id" th:value="${review.id}" type="hidden">
+          <div class="book-name" th:text="${review.book.name}"></div>
+
+          <div class="header">
+            <div class="buyer">구매자</div>
+            <div class="id" th:text="${review.member.nickname}"></div>
+            <div class="date" th:text="${#temporals.format(review.regDate, 'yyyy-MM-dd HH:mm:ss')}"></div>
+            <div th:if="${#authentication.principal.username} == ${review.member.phone}" class="modify">수정</div>
+            <div th:if="${#authentication.principal.username} == ${review.member.phone}" class="delete">삭제</div>
+            <div class="tag" th:text="${review.tag}"></div>
+
+            <div class="rating">
+              <div class="star-empty">
+                <img src="/img/icon/star-empty.svg">
+                <img src="/img/icon/star-empty.svg">
+                <img src="/img/icon/star-empty.svg">
+                <img src="/img/icon/star-empty.svg">
+                <img src="/img/icon/star-empty.svg">
+              </div>
+              <div class="star-fill" th:style="'width:' + ${review.rating}*20 + '%'">
+                <img src="/img/icon/star-fill.svg">
+                <img src="/img/icon/star-fill.svg">
+                <img src="/img/icon/star-fill.svg">
+                <img src="/img/icon/star-fill.svg">
+                <img src="/img/icon/star-fill.svg">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="body">
+            <div class="review">
+              <span th:text="${review.content}"></span>
+            </div>
+            <div class="frame"></div>
+            <div th:unless="${#lists.isEmpty(review.files) || review.files.size()==0 }">
+              <div class="photos" th:style="'background-image:url(' + ${review.files[0].fullPath} + ');'">
+                <div class="close">x</div>
+                <img th:each="file: ${review.files}" th:src="${file.fullPath}">
+                <div class="number" th:text="${'+' + #strings.toString(review.files.size()-1)}" th:style="${review.files.size() < 2 ? 'display:none' : ''}"></div>
+                <button class="btn-left">&lt;</button>
+                <button class="btn-right">&gt;</button>
+                <div class="plus">더보기</div>
+              </div>
+            </div>
+            <div class="fold-button">
+              <span class="text">펼치기</span>
+              <img class="icon" src="/img/icon/down.png">
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="other-reviews">
+        <button onclick="location.href='/review?page=0&size=3'">다른 리뷰들 보러가기</button>
+      </div>
+
+  </div>
+
+  <div class="side-wrapper">
+    <div class="bookmark" th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">
+      <img src="/img/icon/bookmark.svg">
+      <span>북마크하기</span>
+    </div>
+    <div class="write-review" th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">
+      <img src="/img/icon/search-list-editor.svg">
+      <span>리뷰 남기기</span>
+    </div>
+    <button class="cart-btn" th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">장바구니에 넣기</button>
+    <button class="buy-btn" th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">구매하기</button>
+  </div>
+
+</div>
+
+<div class="bottom-nav-sub-wrapper">
+  <div class="bottom-nav-sub">
+    <div class="put-myshelf">
+      <div class="inner">
+        <img src="/img/icon/search-list-series.svg">
+        <span>담기</span>
+      </div>
+    </div>
+    <div class="bookmark">
+      <div class="inner">
+        <img src="/img/icon/bookmark.svg">
+        <span>북마크</span>
+      </div>
+    </div>
+    <div class="write-review">
+      <div class="inner">
+        <img src="/img/icon/search-list-editor.svg">
+        <span>리뷰</span>
+      </div>
+    </div>
+    <div class="cart-btn-sub">
+      <button>장바구니에 넣기</button>
+    </div>
+    <div class="buy-btn-sub">
+      <button>구매하기</button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="write-wrapper-back"></div>
+
+
+
+<form action="/book" method="post" class="review-write-wrapper" enctype="multipart/form-data">
+  <div class="review-write-top">
+    <span class="review-write-top-text">리뷰 작성</span>
+    <img class="review-write-top-icon" src="/img/icon/btn_dialog_close@2x.png">
+  </div>
+  <div class="review-write-contents">
+    <div class="review-write-book-wrapper">
+      <input name="book" type="hidden" class="review-book-id" th:value="${book.id}" >
+      <img class="review-book-img" th:src="${book.imgPath}">
+      <div class="review-book-info">
+        <div class="review-book-name" th:text="${book.name}"></div>
+        <div class="review-book-rating">
+          <div class="star-empty">
+            <img src="/img/icon/star-empty.svg">
+            <img src="/img/icon/star-empty.svg">
+            <img src="/img/icon/star-empty.svg">
+            <img src="/img/icon/star-empty.svg">
+            <img src="/img/icon/star-empty.svg">
+          </div>
+          <div class="star-fill">
+            <img src="/img/icon/star-fill.svg">
+            <img src="/img/icon/star-fill.svg">
+            <img src="/img/icon/star-fill.svg">
+            <img src="/img/icon/star-fill.svg">
+            <img src="/img/icon/star-fill.svg">
+          </div>
+        </div>
+        <div class="review-book-rating-number">
+          <input name="rating" class="rating-number-input" type="text" value=0 hidden>
+          <span class="rating-number">0</span>
+          <span class="max-number">/ 5</span>
+        </div>
+      </div>
+    </div>
+    <div class="review-write-tag">
+      <input name="tag" class="review-write-tag-input" type="hidden">
+      <div class="review-write-tag-info">
+        ㅣ 가장 공감되는 키워드를 선택해주세요. *
+      </div>
+      <span class="tag">#유익해요</span>
+      <span class="tag">#재밌어요</span>
+      <span class="tag">#공감돼요</span>
+      <span class="tag">#최고에요</span>
+      <span class="tag">#아쉬워요</span>
+    </div>
+    <div class="review-write-main">
+      <div class="review-write-main-title">ㅣ 리뷰 작성 *</div>
+      <div class="review-write-frame">
+        <textarea name="content" class="review-write" maxlength="3000"
+          placeholder="내용을 10자 이상 입력해주세요. 주제와 무관한 글은 임의로 삭제될 수 있습니다."></textarea>
+        <div class="write-number">0/3000</div>
+      </div>
+    </div>
+    <div class="review-write-attach">
+      <div class="review-write-attach-title">
+        <span>ㅣ 사진 첨부 (선택)</span>
+        <span>0/5</span>
+      </div>
+      <div class="review-write-attach-photo">
+
+        <div class="review-write-attach-photo-button">
+          <input name="imageFiles" class="review-write-photo-input" type="file" multiple="multiple"
+            accept=".jpg, .jpeg, .png, .gif" onchange="setThumbnail(event,this)">
+        </div>
+
+      </div>
+      <div class="review-write-attach-guide">
+        * JPG, PNG, GIF 파일만 최대 5장 업로드 가능합니다.
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="regist-button disable">등록</button>
+</form>
+
+
+
+<div id="modify-wrapper">
+  <div class="modal-background"></div>
+  <form action="" method="post" class="review-modify-wrapper" enctype="multipart/form-data">
+  <div class="review-write-top">
+    <span class="review-write-top-text">리뷰 수정</span>
+    <img class="review-write-top-icon" src="/img/icon/btn_dialog_close@2x.png">
+  </div>
+  <div class="review-write-contents">
+    <div class="review-modify-book-wrapper">
+      <input th:value="${modReview!=null?modReview.book.id:''}" name="book" type="hidden" class="review-book-id">
+      <img class="review-book-img" th:src="${modReview!=null?modReview.book.imgPath:''}">
+      <div class="review-book-info">
+        <div th:text="${modReview!=null?modReview.book.name:''}" class="review-book-name">책이름</div>
+        <div class="review-book-rating">
+          <div class="star-empty">
+            <img src="/img/icon/star-empty.svg">
+            <img src="/img/icon/star-empty.svg">
+            <img src="/img/icon/star-empty.svg">
+            <img src="/img/icon/star-empty.svg">
+            <img src="/img/icon/star-empty.svg">
+          </div>
+          <div class="star-fill" th:style="'width:'+34.5*${modReview!=null?modReview.rating:0}+'px'">
+            <img src="/img/icon/star-fill.svg">
+            <img src="/img/icon/star-fill.svg">
+            <img src="/img/icon/star-fill.svg">
+            <img src="/img/icon/star-fill.svg">
+            <img src="/img/icon/star-fill.svg">
+          </div>
+        </div>
+        <div class="review-book-rating-number">
+          <input name="rating" th:value="${modReview!=null?modReview.rating:0}" class="rating-number-input" type="text" hidden>
+          <span class="rating-number" th:text="${modReview!=null?modReview.rating:0}">0</span>
+          <span class="max-number">/ 5</span>
+        </div>
+      </div>
+    </div>
+    <div class="review-write-tag">
+      <input name="tag" class="review-write-tag-input" type="hidden">
+      <div class="review-write-tag-info">
+        ㅣ 가장 공감되는 키워드를 선택해주세요. *
+      </div>
+      <span class="tag" th:classappend="${modReview!=null?modReview.tag:''}=='#유익해요'?'tag-active':''">#유익해요</span>
+      <span class="tag" th:classappend="${modReview!=null?modReview.tag:''}=='#재밌어요'?'tag-active':''">#재밌어요</span>
+      <span class="tag" th:classappend="${modReview!=null?modReview.tag:''}=='#공감돼요'?'tag-active':''">#공감돼요</span>
+      <span class="tag" th:classappend="${modReview!=null?modReview.tag:''}=='#최고에요'?'tag-active':''">#최고에요</span>
+      <span class="tag" th:classappend="${modReview!=null?modReview.tag:''}=='#아쉬워요'?'tag-active':''">#아쉬워요</span>
+    </div>
+    <div class="review-write-main">
+      <div class="review-write-main-title">ㅣ 리뷰 작성 *</div>
+      <div class="review-write-frame">
+        <textarea name="content" class="review-write" maxlength="3000" th:value="${modReview!=null?modReview.content:''}"
+                  th:text="${modReview!=null?modReview.content:''}" placeholder="내용을 10자 이상 입력해주세요. 주제와 무관한 글은 임의로 삭제될 수 있습니다."></textarea>
+        <div class="write-number" th:text="${#strings.length((modReview!=null?modReview.content:''))} + '/3000'">0/3000</div>
+      </div>
+    </div>
+    <div class="review-write-attach">
+      <div class="review-write-attach-title">
+        <span>ㅣ 사진 첨부 (선택)</span>
+        <span th:text="${modReview!=null?modReview.files.size():0}+'/5'">0/5</span>
+      </div>
+      <div class="review-write-attach-photo">
+
+        <div class="review-write-attach-photo-button">
+          <input name="imageFiles" class="review-write-photo-input" type="file" multiple="multiple" th:if="${(modReview!=null?modReview.files.size():0) < 5}"
+            accept=".jpg, .jpeg, .png, .gif" th:value="${modReview!=null?modReview.files:null}">
+        </div>
+
+        <div class="review-write-photo-wrapper" th:each="file: ${modReview!=null?modReview.files:null}">
+          <div class="review-write-photo-cancel" onclick="deleteImg(this)">X</div>
+          <input class="review-write-photo" onchange="setThumbnail(event,this)" th:style="'background-image:url(' + ${file.fullPath} + ');'" >
+        </div>
+
+      </div>
+      <div class="review-write-attach-guide">
+        * JPG, PNG, GIF 파일만 최대 5장 업로드 가능합니다.
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="regist-button disable">등록</button>
+</form>
+</div>
+
+<div class="alert-window close-alert">
+  <div class="text">
+    작성한 내용은 저장되지 않습니다.<br>
+    취소하겠습니까?
+  </div>
+  <button class="cancel" onclick="hideCloseAlert(this)">취소</button>
+  <button class="okay" onclick="formClose(this)">확인</button>
+</div>
+
+<div class="alert-window delete-alert">
+  <div class="text">
+    리뷰를 삭제하시겠습니까?
+  </div>
+  <button class="cancel" onclick="hideDeleteAlert(this)">취소</button>
+  <button class="okay" th:onclick="'reviewDelete('+${book.id}+')'">확인</button>
+</div>
+
+
+
+
+</div>
+
+</html>

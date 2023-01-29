@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="css">
+  <link rel="stylesheet" th:href="@{/css/search-result.css}">
+</th:block>
+
+<th:block layout:fragment="script">
+  <script th:src="@{/js/search-result.js}"></script>
+</th:block>
+
+
+<div layout:fragment="content">
+
+  <div class="search-input-wrapper">
+    <form action="/search-result" method="get" class="search-input" id="search-form">
+      <img class="icon" onclick="document.getElementById('search-form').submit();" src="/img/icon/search.svg">
+      <input id="search-input" name="name" type="text" placeholder="검색어를 입력하세요" autocomplete="off" th:value="${dataUtils.name}">
+      <img class="reset" src="/img/icon/x-circle-fill.svg">
+    </form>
+
+  <div class="search-result-wrapper" id="search-input-results">
+
+    <div class="search-result-category" th:each="category : ${ipCategories}">
+      <div class="title">카테고리</div>
+      <a id="category-box">
+        <span class="data" th:utext="${category.name}"></span>
+        <input id="category-id" th:value="${category.id}" type="hidden">
+      </a>
+    </div>
+
+    <div class="search-result-book" th:each="book : ${ipBooks}">
+      <img src="/img/icon/search.svg">
+      <a th:href="'/book?id=' + ${book.id}">
+        <span class="data" th:utext="${book.name}"></span>
+      </a>
+    </div>
+  </div>
+  </div>
+
+<form class="meta-wrapper">
+
+<div class="main-wrapper" id="search-results">
+  <input name="name" type="hidden" id="search-input-hidden" th:value="${dataUtils.name}">
+  <div class="header">
+    <span class="left-text">검색결과</span>
+    <span class="left-number" th:text="${books.totalElements}"></span>
+    <input name="sortOrder" type="hidden" id="sortOrder" th:value="${dataUtils.sortOrder} == null ? 'name' : ${dataUtils.sortOrder}">
+    <select id="sortOrderSelect" class="order">
+      <option value="name" th:selected="${dataUtils.sortOrder} == 'name'" selected>책이름 순</option>
+      <option value="sales" th:selected="${dataUtils.sortOrder} == 'sales'">판매량 순</option>
+      <option value="rating" th:selected="${dataUtils.sortOrder} == 'rating'">상품평 순</option>
+      <option value="publishDate" th:selected="${dataUtils.sortOrder} == 'publishDate'">출간일 순</option>
+<!--      <option value="low price">낮은 가격 순</option>-->
+<!--      <option value="high price">높은 가격 순</option>-->
+    </select>
+  </div>
+  <div class="body">
+      <a th:each="book: ${books}" th:href="@{/book(id=${book.id})}">
+        <div class="book-img book-img"><img th:src="${book.imgPath}"></div>
+        <div class="book-name book-name"><span th:text="${book.name}"></span>
+        </div>
+        <div class="book-author book-author"><span th:text="${book.author}"></span></div>
+      </a>
+  </div>
+
+    <div class="search-controller">
+        <span class="controller"
+              th:with="start=${T(java.lang.Math).floor(books.number/10)*10 + 1}, last=(${books.totalPages})">
+
+           <a th:class="${books.first} ? 'disable'">
+             <img class="controller-btn-left" src="/img/icon/btn_pagination_prev@2x.png">
+           </a>
+
+          <a th:if="${books.totalPages < 4 ? false :books.number > 1}"
+             th:text="1" id="idx">
+          </a>
+
+          <span th:if="${books.totalPages < 4 ? false :books.number > 1}">...</span>
+
+           <a th:each="page: ${#numbers.sequence(start, last)}"
+              th:if="${books.first ? page < books.number +4 :
+              (books.last ? page > books.number -2 : (page < books.number +3) && (page > books.number -1))}"
+              th:class="${page == books.number + 1} ? 'index-active'" id="idx"
+              th:text="${page}">
+           </a>
+
+          <span th:if="${books.totalPages < 4 ? false :books.number < books.totalPages -2}">...</span>
+
+          <a th:if="${books.totalPages < 4 ? false :books.number < books.totalPages -2}"
+             th:text="${books.totalPages}" id="idx">
+          </a>
+
+          <a th:class="${books.last} ? 'disable'">
+            <img class="controller-btn-right" src="/img/icon/btn_pagination_next@2x.png">
+          </a>
+
+        </span>
+    </div>
+</div>
+
+<div class="side-wrapper">
+  <div class="header">
+    <img class="icon" src="/img/icon/filter.svg">
+    <span class="text">검색 옵션</span>
+  </div>
+  <div class="body">
+    <div class="category-wrapper">
+      <span class="title">카테고리</span>
+    <ul>
+      <li><input name="categoryIds" type="checkbox" class="category" value="1" th:checked="${dataUtils.categoryId} == 1">북셸프 오리지널</li>
+      <li><input name="categoryIds" type="checkbox" class="category" value="2" th:checked="${dataUtils.categoryId} == 2">시 / 에세이</li>
+      <li><input name="categoryIds" type="checkbox" class="category" value="3" th:checked="${dataUtils.categoryId} == 3">소설</li>
+      <li><input name="categoryIds" type="checkbox" class="category" value="4" th:checked="${dataUtils.categoryId} == 4">인문</li>
+      <li><input name="categoryIds" type="checkbox" class="category" value="5" th:checked="${dataUtils.categoryId} == 5">건강</li>
+      <li><input name="categoryIds" type="checkbox" class="category" value="6" th:checked="${dataUtils.categoryId} == 6">요리</li>
+      <li><input name="categoryIds" type="checkbox" class="category" value="7" th:checked="${dataUtils.categoryId} == 7">경제 / 경영</li>
+      <li><input name="categoryIds" type="checkbox" class="category" value="8" th:checked="${dataUtils.categoryId} == 8">자기계발</li>
+      <li><input name="categoryIds" type="checkbox" class="category" value="9" th:checked="${dataUtils.categoryId} == 9">정치/사회</li>
+      <li><input name="categoryIds" type="checkbox" class="category" value="10" th:checked="${dataUtils.categoryId} == 10">역사 / 문화</li>
+      <li><input name="categoryIds" type="checkbox" class="category" value="11" th:checked="${dataUtils.categoryId} == 11">만화</li>
+      <li><input name="categoryIds" type="checkbox" class="category" value="12" th:checked="${dataUtils.categoryId} == 12">컴퓨터</li>
+      <li><input name="categoryIds" type="checkbox" class="category" value="13" th:checked="${dataUtils.categoryId} == 13">과학</li>
+      <li><input name="categoryIds" type="checkbox" class="category" value="14" th:checked="${dataUtils.categoryId} == 14">여행</li>
+      <li><input name="categoryIds" type="checkbox" class="category" value="15" th:checked="${dataUtils.categoryId} == 15">예술 / 대중문화</li>
+      <li><input name="categoryIds" type="checkbox" class="category" value="16" th:checked="${dataUtils.categoryId} == 16">취미 / 실용 / 스포츠</li>
+      <li><input name="categoryIds" type="checkbox" class="category" value="17" th:checked="${dataUtils.categoryId} == 17">종교</li>
+      <li><input name="categoryIds" type="checkbox" class="category" value="18" th:checked="${dataUtils.categoryId} == 18">외국어</li>
+      <li><input name="categoryIds" type="checkbox" class="category" value="19" th:checked="${dataUtils.categoryId} == 19">철학</li>
+      <li><input name="categoryIds" type="checkbox" class="category" value="20" th:checked="${dataUtils.categoryId} == 20">어린이 / 청소년</li>
+    </ul>
+    </div>
+    <div class="publish-date-wrapper">
+      <span class="title">출간일</span>
+      <ul>
+        <li><input name="publishDate" type="radio" class="publish-date default" th:value="null" checked>전체</li>
+        <li><input name="publishDate" type="radio" class="publish-date" th:value="${dataUtils.getOneMonthAgo()}">1개월 이내</li>
+        <li><input name="publishDate" type="radio" class="publish-date" th:value="${dataUtils.getThreeMonthAgo()}">3개월 이내</li>
+        <li><input name="publishDate" type="radio" class="publish-date" th:value="${dataUtils.getSixMonthAgo()}">6개월 이내</li>
+        <li><input name="publishDate" type="radio" class="publish-date" th:value="${dataUtils.getOneYearAgo()}">1년 이내</li>
+      </ul>
+    </div>
+    <div class="reset-btn">초기화</div>
+  </div>
+</div>
+
+</form>
+
+</div>
+
+</html>
