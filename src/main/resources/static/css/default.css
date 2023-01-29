@@ -1,0 +1,412 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+}
+body {
+  overflow-x: hidden;
+  margin: 0;
+}
+body::-webkit-scrollbar {
+  width: 15px;
+  background-color: white;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: white;
+  box-shadow: 0px 0px 50px 0px black;
+  border: 3px solid #e3e3e3;
+  border-radius: 10px;
+}
+header {
+  position: fixed;
+  width: 100%;
+  height: 70px;
+  z-index: 6;
+}
+
+.top-nav-background {
+  position: relative;
+  top: 0px;
+  height: 60px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.top-nav-wrapper {
+  position: relative;
+  width: 1280px;
+  height: 60px;
+  margin: auto;
+  bottom: 60px;
+}
+.top-logo-wrapper {
+  position: absolute;
+  left: 20px;
+  height: 100%;
+}
+#top-logo {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  width: 30px;
+  cursor: pointer;
+}
+
+.top-title {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 36px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+
+.news-wrapper {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 220px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+#news {
+  position: absolute;
+  width: 20px;
+  opacity: 0.5;
+}
+#news-n {
+  position: absolute;
+  top: -6px;
+  left: 8px;
+  width: 15px;
+  height: 15px;
+  background-color: #ffae00;
+  border-radius: 8px;
+  font-size: 6px;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: white;
+  text-align: center;
+  padding-right: 1px;
+  padding-bottom: 2px;
+}
+.news-wrapper:hover {
+  transform: translateY(-50%) scale(1.05);
+}
+.news-wrapper:active {
+  transform: translateY(-50%) scale(0.95);
+  transition: 0.3s;
+}
+#cart {
+  position: absolute;
+  top: 49%;
+  transform: translateY(-50%);
+  right: 175px;
+  width: 20px;
+  opacity: 0.5;
+  cursor: pointer;
+}
+#cart:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+#cart:active {
+  transform: translateY(-50%) scale(0.95);
+  transition: 0.3s;
+}
+
+
+
+
+.spot {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+.svg-wrapper {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 40px;
+  width: 100px;
+  height: 30px;
+  display: inline-block;
+  border-radius: 3px;
+  margin-top: 0;
+  margin-left: 5px;
+  margin-right: 5px
+}
+#shape-wrapper {
+  height: 30px;
+  width: 100px;
+  border-radius: 5px;
+}
+#shape {
+  height: 30px;
+  width: 100px;
+  stroke-width: 6px;
+  fill: #565656;
+  stroke: #565656;
+  stroke-dasharray: 110 420;
+  stroke-dashoffset: -120;
+  transition: 1s all ease;
+  rx: 5px;
+  ry: 5px;
+}
+#text {
+  margin-top: -30px;
+  text-align: center;
+  font-family: 'Noto Sans KR', sans-serif;
+  color: white;
+  text-indent: 3px;
+  letter-spacing: 2px;
+  font-size: 14px;
+}
+.svg-wrapper:hover #shape {
+  fill: rgba(255, 255, 255, 0.3);
+  stroke-dasharray: 50 0;
+  stroke-width: 2px;
+  stroke-dashoffset: 0;
+  stroke: #ffb700;
+}
+.svg-wrapper:hover #text {
+  color: #525252;
+  transition: 0.5s;
+}
+
+.admin-btn {
+  position: absolute;
+  right: 160px;
+}
+.admin-btn #shape {
+  fill: rgba(255, 255, 255, 0.3);
+  stroke: transparent;
+}
+.admin-btn #text {
+  color: gray;
+}
+.svg-wrapper:hover .admin-btn #text {
+  color: #252525;
+  transition: 0.5s;
+}
+
+
+
+
+
+
+
+
+
+.top-nav {
+  position: absolute;
+  width: 520px;
+  height: 60px;
+  left: 180px;
+  line-height: 60px;
+}
+.top-nav ul {
+  position: absolute;
+  width: 100%;
+  font-size: 0px;
+}
+.top-nav ul li {
+  position: relative;
+  width: 20%;
+  list-style: none;
+  font-family: 'Noto Sans KR', sans-serif;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  font-size: 16px;
+}
+.top-nav ul li:first-child {
+  color: #000000;
+}
+
+.top-nav ul li:not(:first-child) {
+  color: #898989;
+}
+.top-nav ul li:active {
+  transform: scale(0.9);
+  transition: 0.1s;
+}
+
+
+.footer-wrapper {
+  position: relative;
+  border-top: 1px solid #ebebeb;
+}
+
+footer {
+  position: relative;
+  bottom: 0px;
+  left: 0px;
+  width: 1280px;
+  height: auto;
+  margin: auto;
+  text-align: left;
+  font-family: 'Noto Sans KR', sans-serif;
+  padding: 30px;
+}
+
+.footer-title {
+  position: relative;
+  bottom: 40px;
+  left: 30px;
+}
+
+.footer-infor-title {
+  position: relative;
+  bottom: 32px;
+  color: rgb(175, 174, 174);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+footer img {
+  position: relative;
+  width: 25px;
+  bottom: 10px;
+}
+
+footer p {
+  position: relative;
+  bottom: 20px;
+  font-size: 8px;
+  color: #b4b4b4;
+  display: none;
+}
+
+footer ul {
+  position: relative;
+  bottom: 4px;
+  list-style: none;
+}
+
+footer ul li {
+  float: left;
+  font-size: 14px;
+  margin-right: 58px;
+  color: #848484;
+  cursor: pointer;
+}
+
+.footer-last {
+  position: relative;
+  width: 220px;
+  top: 12px;
+  font-size: 10px;
+  font-weight: 100;
+  text-align: left;
+  color: #989898;
+}
+
+.footer-nav-wrapper {
+  position: fixed;
+  bottom: 0px;
+  display: none;
+}
+
+
+.bottom-nav-wrapper {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  background-color: #ffffff;
+  padding: 0 40px;
+  border-top: 1px solid #ebebeb;
+  z-index: 10;
+}
+
+.bottom-nav {
+  width: 1000px;
+  margin: auto;
+}
+
+.bottom-nav ul {
+  position: relative;
+  list-style: none;
+  width: 100%;
+  height: 50px;
+}
+
+.bottom-nav ul li {
+  float: left;
+  width: 20%;
+  text-align: center;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.bottom-nav ul li img {
+  position: relative;
+  width: 20px;
+}
+
+.bottom-nav ul li:not(:first-child) img {
+  opacity: 0.5;
+}
+
+.bottom-nav ul li div {
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 12px;
+  opacity: 0.7;
+}
+.bottom-nav ul li a {
+   color: #000000;
+  text-decoration: none;
+}
+
+.top-move-button {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  bottom: 20px;
+  right: 20px;
+  border-radius: 25px;
+  text-align: center;
+  border: 1px solid #dadada;
+  background-color: rgba(255, 255, 255, 0.7);
+  z-index: 20;
+}
+
+
+@media only screen and (max-width:1280px) {
+  .top-nav-wrapper {
+    width: 100%;
+  }
+
+  footer {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width:1000px) {
+  .top-nav {
+    animation: fadeout 0.3s both;
+  }
+  #underbar {
+    display: none;
+  }
+  .bottom-nav {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width:400px) {
+  .top-nav-wrapper {
+    width: 385px;
+  }
+  .bottom-nav {
+    width: 300px;
+  }
+}

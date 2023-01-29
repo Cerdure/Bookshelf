@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="css">
+  <link rel="stylesheet" th:href="@{/css/notice-detail.css}">
+</th:block>
+
+<th:block layout:fragment="script">
+  <script th:src="@{/js/notice-detail.js}"></script>
+</th:block>
+
+<div layout:fragment="content">
+
+<div class="top-back-wrapper">
+    <div class="top-back-title">ㅣ 공지사항 ㅣ</div>
+</div>
+ 
+<div class="top-space"></div>
+
+<div class="middle-nav-wrapper">
+  <div class="middle-nav-container">
+    <div class="middle-nav">
+      <div onclick="location.href='/review'">책리뷰</div>
+      <div onclick="location.href='/inquire'">상품문의</div>
+      <div onclick="location.href='/notice'">공지사항</div>
+      <div class="middle-nav-underbar"></div>
+    </div>
+  </div>
+</div>
+
+<div class="meta-wrapper">
+  <div class="write-wrapper-back"></div>
+
+  <div id="modify-wrapper">
+    <div class="modal-background"></div>
+  <form th:action="'/notice-modify/'+${notice.id}" method="post" class="notice-modify-wrapper">
+    <div class="notice-write-top">
+      <span class="notice-write-top-text">공지사항 수정</span>
+      <img class="notice-write-top-icon" src="/img/icon/btn_dialog_close@2x.png">
+    </div>
+    <div class="notice-write-contents">
+      <div class="notice-write-header">
+        <div class="title">ㅣ 제목</div>
+        <textarea name="title" class="notice-input-header" maxlength="30" placeholder="제목을 입력하세요." th:text="${notice.title}"></textarea>
+      </div>
+      <div class="notice-write-main">
+        <div class="notice-write-main-title">ㅣ내용</div>
+        <div class="notice-write-frame">
+          <textarea name="content" class="notice-input-main" maxlength="3000" th:utext="${#strings.replace(notice.content, '<br>', '&#10')}"
+                    placeholder="내용을 입력해주세요."></textarea>
+          <div class="write-number" th:text="${#strings.length(notice.content)}+'/3000'">0/3000</div>
+        </div>
+      </div>
+    </div>
+    <div type="submit" class="regist-button" onclick="formSubmit(this)">등록</div>
+  </form>
+  </div>
+
+
+<div class="notice-wrapper">
+  <div class="notice-title-wrapper">
+    <div class="title">공지사항</div>
+  </div>
+
+  <div class="detail-wrapper">
+    <input id="notice-id" th:value="${notice.id}" type="hidden">
+    <span class="title" th:text="${notice.title}"></span>
+    <div class="sub-title">
+      <span class="type" th:text="${notice.memberNickname}"></span>
+      <span class="split">ㅣ</span>
+      <span class="date" th:text="${#temporals.format(notice.regDate, 'yyyy.MM.dd')}"></span>
+      <span class="remove" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">삭제</span>
+      <span class="edit" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">수정</span>
+    </div>
+    <div class="contents" th:utext="${notice.content}"></div>
+  </div>
+
+  <div class="next-detail">
+    <span class="next">다음글</span>
+    <img class="icon" src="/img/icon/chevron-up.svg">
+    <a class="title" th:if="${nextNotice.id==null}">다음글이 없습니다.</a>
+    <a class="title" th:if="${nextNotice.id!=null}" th:href="'/notice-detail/' + ${nextNotice.id}" th:text="${nextNotice.title}"></a>
+  </div>
+
+  <div class="prev-detail">
+    <span class="prev">이전글</span>
+    <img class="icon" src="/img/icon/chevron-up.svg">
+    <a class="title" th:if="${prevNotice.id==null}">이전글이 없습니다.</a>
+    <a class="title" th:if="${prevNotice.id!=null}" th:href="'/notice-detail/' + ${prevNotice.id}" th:text="${prevNotice.title}"></a>
+  </div>
+  <div class="back-button" onclick="location.href='/notice'">공지사항 목록</div>
+ 
+</div>
+
+  <div class="alert-window close-alert">
+    <div class="text">
+      글 수정을 취소하겠습니까?
+    </div>
+    <button class="cancel" onclick="hideAlert(this)">취소</button>
+    <button class="okay" onclick="formClose(this)">확인</button>
+  </div>
+
+  <div class="alert-window delete-alert">
+    <div class="text">
+      글을 삭제하시겠습니까?
+    </div>
+    <button class="cancel" onclick="hideDeleteAlert(this)">취소</button>
+    <button class="okay" onclick="noticeDelete(this)">확인</button>
+  </div>
+
+  <div class="top-move-button">
+    <div>∧</div>
+    <div>TOP</div>
+  </div>
+
+</div>
+</html>
