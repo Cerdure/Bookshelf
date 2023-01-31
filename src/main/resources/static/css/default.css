@@ -1,3 +1,48 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'ChosunBg';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunBg.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media only screen and (max-width:1280px) {
+  .top-nav-wrapper {
+    width: 100%;
+  }
+
+  footer {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width:1000px) {
+  .top-nav {
+    animation: fadeout 0.3s both;
+  }
+  #underbar {
+    display: none;
+  }
+  .bottom-nav {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width:400px) {
+  .top-nav-wrapper {
+    width: 385px;
+  }
+  .bottom-nav {
+    width: 300px;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -6,7 +51,11 @@
 a {
   text-decoration: none;
 }
+input, textarea, select {
+  outline: none;
+}
 body {
+  font-family: 'Pretendard-Regular';
   overflow-x: hidden;
   margin: 0;
 }
@@ -121,8 +170,6 @@ header {
 }
 
 
-
-
 .spot {
   position: absolute;
   width: 100%;
@@ -196,14 +243,6 @@ header {
   color: #252525;
   transition: 0.5s;
 }
-
-
-
-
-
-
-
-
 
 .top-nav {
   position: absolute;
@@ -380,33 +419,196 @@ footer ul li {
 }
 
 
-@media only screen and (max-width:1280px) {
-  .top-nav-wrapper {
-    width: 100%;
-  }
+/*********** pagination START ***********/
 
-  footer {
-    width: 100%;
-  }
+.pagenation {
+  position: relative;
+  top: 20px;
+  display: inline-block;
+  width: 228px;
 }
 
-@media only screen and (max-width:1000px) {
-  .top-nav {
-    animation: fadeout 0.3s both;
-  }
-  #underbar {
-    display: none;
-  }
-  .bottom-nav {
-    width: 100%;
-  }
+.pagenation .btn-left {
+  position: absolute;
+  top: 2px;
+  left: 0px;
+  display: inline-block;
+  width: 20px;
+  cursor: pointer;
 }
 
-@media only screen and (max-width:400px) {
-  .top-nav-wrapper {
-    width: 385px;
-  }
-  .bottom-nav {
-    width: 300px;
-  }
+.pagenation .btn-right {
+  position: absolute;
+  top: 2px;
+  right: 0px;
+  display: inline-block;
+  width: 20px;
+  cursor: pointer;
 }
+
+.pagenation a{
+  display: inline-block;
+  width: 19px;
+  margin: 0 2px;
+  border-radius: 50%;
+  line-height: 19px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 900;
+}
+
+/*********** pagination END ***********/
+
+
+
+
+
+
+/*********** modules START ***********/
+
+.btn-yellow {
+  border: 1px solid orange !important;
+  background-color: white !important;
+  color: orange !important;
+}
+
+.btn-yellow:hover {
+  color: white !important;
+  background-color: orange !important;
+  border: 1px solid orange !important;
+  transition: 0.3s;
+}
+
+.btn-blue {
+  border: 1px solid cornflowerblue !important;
+  background-color: white !important;
+  color: cornflowerblue !important;
+}
+
+.btn-blue:hover {
+  color: white !important;
+  background-color: cornflowerblue !important;
+  border: 1px solid cornflowerblue !important;
+  transition: 0.3s;
+}
+
+.btn-gray {
+  border: 1px solid gray !important;
+  background-color: white !important;
+  color: gray !important;
+}
+
+.btn-gray:hover {
+  color: white !important;
+  background-color: gray !important;
+  border: 1px solid gray !important;
+  transition: 0.3s;
+}
+
+.btn-steel {
+  border: 1px solid steelblue !important;
+  background-color: white !important;
+  color: steelblue !important;
+}
+
+.btn-steel:hover {
+  color: white !important;
+  background-color: steelblue !important;
+  border: 1px solid steelblue !important;
+  transition: 0.3s;
+}
+
+.btn-red {
+  border: 1px solid lightcoral !important;
+  background-color: white !important;
+  color: lightcoral !important;
+}
+
+.btn-red:hover {
+  color: white !important;
+  background-color: lightcoral !important;
+  border: 1px solid lightcoral !important;
+  transition: 0.3s;
+}
+
+.tag-active {
+  background-color: cornflowerblue;
+  color: white;
+  transition: 0.3s;
+}
+
+.index-active {
+  color: cornflowerblue;
+}
+
+.disable {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/*********** modules END ***********/
+
+
+ 
+
+
+/*********** modals START ***********/
+
+.modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.3);
+  z-index: 99;
+  display: none;
+}
+
+.alert-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 360px;
+  height: 200px;
+  padding: 40px;
+  background-color: white;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Noto Sans KR', sans-serif;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.3);
+  z-index: 100;
+  opacity: 0;
+  display: none;
+}
+
+.alert-modal .text{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.alert-modal .btn-box {
+  display: flex;
+}
+
+.alert-modal button {
+  width: 100%;
+  padding: 8px 40px;
+  border-radius: 5px;
+}
+
+.alert-modal button:first-child {
+  margin-right: 20px;
+}
+
+/*********** modals END ***********/
+
+

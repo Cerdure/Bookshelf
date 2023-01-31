@@ -1,13 +1,12 @@
 package com.cerdure.bookshelf.service;
 
 import com.cerdure.bookshelf.domain.book.Book;
-import com.cerdure.bookshelf.dto.BookDto;
+import com.cerdure.bookshelf.dto.book.BookDto;
 import com.cerdure.bookshelf.repository.BookRepository;
 import com.cerdure.bookshelf.service.interfaces.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -5,6 +5,7 @@ import com.cerdure.bookshelf.dto.member.MemberDto;
 import com.cerdure.bookshelf.repository.MemberRepository;
 import com.cerdure.bookshelf.service.interfaces.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +38,11 @@ public class MemberServiceImpl implements MemberService {
 
     public List<Member> findMembers() {
         return memberRepository.findAll();
+    }
+
+    @Override
+    public Member findMember(Authentication authentication) {
+        return memberRepository.findByPhone(authentication.getName()).get();
     }
 
     public Member findById(Long memberId) {
