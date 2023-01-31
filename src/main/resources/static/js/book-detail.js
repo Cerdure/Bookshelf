@@ -193,7 +193,7 @@ $(function () {
 
   $(".cart-btn").click(function () {
     (async () => {
-      const result = await fetch("/cart/add?bookId=" + $("#book-id").data("value")).then(res => res.text());
+      const result = await fetch("/cart/modify?bookId=" + $("#book-id").data("value") + "&amount=1").then(res => res.text());
       if(result == 'ok') {
         $(".alert-btn-1 .text").text("장바구니에 담겼습니다.");
         $(".modal-background").fadeIn(100);

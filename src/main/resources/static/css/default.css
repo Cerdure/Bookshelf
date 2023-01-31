@@ -467,15 +467,28 @@ footer ul li {
 /*********** modules START ***********/
 
 .btn-yellow {
-  border: 1px solid orange !important;
+  border: 1px solid #f5b94a !important;
   background-color: white !important;
-  color: orange !important;
+  color: #f5b94a !important;
 }
 
 .btn-yellow:hover {
   color: white !important;
-  background-color: orange !important;
-  border: 1px solid orange !important;
+  background-color: #f5b94a !important;
+  border: 1px solid #f5b94a !important;
+  transition: 0.3s;
+}
+
+.btn-yellow-fill {
+  border: 1px solid #f5b94a !important;
+  background-color: #f5b94a !important;
+  color: white !important;
+}
+
+.btn-yellow-fill:hover {
+  color: #f5b94a !important;
+  background-color: white !important;
+  border: 1px solid #f5b94a !important;
   transition: 0.3s;
 }
 
@@ -488,6 +501,19 @@ footer ul li {
 .btn-blue:hover {
   color: white !important;
   background-color: cornflowerblue !important;
+  border: 1px solid cornflowerblue !important;
+  transition: 0.3s;
+}
+
+.btn-blue-fill {
+  border: 1px solid cornflowerblue !important;
+  background-color: cornflowerblue !important;
+  color: white !important;
+}
+
+.btn-blue-fill:hover {
+  color: cornflowerblue !important;
+  background-color: white !important;
   border: 1px solid cornflowerblue !important;
   transition: 0.3s;
 }
@@ -505,6 +531,19 @@ footer ul li {
   transition: 0.3s;
 }
 
+.btn-gray-fill {
+  border: 1px solid gray !important;
+  background-color: gray !important;
+  color: white !important;
+}
+
+.btn-gray-fill:hover {
+  color: gray !important;
+  background-color: white !important;
+  border: 1px solid gray !important;
+  transition: 0.3s;
+}
+
 .btn-steel {
   border: 1px solid steelblue !important;
   background-color: white !important;
@@ -518,6 +557,19 @@ footer ul li {
   transition: 0.3s;
 }
 
+.btn-steel-fill {
+  border: 1px solid steelblue !important;
+  background-color: steelblue !important;
+  color: white !important;
+}
+
+.btn-steel-fill:hover {
+  color: steelblue !important;
+  background-color: white !important;
+  border: 1px solid steelblue !important;
+  transition: 0.3s;
+}
+
 .btn-red {
   border: 1px solid lightcoral !important;
   background-color: white !important;
@@ -527,6 +579,19 @@ footer ul li {
 .btn-red:hover {
   color: white !important;
   background-color: lightcoral !important;
+  border: 1px solid lightcoral !important;
+  transition: 0.3s;
+}
+
+.btn-red-fill {
+  border: 1px solid lightcoral !important;
+  background-color: lightcoral !important;
+  color: white !important;
+}
+
+.btn-red-fill:hover {
+  color: lightcoral !important;
+  background-color: white !important;
   border: 1px solid lightcoral !important;
   transition: 0.3s;
 }
@@ -581,7 +646,7 @@ footer ul li {
   justify-content: center;
   font-family: 'Noto Sans KR', sans-serif;
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.3);
-  z-index: 100;
+  z-index: 101;
   opacity: 0;
   display: none;
 }

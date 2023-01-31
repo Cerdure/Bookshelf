@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+  layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="css">
+  <link rel="stylesheet" th:href="@{/css/order.css}">
+</th:block>
+
+<th:block layout:fragment="script">
+  <script th:src="@{/js/order.js}"></script>
+</th:block>
+
+<div layout:fragment="content" id="page-content" data-index="">
+
+  <div class="meta-wrapper">
+
+    <div class="title">주문하기</div>
+
+    <div class="item-box column-box group-box">
+      <div class="label">상품 정보</div>
+      <div class="core-box column-box">
+        <div class="row-head grid-row">
+          <div class="text">상품명</div>
+          <div class="text">수량</div>
+          <div class="text">가격</div>
+        </div>
+        <div class="row grid-row">
+          <div class="text">책이름1</div>
+          <div class="text">1</div>
+          <div class="text">
+            <div class="origin-price">28,000 원</div>
+            <div class="discount-price">21,000 원</div>
+          </div>
+        </div>
+        <div class="row grid-row">
+          <div class="text">책이름1</div>
+          <div class="text">1</div>
+          <div class="text">
+            <div class="origin-price">28,000 원</div>
+            <div class="discount-price">21,000 원</div>
+          </div>
+        </div>
+        <div class="row grid-row">
+          <div class="text">책이름1</div>
+          <div class="text">1</div>
+          <div class="text">
+            <div class="origin-price">28,000 원</div>
+            <div class="discount-price">21,000 원</div>
+          </div>
+        </div>
+      </div>
+      <div class="sum-box row-box">
+        <div class="text">상품 금액 합계 :</div>
+        <div class="origin-price">28,000 원</div>
+        <div class="discount-price data">21,000</div>
+        <div class="unit">원</div>
+      </div>
+    </div>
+
+    <div class="delivery-box column-box group-box">
+      <div class="label">배송 정보</div>
+      <div class="core-box column-box">
+        <div class="option-box row-box group">
+          <div class="label">배송지 선택</div>
+          <div class="option row-box">
+            <input name="address-opt" value type="radio" checked>주문자 정보와 동일
+            <input name="address-opt" value type="radio">최근 배송지
+            <input name="address-opt" value type="radio">직접 입력
+          </div>
+        </div>
+        <div class="orderer-box row-box group">
+          <div class="label">주문인</div>
+          <input type="text">
+        </div>
+        <div class="receiver-box row-box group">
+          <div class="label">수취인</div>
+          <input type="text">
+        </div>
+        <div class="address-box row-box group">
+          <div class="label">배송지 주소</div>
+          <div class="input-box column-box">
+            <div class="post-box row-box">
+              <input class="post-code" type="text">
+              <button class="post-btn btn btn-gray-fill">주소 검색</button>
+            </div>
+            <input class="address-1" type="text">
+            <input class="address-2" type="text">
+          </div>
+        </div>
+        <div class="phone-box row-box group">
+          <div class="label">휴대폰번호</div>
+          <input class="phone-1" type="text">-
+          <input class="phone-2" type="text">-
+          <input class="phone-3" type="text">
+        </div>
+        <div class="tel-box row-box group">
+          <div class="label">전화번호</div>
+          <input class="tel-1" type="text">-
+          <input class="tel-2" type="text">-
+          <input class="tel-3" type="text">
+        </div>
+        <div class="where-box row-box group">
+          <div class="label">배송 장소</div>
+          <input type="text">
+        </div>
+      </div>
+    </div>
+
+    <div class="order-check-box column-box group-box">
+      <div class="label">결제 내역 확인</div>
+      <div class="core-box column-box">
+        <div class="origin-sum-box row-box">
+          <div class="text">상품 주문 금액</div>
+          <div class="data">21,000</div>
+          <div class="unit">원</div>
+        </div>
+        <div class="delivery-charge-box row-box">
+          <div class="text">배송료</div>
+          <div class="data">3,000</div>
+          <div class="unit">원</div>
+        </div>
+        <div class="point-box row-box">
+          <div class="text">포인트 사용</div>
+          <input class="data" type="text" value="5000">
+          <button class="all-point btn btn-gray">전액 사용</button>
+          <div class="rest">(잔여 포인트 : 2,000)</div>
+        </div>
+        <div class="payment-sum-box row-box">
+          <div class="text">결제 금액</div>
+          <div class="origin-sum">21,000 원</div>
+          <div class="plus">+</div>
+          <div class="delivery-charge">3,000 원</div>
+          <div class="minus">-</div>
+          <div class="point">5,000 포인트</div>
+          <div class="equal">=</div>
+          <div class="data">19,000</div>
+          <div class="unit">원</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="payment-method-box column-box group-box">
+      <div class="label">결제 수단</div>
+      <div class="core-box column-box">
+        <div class="btn-box row-box">
+          <div class="img-box">
+            <img id="toss-pay" src="/img/icon/toss-pay.png">
+          </div>
+          <div class="img-box">
+            <img id="naver-pay" src="/img/icon/naver-pay.png">
+          </div>
+          <div class="img-box">
+            <img id="kakao-pay" src="/img/icon/kakao-pay.png">
+          </div>
+          <div class="img-box">
+            <img id="samsung-pay" src="/img/icon/samsung-pay.png">
+          </div>
+        </div>
+        <div class="radio-box row-box">
+          <div class="input-box">
+            <input id="card-pay" name="payType" type="radio">신용카드
+          </div>
+          <div class="input-box">
+            <input id="account-pay" name="payType" type="radio">계좌이체
+          </div>
+          <div class="input-box">
+            <input id="phone-pay" name="payType" type="radio">휴대폰 결제
+          </div>
+          <div class="input-box">
+            <input id="deposit-pay" name="payType" type="radio">무통장입금
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="agree-box row-box">
+      <input class="agree-check" type="checkbox">
+      <div class="text">구매조건을 확인하였으며 결제에 동의합니다.</div>
+    </div>
+
+    <div class="btn pay-btn btn-yellow-fill">결제하기</div>
+  </div>
+
+</div>
+
+</html>

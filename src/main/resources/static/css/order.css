@@ -1,0 +1,304 @@
+#underbar {
+  position: absolute;
+  left: 20%;
+  top: 56px;
+  background: #ffd16d;
+  width: 20%;
+  height: 4px;
+}
+#overbar {
+  position: absolute;
+  left: 20%;
+  top: -1px;
+  background: #ffd16d;
+  width: 20%;
+  height: 4px;
+}
+
+.meta-wrapper {
+  position: relative;
+  width: 1280px;
+  margin: auto;
+  margin-bottom: 40px;
+  padding: 80px;
+  padding-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  width: 100%;
+  font-size: 40px;
+  font-weight: 900;
+  color: rgb(62, 62, 62);
+  margin-bottom: 40px;
+}
+
+.group-box {
+  margin-bottom: 80px;
+}
+
+.item-box {
+  margin-bottom: 40px;
+}
+
+.column-box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.row-box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.label {
+  font-size: 25px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.text {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.data {
+  color: cornflowerblue;
+  font-weight: 900;
+  margin-right: 5px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+}
+
+input {
+  font-size: 18px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.core-box {
+  width: 100%;
+  height: 100%;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.grid-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  place-items: center;
+}
+
+.row-head {
+  padding: 10px 0;
+  background-color: #fafafa;
+  border-bottom: 1px solid whitesmoke;
+}
+
+.row {
+  padding: 10px 0;
+  border-bottom: 1px solid whitesmoke;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.origin-price {
+  text-decoration: line-through;
+  font-size: 14px;
+  color: gray;
+  margin-right: 10px;
+}
+
+.sum-box {
+  justify-content: end;
+  margin-top: 10px;
+}
+
+.sum-box .text {
+  margin-right: 10px;
+}
+
+.sum-box .discount-price {
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+.delivery-box .group {
+  padding: 20px 40px;
+  border-bottom: 1px solid whitesmoke;
+}
+
+.delivery-box .group .label {
+  font-size: 16px;
+  width: 200px;
+  margin: 0;
+  flex: none;
+}
+
+.delivery-box .option-box input {
+  margin-left: 20px;
+  margin-right: 5px;
+}
+
+.delivery-box .option-box input:first-child {
+  margin-left: 0;
+}
+
+.address-box .btn {
+  align-self: flex-start;
+  padding: 6px 30px;
+  margin-top: 1px;
+}
+
+.address-box input {
+  margin-bottom: 10px;
+  margin-right: 20px;
+}
+
+.address-1,
+.address-2 {
+  width: 50%;
+}
+
+.phone-box input,
+.tel-box input {
+  width: 10%;
+  margin: 0 10px;
+}
+
+.phone-box input:nth-child(2),
+.tel-box input:nth-child(2) {
+  margin-left: 0;
+}
+
+.where-box input {
+  width: 40%;
+}
+
+.order-check-box .row-box {
+  padding: 20px 40px;
+  border-bottom: 1px solid whitesmoke;
+}
+
+.order-check-box .row-box:last-child {
+  padding: 20px 40px;
+  background-color: #fafafa;
+  border-bottom: 1px solid whitesmoke;
+}
+
+.order-check-box .row-box .text {
+  font-weight: 900;
+  width: 200px;
+  justify-content: start;
+}
+
+.point-box .data {
+  margin-right: 20px;
+  text-align: end;
+  padding: 5px 20px;
+  width: 15%;
+}
+
+.point-box .btn {
+  padding: 5px 20px;
+  margin-right: 20px;
+}
+
+.payment-sum-box .plus,
+.payment-sum-box .minus,
+.payment-sum-box .equal {
+  margin: 10px;
+  font-weight: 900;
+}
+
+.payment-sum-box .data {
+  font-size: 25px;
+  margin-right: 5px;
+}
+
+.payment-method-box {
+  margin-bottom: 100px;
+}
+
+.payment-method-box .core-box {
+  padding: 20px 40px;
+}
+
+.payment-method-box .img-box {
+  height: 80px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  padding: 10px 30px;
+  margin-right: 20px;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.payment-method-box .img-box:hover {
+  border: 1px solid cornflowerblue;
+  transition: 0.3s;
+}
+
+.payment-method-box img {
+  width: 100px;
+}
+
+.payment-method-box .radio-box {
+  font-size: 18px;
+}
+
+.payment-method-box .radio-box .input-box {
+  width: 183px;
+}
+
+.payment-method-box .radio-box input {
+  margin-right: 5px;
+}
+
+.payment-method-box .radio-box input:first-child {
+  margin-left: 0;
+}
+
+.agree-box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.agree-check {
+  position: relative;
+  width: 40px;
+  height: 20px;
+}
+
+.agree-box .text {
+  position: relative;
+  font-size: 20px;
+  place-content: start;
+}
+
+.pay-btn {
+  width: 370px;
+  padding: 12px 30px;
+  font-size: 24px;
+}

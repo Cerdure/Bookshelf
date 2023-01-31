@@ -25,7 +25,7 @@
       <div class="text">전체 선택</div>
     </div>
     <div class="del-btn btn-gray">삭제</div>
-    <div class="order-btn btn-yellow">주문</div>
+    <div class="order-btn btn-yellow" onclick="location.href='/order'">주문</div>
   </div>
 
   <div class="cart-box">
@@ -72,7 +72,7 @@
         <div class="discount-sum" th:text="${carts.size() > 0 ? #numbers.formatInteger(#aggregates.sum(carts.![discountPrice * amount]), 3, 'COMMA') : 0} + '원'"></div>
       </div>
     </div>
-    <div class="order-btn btn-yellow">주문하기</div>
+    <div class="order-btn btn-yellow-fill" onclick="location.href='/order'">주문하기</div>
   </div>
 
 </div>

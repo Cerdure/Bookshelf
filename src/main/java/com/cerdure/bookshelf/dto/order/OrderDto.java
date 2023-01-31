@@ -15,30 +15,18 @@ import java.util.List;
 public class OrderDto {
 
     private Long id;
-
-    @NotBlank
     private Member member;
-
-    @NotBlank
     private String name;
-
-    @NotBlank
     private Address address;
-
-    @NotBlank
     private String phone;
-
     private String requirement;
-
-    @NotBlank
     private Integer totalPrice;
-
     private LocalDateTime regDate;
-
-    private List<OrdersDetail> orderdetails = new ArrayList<>();
+    private List<OrdersDetail> orderDetails = new ArrayList<>();
+    private Long bookId;
 
     @Builder
-    public OrderDto(Long id, Member member, String name, Address address, String phone, String requirement, Integer totalPrice, LocalDateTime regDate, List<OrdersDetail> orderdetails) {
+    public OrderDto(Long id, Member member, String name, Address address, String phone, String requirement, Integer totalPrice, LocalDateTime regDate, List<OrdersDetail> orderDetails) {
         this.id = id;
         this.member = member;
         this.name = name;
@@ -47,6 +35,6 @@ public class OrderDto {
         this.requirement = requirement;
         this.totalPrice = totalPrice;
         this.regDate = regDate;
-        this.orderdetails = orderdetails;
+        this.orderDetails = orderDetails;
     }
 }
