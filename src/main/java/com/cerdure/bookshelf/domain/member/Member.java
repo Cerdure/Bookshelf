@@ -1,8 +1,9 @@
 package com.cerdure.bookshelf.domain.member;
 
-import com.cerdure.bookshelf.domain.Cart;
+import com.cerdure.bookshelf.domain.order.Cart;
 import com.cerdure.bookshelf.domain.enums.MemberGrade;
 import com.cerdure.bookshelf.domain.enums.MemberRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,6 +13,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -30,10 +32,6 @@ public class Member implements UserDetails {
 
     private String nickname;
 
-    private String birth;
-
-    private String sex;
-
     private String phone;
 
     @Embedded
@@ -50,9 +48,9 @@ public class Member implements UserDetails {
 
     private LocalDate delDate;
 
-    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
+    @OneToMany(mappedBy = "member")
+    @JsonIgnore
+    private List<Cart> carts;
 
     @Enumerated(EnumType.STRING)
     private MemberRole role;
@@ -66,13 +64,11 @@ public class Member implements UserDetails {
     }
 
     @Builder
-    public Member(Long id, String pw, String name, String nickname, String birth, String sex, String phone, Address address, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, Cart cart, MemberRole role) {
+    public Member(Long id, String pw, String name, String nickname, String phone, Address address, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, List<Cart> carts, MemberRole role) {
         this.id = id;
         this.pw = pw;
         this.name = name;
         this.nickname = nickname;
-        this.birth = birth;
-        this.sex = sex;
         this.phone = phone;
         this.address = address;
         this.grade = grade;
@@ -80,7 +76,7 @@ public class Member implements UserDetails {
         this.regDate = regDate;
         this.delflag = delflag;
         this.delDate = delDate;
-        this.cart = cart;
+        this.carts = carts;
         this.role = role;
     }
 

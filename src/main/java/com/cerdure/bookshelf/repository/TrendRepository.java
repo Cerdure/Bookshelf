@@ -1,6 +1,6 @@
 package com.cerdure.bookshelf.repository;
 
-import com.cerdure.bookshelf.domain.Trend;
+import com.cerdure.bookshelf.domain.book.Trend;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
