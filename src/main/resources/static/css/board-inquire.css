@@ -95,27 +95,6 @@
   opacity: 0.5;
 }
 
-
-.modal-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0,0,0,0.6);
-  z-index: 11;
-}
-.tag-active {
-  background-color: cornflowerblue;
-  color: white;
-  transition: 0.3s;
-}
-.disable {
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-
 .pagenation-wrapper {
   position: relative;
   height: 40px;
@@ -123,48 +102,6 @@
   margin-top: 40px;
   text-align: center;
 }
-
-.pagenation {
-  position: relative;
-  top: 20px;
-  display: inline-block;
-  width: 228px;
-}
-
-.pagenation .btn-left {
-  position: absolute;
-  top: 2px;
-  left: 0px;
-  display: inline-block;
-  width: 20px;
-  cursor: pointer;
-}
-.pagenation .btn-right {
-  position: absolute;
-  top: 2px;
-  right: 0px;
-  display: inline-block;
-  width: 20px;
-  cursor: pointer;
-}
-.pagenation a{
-  display: inline-block;
-  width: 19px;
-  margin: 0 2px;
-  border-radius: 50%;
-  line-height: 19px;
-  cursor: pointer;
-  text-decoration: none;
-  font-weight: 900;
-}
-.index-active {
- background-color: cornflowerblue;
- color: white;
-}
-
-
-
-
 
 
 .inquire-wrapper {
@@ -250,7 +187,6 @@
   right: 20px;
   width: 20px;
   height: 20px;
-
 }
 .inquire-middle-wrapper .my-inquire-search {
   position: relative;
@@ -529,7 +465,9 @@
   outline: none;
 }
 
-
+.modal-background {
+  display: block !important;
+}
 
 
 .close-alert {

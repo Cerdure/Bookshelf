@@ -18,7 +18,6 @@ public class LoginServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String phone) throws UsernameNotFoundException {
         Member member = memberRepository.findByPhone(phone).get();
-        System.out.println("member.toString() = " + member.toString());
         if (member == null) {
             throw new UsernameNotFoundException(phone);
         }

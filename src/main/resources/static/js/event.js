@@ -4,50 +4,6 @@ $(function () {
   let check = false;
   let st = $(window).scrollTop();
   let width = $(window).width();
-  let ubClickindex = 2;
-  let obClickindex = 2;
-
-  $(".top-nav ul li")
-    .hover(function () {
-      let index = $(this).index();
-      if (index == 0) {
-        $("#underbar").stop().animate({ 'left': '0%' }, 200, 'swing');
-      } else {
-        $("#underbar").stop().animate({ 'left': 20 * index + '%' }, 200, 'swing');
-      }
-    })
-    .click(function () {
-      $(this).animate({ 'color': 'black' }, 300);
-      $(".top-nav ul li").not(this).css('color', "rgb(180, 180, 180)");
-      ubClickindex = $(this).index();
-    })
-    .mouseleave(function () {
-      if (ubClickindex == 0) {
-        $("#underbar").stop().animate({ 'left': '0%' }, 200, 'swing');
-      } else {
-        $("#underbar").stop().animate({ 'left': 20 * ubClickindex + '%' }, 200, 'swing');
-      }
-    });
-
-  $(".bottom-nav ul li")
-    .hover(function () {
-      let index = $(this).index();
-      if (index == 0) {
-        $("#overbar").stop().animate({ 'left': '0%' }, 600, 'swing');
-      } else {
-        $("#overbar").stop().animate({ 'left': 20 * (index - 1) + '%' }, 300, 'swing');
-      }
-    })
-    .mouseleave(function () {
-      if (obClickindex == 0) {
-        $("#overbar").stop().animate({ 'left': '0%' }, 600, 'swing');
-      } else {
-        $("#overbar").stop().animate({ 'left': 20 * obClickindex + '%' }, 300, 'swing');
-      }
-    });
-
-    
-
 
   function bannerSlide(speed) {
     $(".banner-current-index").text(count % 16 + 1 < 10 ? '0' + (count % 16 + 1) : count % 16 + 1);

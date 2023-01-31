@@ -1,17 +1,13 @@
 package com.cerdure.bookshelf.service;
 
-import com.cerdure.bookshelf.domain.UploadFile;
-import com.cerdure.bookshelf.domain.board.Inquire;
+import com.cerdure.bookshelf.domain.board.UploadFile;
 import com.cerdure.bookshelf.domain.board.Review;
-import com.cerdure.bookshelf.dto.board.InquireDto;
 import com.cerdure.bookshelf.dto.board.ReviewDto;
 import com.cerdure.bookshelf.repository.FileRepository;
-import com.cerdure.bookshelf.repository.InquireRepository;
 import com.cerdure.bookshelf.repository.ReviewRepository;
 import com.cerdure.bookshelf.service.interfaces.UploadFileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;

@@ -1,7 +1,6 @@
 package com.cerdure.bookshelf.service.interfaces;
 
-import com.cerdure.bookshelf.domain.Trend;
-import com.cerdure.bookshelf.domain.book.Book;
+import com.cerdure.bookshelf.domain.book.Trend;
 
 import java.util.List;
 

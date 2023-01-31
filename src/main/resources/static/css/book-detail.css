@@ -658,16 +658,6 @@
 }
 
 
-.modal-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0,0,0,0.6);
-  z-index: 11;
-}
-
 .review-write-wrapper {
   position: fixed;
   top: 50%;
@@ -679,7 +669,7 @@
   padding: 30px;
   border: 1px solid silver;
   display: none;
-  z-index: 12;
+  z-index: 100;
 }
 .review-modify-wrapper {
   position: fixed;
@@ -1154,10 +1144,6 @@
   transition: 0.3s;
 }
 
-
-
-
-
 .alert-window {
   position: fixed;
   top: 50%;
@@ -1167,7 +1153,7 @@
   height: 200px;
   background-color: white;
   border-radius: 20px;
-  z-index: 13;
+  z-index: 100;
   text-align: center;
   font-family: 'Noto Sans KR', sans-serif;
   border: 1px solid silver;

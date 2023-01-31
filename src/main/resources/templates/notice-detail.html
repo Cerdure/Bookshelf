@@ -13,7 +13,7 @@
   <script th:src="@{/js/notice-detail.js}"></script>
 </th:block>
 
-<div layout:fragment="content">
+<div layout:fragment="content" id="page-content" data-index="4">
 
 <div class="top-back-wrapper">
     <div class="top-back-title">ㅣ 공지사항 ㅣ</div>
@@ -36,7 +36,6 @@
   <div class="write-wrapper-back"></div>
 
   <div id="modify-wrapper">
-    <div class="modal-background"></div>
   <form th:action="'/notice-modify/'+${notice.id}" method="post" class="notice-modify-wrapper">
     <div class="notice-write-top">
       <span class="notice-write-top-text">공지사항 수정</span>
