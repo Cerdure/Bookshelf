@@ -1,7 +1,6 @@
 package com.cerdure.bookshelf.domain.board;
 
 import com.cerdure.bookshelf.domain.book.Book;
-import com.cerdure.bookshelf.domain.UploadFile;
 import com.cerdure.bookshelf.domain.member.Member;
 import lombok.*;
 

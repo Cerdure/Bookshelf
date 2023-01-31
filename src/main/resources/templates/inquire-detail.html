@@ -14,7 +14,7 @@
 </th:block>
 
 
-<div layout:fragment="content">
+<div layout:fragment="content" id="page-content" data-index="4">
 
 <div class="top-back-wrapper">
     <div class="top-back-title">ㅣ 책리뷰 ㅣ</div>
@@ -40,7 +40,6 @@
   <div class="write-wrapper-back"></div>
 
   <div id="modify-wrapper">
-    <div class="modal-background"></div>
     <form th:action="'/inquire-modify/'+${inquire.id}" method="post" class="inquire-modify-wrapper">
       <div class="inquire-write-top">
         <span class="inquire-write-top-text">문의글 수정</span>

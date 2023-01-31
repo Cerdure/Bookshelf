@@ -1,25 +1,12 @@
 package com.cerdure.bookshelf.service;
 
-import com.cerdure.bookshelf.domain.Trend;
-import com.cerdure.bookshelf.domain.book.Book;
-import com.cerdure.bookshelf.dto.BookDto;
-import com.cerdure.bookshelf.repository.BookRepository;
+import com.cerdure.bookshelf.domain.book.Trend;
 import com.cerdure.bookshelf.repository.TrendRepository;
-import com.cerdure.bookshelf.service.interfaces.BookService;
 import com.cerdure.bookshelf.service.interfaces.TrendService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor

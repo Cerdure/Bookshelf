@@ -2,7 +2,7 @@ package com.cerdure.bookshelf.dto.order;
 
 import com.cerdure.bookshelf.domain.member.Address;
 import com.cerdure.bookshelf.domain.member.Member;
-import com.cerdure.bookshelf.domain.order.OrderDetail;
+import com.cerdure.bookshelf.domain.order.OrdersDetail;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -35,10 +35,10 @@ public class OrderDto {
 
     private LocalDateTime regDate;
 
-    private List<OrderDetail> orderdetails = new ArrayList<>();
+    private List<OrdersDetail> orderdetails = new ArrayList<>();
 
     @Builder
-    public OrderDto(Long id, Member member, String name, Address address, String phone, String requirement, Integer totalPrice, LocalDateTime regDate, List<OrderDetail> orderdetails) {
+    public OrderDto(Long id, Member member, String name, Address address, String phone, String requirement, Integer totalPrice, LocalDateTime regDate, List<OrdersDetail> orderdetails) {
         this.id = id;
         this.member = member;
         this.name = name;
