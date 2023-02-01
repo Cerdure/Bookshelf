@@ -50,7 +50,7 @@ $(function () {
   });
 
   $(document).on("keyup", ".count", function () {
-    if ($(this).val().match(numRgx)) modifyCart(this, 0);
+    modifyCart(this, 0);
   });
 
   $(document).on("click", ".minus-btn", function () {
@@ -64,8 +64,6 @@ $(function () {
   minusCheck();
 
 });
-
-const numRgx = /^[0-9]/;
 
 function modifyCart(_this, typeCode) {
   (async () => {

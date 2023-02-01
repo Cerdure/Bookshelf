@@ -88,7 +88,7 @@
 input {
   font-size: 18px;
   padding: 5px;
-  border-radius: 5px;
+  padding-left: 10px;
 }
 
 .core-box {
@@ -142,13 +142,13 @@ input {
 }
 
 .delivery-box .group {
-  padding: 20px 40px;
+  padding: 20px 25px;
   border-bottom: 1px solid whitesmoke;
 }
 
 .delivery-box .group .label {
   font-size: 16px;
-  width: 200px;
+  width: 180px;
   margin: 0;
   flex: none;
 }
@@ -160,6 +160,12 @@ input {
 
 .delivery-box .option-box input:first-child {
   margin-left: 0;
+}
+
+.delivery-box .req {
+  color: #ffae00;
+  width: 10px;
+  margin-right: 5px;
 }
 
 .address-box .btn {
@@ -184,13 +190,13 @@ input {
   margin: 0 10px;
 }
 
-.phone-box input:nth-child(2),
-.tel-box input:nth-child(2) {
+.phone-box input:nth-child(3),
+.tel-box input:nth-child(3) {
   margin-left: 0;
 }
 
 .where-box input {
-  width: 40%;
+  width: 35%;
 }
 
 .order-check-box .row-box {
@@ -206,7 +212,7 @@ input {
 
 .order-check-box .row-box .text {
   font-weight: 900;
-  width: 200px;
+  width: 180px;
   justify-content: start;
 }
 
@@ -235,23 +241,30 @@ input {
 }
 
 .payment-method-box {
-  margin-bottom: 100px;
+  margin-bottom: 80px;
 }
 
 .payment-method-box .core-box {
-  padding: 20px 40px;
+  padding: 30px 40px;
+}
+
+.payment-method-box .btn-box {
+  border-bottom: 1px solid whitesmoke;
+  margin-bottom: 20px;
 }
 
 .payment-method-box .img-box {
+  position: relative;
   height: 80px;
   border: 1px solid lightgray;
   border-radius: 5px;
   padding: 10px 30px;
   margin-right: 20px;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .payment-method-box .img-box:hover {
@@ -261,6 +274,18 @@ input {
 
 .payment-method-box img {
   width: 100px;
+}
+
+.payment-method-box .select-icon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  padding: 5px;
+  background-color: cornflowerblue;
+  border-radius: 0px 0px 5px 0px;
+  display: none;
 }
 
 .payment-method-box .radio-box {
@@ -287,12 +312,18 @@ input {
 
 .agree-check {
   position: relative;
+  right: 3px;
   width: 40px;
   height: 20px;
 }
 
+.hidden {
+  display: none;
+}
+
 .agree-box .text {
   position: relative;
+  right: 3px;
   font-size: 20px;
   place-content: start;
 }

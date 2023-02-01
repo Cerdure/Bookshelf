@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+  layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="css">
+  <link rel="stylesheet" th:href="@{/css/order-success.css}">
+</th:block>
+
+<th:block layout:fragment="script">
+  <script th:src="@{/js/order-success.js}"></script>
+</th:block>
+
+<div layout:fragment="content" id="page-content" data-index="">
+
+  <div class="meta-wrapper column-box">
+    <div class="message-box column-box">
+      <h1>주문/결제가 정상적으로 완료되었습니다.</h1>
+      <h4>저희 북셸프를 이용해주셔서 감사합니다.</h4>
+      <div class="column-box">
+        <div class="data-box row-box">
+          <div class="text">주문번호</div>
+          <div class="data" th:text="${orderId}"></div>
+        </div>
+        <div class="text">주문 정보는 [내책장 &gt; 구매내역] 에서 확인하실 수 있습니다.</div>
+        <button class="btn btn-blue" onclick="location.href='/'">확인</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</html>

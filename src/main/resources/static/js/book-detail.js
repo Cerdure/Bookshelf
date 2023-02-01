@@ -194,22 +194,23 @@ $(function () {
   $(".cart-btn").click(function () {
     (async () => {
       const result = await fetch("/cart/modify?bookId=" + $("#book-id").data("value") + "&amount=1").then(res => res.text());
+      const alert = document.querySelector(".alert-btn-1");
+      const alertText = alert.querySelector(".text");
       if(result == 'ok') {
-        $(".alert-btn-1 .text").text("장바구니에 담겼습니다.");
-        $(".modal-background").fadeIn(100);
-        modalFadeIn(".alert-btn-1");
+        alertText.innerHTML = "장바구니에 담겼습니다.";
       } else if(result == 'sold'){
-        $(".alert-btn-1 .text").text("재고가 부족합니다.");
-        $(".modal-background").fadeIn(100);
-        modalFadeIn(".alert-btn-1");
+        alertText.innerHTML = "재고가 부족합니다.";
       } else {
-        $(".alert-btn-1 .text").text("요청이 실패하였습니다.");
-        $(".modal-background").fadeIn(100);
-        modalFadeIn(".alert-btn-1");
+        alertText.innerHTML = "요청이 실패하였습니다.";
       }
+      alert.querySelector(".ok").addEventListener("click", () => {
+        hideModal();
+        $(".modal-background").fadeOut(100);
+      });
+      $(".modal-background").fadeIn(100);
+      modalFadeIn(".alert-btn-1");
     })();
   });
-
 
   $(document).ready(function () {
 
@@ -258,10 +259,18 @@ $(function () {
       }
       registCheck(tagPassed, reviewPassed, bookPassed);
     });
+
     $(document).on("click", ".review-write-top-icon", function () {
-      $("form").css('filter', 'brightness(0.5)');
-      $(".close-alert").show();
+      $(".review-write-wrapper").css('filter', 'brightness(0.8)');
+      const alert = document.querySelector(".alert-btn-2");
+      alert.querySelector(".text").innerHTML = "작성한 내용은 저장되지 않습니다.<br>취소하겠습니까?";
+      alert.querySelector(".no").addEventListener("click", () => {
+        $(".review-write-wrapper").css('filter', 'brightness(1)');
+      });
+      alert.querySelector(".ok").addEventListener("click", formClose);
+      modalFadeIn(".alert-btn-2");
     });
+
     $(document).on("change", "#modify-wrapper .review-write-photo-input", function (event) {
       if (event.target.files.length > 0 && event.target.files.length < 6) {
         imgCount = 0;
@@ -395,8 +404,7 @@ function deleteImg(_this) {
 }
 
 function formClose(_this) {
-  $(".write-wrapper-back").removeClass("modal-background");
-  $(".modal-background").hide();
+  $(".modal-background").fadeOut(100);
   $("form").hide();
   $("body").css('overflow-y', 'scroll');
   $("form").css('filter', 'brightness(100%)');
@@ -419,13 +427,7 @@ function formClose(_this) {
   rwOpened = false;
   imgCount = 0;
   starClickIndex = -1;
-  hideCloseAlert(_this)
-}
-
-
-function hideCloseAlert(_this) {
-  $("form").css('filter', 'brightness(100%)');
-  $(_this).parent().hide();
+  hideModal();
 }
 
 function hideDeleteAlert(_this) {

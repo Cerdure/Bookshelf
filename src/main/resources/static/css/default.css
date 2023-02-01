@@ -53,6 +53,16 @@ a {
 }
 input, textarea, select {
   outline: none;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+}
+input::placeholder {
+  color: silver;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 body {
   font-family: 'Pretendard-Regular';

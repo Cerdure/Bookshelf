@@ -47,13 +47,13 @@
       </div>
       <div class="amount-box">
         <div class="minus-btn btn-steel">-</div>
-        <input class="count" th:value="${cart.amount}">
+        <input class="count" th:value="${cart.amount}" type="number">
         <div class="plus-btn btn-steel">+</div>
       </div>
       <div class="price-box">
-        <div class="origin-price" th:text="${#numbers.formatInteger(cart.amount * cart.originPrice, 3, 'COMMA') + '원'}"
+        <div class="origin-price" th:text="${#numbers.formatInteger(cart.amount * cart.originPrice, 3, 'COMMA') + ' 원'}"
         th:data-value="${cart.originPrice}"></div>
-        <div class="discount-price" th:text="${#numbers.formatInteger(cart.amount * cart.discountPrice, 3, 'COMMA') + '원'}"
+        <div class="discount-price" th:text="${#numbers.formatInteger(cart.amount * cart.discountPrice, 3, 'COMMA') + ' 원'}"
         th:data-value="${cart.discountPrice}"></div>
       </div>
       <button class="del-btn btn-gray">삭제</button>
@@ -68,11 +68,12 @@
     <div class="price-sum">
       <div class="text">주문 금액 : </div>
       <div class="price-box">
-        <div class="origin-sum" th:if="${carts.size() > 0}" th:text="${#numbers.formatInteger(#aggregates.sum(carts.![originPrice * amount]), 3, 'COMMA')} + '원'"></div>
-        <div class="discount-sum" th:text="${carts.size() > 0 ? #numbers.formatInteger(#aggregates.sum(carts.![discountPrice * amount]), 3, 'COMMA') : 0} + '원'"></div>
+        <div class="origin-sum" th:if="${carts.size() > 0}" th:text="${#numbers.formatInteger(#aggregates.sum(carts.![originPrice * amount]), 3, 'COMMA')} + ' 원'"></div>
+        <div class="discount-sum" th:text="${carts.size() > 0 ? #numbers.formatInteger(#aggregates.sum(carts.![discountPrice * amount]), 3, 'COMMA') : 0} + ' 원'"></div>
       </div>
     </div>
-    <div class="order-btn btn-yellow-fill" onclick="location.href='/order'">주문하기</div>
+    <div class="order-btn btn-yellow-fill" onclick="location.href='/order'"
+         th:classappend="${carts.size() == 0} ? 'disable' : ''">주문하기</div>
   </div>
 
 </div>
