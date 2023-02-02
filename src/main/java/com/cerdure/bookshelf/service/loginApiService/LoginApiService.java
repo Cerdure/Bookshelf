@@ -35,7 +35,6 @@ public class LoginApiService {
             Member member = Member.builder()
                     .memberJoinType(joinType)
                     .email(userInfo.getEmail())
-                    .birth(userInfo.getBirthday())
                     .nickname(userInfo.getNickname())
                     .role(MemberRole.USER)
                     .regDate(LocalDate.now())
