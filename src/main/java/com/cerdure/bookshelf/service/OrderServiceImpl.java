@@ -1,9 +1,16 @@
 package com.cerdure.bookshelf.service;
 
 import com.cerdure.bookshelf.domain.book.Book;
+import com.cerdure.bookshelf.domain.member.Member;
 import com.cerdure.bookshelf.domain.order.Cart;
+import com.cerdure.bookshelf.domain.order.OrderItem;
+import com.cerdure.bookshelf.domain.order.Orders;
 import com.cerdure.bookshelf.dto.order.CartDto;
+import com.cerdure.bookshelf.dto.order.OrderDto;
+import com.cerdure.bookshelf.dto.order.OrderItemDto;
 import com.cerdure.bookshelf.repository.CartRepository;
+import com.cerdure.bookshelf.repository.OrderItemRepository;
+import com.cerdure.bookshelf.repository.OrdersRepository;
 import com.cerdure.bookshelf.service.interfaces.BookService;
 import com.cerdure.bookshelf.service.interfaces.MemberService;
 import com.cerdure.bookshelf.service.interfaces.OrderService;
@@ -13,6 +20,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.management.InstanceAlreadyExistsException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -23,6 +33,8 @@ public class OrderServiceImpl implements OrderService {
     private final MemberService memberService;
     private final BookService bookService;
     private final CartRepository cartRepository;
+    private final OrdersRepository ordersRepository;
+    private final OrderItemRepository orderItemRepository;
 
     @Override
     public List<Cart> findAllCart(Authentication authentication) {
@@ -35,17 +47,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void addCart(Long bookId, Authentication authentication) throws Exception{
+    public Object modifyCart(Long bookId, Integer amount, Authentication authentication) {
         Cart cart = findCart(bookId, authentication);
         Book book = bookService.findById(bookId);
-        if (cart != null) {
-            if(cart.getAmount() >= book.getStock()){
-                throw new NotEnoughStockException("재고가 부족합니다");
-            }
-            cart.amountPlus();
+        if(amount > book.getStock() || book.getStock() < 1) {
+            return book.getStock();
+        } else if (amount < 1) {
+            throw new IllegalStateException("최솟값입니다.");
+        } else if (cart != null) {
+            cart.changeAmount(amount);
             cartRepository.save(cart);
-        } else if (book.getStock() < 1) {
-            throw new NotEnoughStockException("재고가 부족합니다");
+            return true;
         } else {
             cartRepository.save(Cart.builder()
                     .member(memberService.findMember(authentication))
@@ -54,16 +66,88 @@ public class OrderServiceImpl implements OrderService {
                     .discountPrice(book.getDiscountPrice())
                     .amount(1)
                     .build());
+            return true;
         }
-    }
-
-    @Override
-    public void minusCart(Long bookId, Authentication authentication) throws Exception {
-        
     }
 
     @Override
     public void removeCart(CartDto cartDto, Authentication authentication) {
         cartDto.getBookIds().forEach(bookId -> cartRepository.delete(findCart(bookId, authentication)));
+    }
+
+    @Override
+    public void clearCart(Authentication authentication) {
+        List<Cart> carts = cartRepository.findByMember(memberService.findMember(authentication));
+        carts.forEach(cart -> cartRepository.delete(cart));
+    }
+
+    @Override
+    public Orders findLastOrder(Authentication authentication) {
+        return ordersRepository.findTopByOrdererOrderByRegDateDesc(memberService.findMember(authentication));
+    }
+
+    @Override
+    public List<Cart> newOrder(OrderDto orderDto, Authentication authentication) {
+        List<Cart> orders = new ArrayList<>();
+        Long bookId = orderDto.getBookId();
+        if(bookId == null) {
+            orders = findAllCart(authentication);
+        } else {
+            Book book = bookService.findById(bookId);
+            orders.add(Cart.builder()
+                    .member(memberService.findMember(authentication))
+                    .book(book)
+                    .originPrice(book.getOriginPrice())
+                    .discountPrice(book.getDiscountPrice())
+                    .amount(1)
+                    .build());
+        }
+        return orders;
+    }
+
+    @Override
+    public String createOrder(OrderDto orderDto, Authentication authentication) throws Exception{
+        try {
+            Member member = memberService.findMember(authentication);
+            String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
+            String orderId = date + member.getId();
+
+            Orders orders = orderDto.toEntity();
+            orders.changeId(orderId);
+            orders.changeOrderer(member);
+            ordersRepository.save(orders);
+
+            return orderId;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception();
+        }
+    }
+
+    @Override
+    public Boolean saveOrderItems(OrderItemDto orderItemDto, Authentication authentication){
+        try {
+            Orders orders = ordersRepository.findById(orderItemDto.getOrderId()).get();
+            Book book = bookService.findById(orderItemDto.getBookId());
+            int amount = orderItemDto.getAmount();
+
+            book.changeStock(book.getStock() - amount);
+            book.changeSales(book.getSales() + amount);
+            memberService.changePoint(authentication, orders.getPoint());
+            orderItemRepository.save(OrderItem.builder()
+                    .orders(orders)
+                    .book(book)
+                    .amount(amount)
+                    .build());
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public Integer restPoint(Integer point, Authentication authentication) {
+        return memberService.findMember(authentication).getPoint() - point;
     }
 }

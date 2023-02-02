@@ -167,7 +167,7 @@
   padding: 30px;
   border: 1px solid silver;
   display: none;
-  z-index: 12;
+  z-index: 100;
 }
 .review-modify-wrapper {
   position: fixed;
@@ -179,7 +179,7 @@
   background-color: white;
   padding: 30px;
   border: 1px solid silver;
-  z-index: 12;
+  z-index: 100;
 }
 #modify-wrapper {
   display: none;
@@ -266,7 +266,7 @@
   padding: 30px;
   border: 1px solid silver;
   display: none;
-  z-index: 13;
+  z-index: 101;
 }
 .review-search-contents {
   width: 566px;

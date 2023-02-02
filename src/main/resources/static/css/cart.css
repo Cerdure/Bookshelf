@@ -31,7 +31,6 @@
   font-size: 40px;
   font-weight: 900;
   color: rgb(62, 62, 62);
-  /* margin-bottom: 20px; */
 }
 
 .option-box {
@@ -157,7 +156,7 @@
   margin-right: 10px;
   font-size: 20px;
   font-weight: 900;
-  line-height: 0px;
+  line-height: 1px;
 }
 
 .cart-box .row .amount-box .plus-btn {
@@ -167,7 +166,7 @@
   margin-left: 10px;
   font-size: 20px;
   font-weight: 900;
-  line-height: 0px;
+  line-height: 1px;
 }
 
 .cart-box .row .amount-box .count {
@@ -265,6 +264,8 @@
 }
 
 .bottom-box .order-btn {
-  padding: 9px 40px;
+  padding: 9px 90px;
+  font-size: 20px;
+  letter-spacing: 2px;
   border-radius: 5px;
 }

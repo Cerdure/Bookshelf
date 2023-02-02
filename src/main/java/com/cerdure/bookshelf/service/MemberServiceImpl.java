@@ -64,4 +64,17 @@ public class MemberServiceImpl implements MemberService {
     public void delete(Long id){
     }
 
+    @Override
+    public void changePoint(Authentication authentication, int point) {
+        Member member = findMember(authentication);
+        member.changePoint(member.getPoint() - point);
+        memberRepository.save(member);
+    }
+
+    @Override
+    public void changePoint(Member member, int point) {
+        member.changePoint(member.getPoint() - point);
+        memberRepository.save(member);
+    }
+
 }
