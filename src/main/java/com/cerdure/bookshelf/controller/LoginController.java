@@ -1,5 +1,7 @@
 package com.cerdure.bookshelf.controller;
 
+import com.cerdure.bookshelf.domain.enums.MemberJoinType;
+import com.cerdure.bookshelf.dto.loginApi.LoginApiSessionDto;
 import com.cerdure.bookshelf.service.LoginServiceImpl;
 import com.cerdure.bookshelf.dto.member.LoginDto;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Slf4j
@@ -22,4 +26,18 @@ public class LoginController {
         return "login";
     }
 
+    @GetMapping("/logout/check")
+    public String logout(HttpServletRequest request){
+        HttpSession session = request.getSession(false);
+
+
+        if(((LoginApiSessionDto) session.getAttribute("apiLogin")).getCode()!=null){
+            LoginApiSessionDto memberSession =(LoginApiSessionDto) session.getAttribute("apiLogin");
+            if(memberSession.getMemberJoinType().equals(MemberJoinType.KAKAO)){
+                return "redirect:/logout/api/kakao";
+            }else
+                return "redirect:/logout";
+        }
+        return "redirect:/logout";
+    }
 }
