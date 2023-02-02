@@ -1,5 +1,6 @@
 package com.cerdure.bookshelf.domain.member;
 
+import com.cerdure.bookshelf.domain.enums.MemberJoinType;
 import com.cerdure.bookshelf.domain.order.Cart;
 import com.cerdure.bookshelf.domain.enums.MemberGrade;
 import com.cerdure.bookshelf.domain.enums.MemberRole;
@@ -61,6 +62,8 @@ public class Member implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private MemberRole role;
+    @Enumerated(EnumType.STRING)
+    private MemberJoinType memberJoinType;
 
     @PrePersist
     public void prePersist() {
@@ -71,13 +74,12 @@ public class Member implements UserDetails {
     }
 
     @Builder
-    public Member(Long id, String pw, String name, String nickname, String phone, String email, Address address, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, List<Cart> carts, List<Orders> ordersList, MemberRole role) {
+    public Member(Long id, String pw, String name, String nickname, String phone, Address address, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, List<Cart> carts, MemberRole role) {
         this.id = id;
         this.pw = pw;
         this.name = name;
         this.nickname = nickname;
         this.phone = phone;
-        this.email = email;
         this.address = address;
         this.grade = grade;
         this.point = point;
@@ -87,6 +89,7 @@ public class Member implements UserDetails {
         this.carts = carts;
         this.ordersList = ordersList;
         this.role = role;
+        this.memberJoinType=memberJoinType;
     }
 
     public void changePoint(int point){
@@ -100,6 +103,13 @@ public class Member implements UserDetails {
         return authorities;
     }
 
+    public Member apiJoin(String phone,Address address,String pw,String name){
+        this.phone=phone;
+        this.address=address;
+        this.pw=pw;
+        this.name=name;
+        return this;
+    }
     @Override
     public String getPassword() {
         return null;

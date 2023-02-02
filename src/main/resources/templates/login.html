@@ -15,6 +15,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js" integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
+    <script>Kakao.init('65d359c9c919c3f1150d638177fbc8fa');</script>
+    <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
     <script src="/js/login.js"></script>
     <title>로그인 | Bookshelf</title>
 </head>
@@ -55,10 +58,10 @@
                 <span class="find-idpw">아이디/비밀번호 찾기</span>
             </div>
             <div class="button-wrapper">
-                <img src="/img/icon/naver-icon.7128d171ea0b01233bb4b32a2b5ad260.svg">
-                <img src="/img/icon/kakao-icon.9c9940291430ca6ad83b9ae1f3cc81a8.svg">
-                <img src="/img/icon/facebook-icon.f3e1fcc7af9f4cac5be2179a846417f8.svg">
-                <img src="/img/icon/ico_sns_google@2x.png">
+                <img src="/img/icon/naver-icon.7128d171ea0b01233bb4b32a2b5ad260.svg" class="naverLogin" >
+                <img src="/img/icon/kakao-icon.9c9940291430ca6ad83b9ae1f3cc81a8.svg" class="kakaoLogin">
+                <img src="/img/icon/facebook-icon.f3e1fcc7af9f4cac5be2179a846417f8.svg" >
+                <img src="/img/icon/ico_sns_google@2x.png" class="googleLogin">
             </div>
 
             <div class="caution">개인정보 보호를 위해 공용 PC에서 사용 시<br>
