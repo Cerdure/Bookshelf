@@ -1,5 +1,6 @@
 package com.cerdure.bookshelf.domain.member;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +17,7 @@ public class Address {
 
     protected Address() {
     }
-
+    @Builder
     public Address(String city, String street, String zipcode) {
         this.city = city;
         this.street = street;

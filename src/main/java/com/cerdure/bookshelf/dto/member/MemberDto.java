@@ -1,6 +1,7 @@
 package com.cerdure.bookshelf.dto.member;
 
 
+import com.cerdure.bookshelf.domain.enums.MemberJoinType;
 import com.cerdure.bookshelf.domain.order.Cart;
 import com.cerdure.bookshelf.domain.enums.MemberGrade;
 import com.cerdure.bookshelf.domain.enums.MemberRole;
@@ -30,10 +31,10 @@ public class MemberDto {
     private String city;
     private Address address;
     private String street;
-
     @Enumerated(EnumType.STRING)
     private MemberGrade grade;
-
+    @Enumerated(EnumType.STRING)
+    private MemberJoinType memberJoinType;
     private Integer point;
     private LocalDate regDate;
     private Integer delflag;
@@ -41,7 +42,7 @@ public class MemberDto {
     private List<Orders> orders = new ArrayList<>();
 
     @Builder
-    public MemberDto(Long id, String pw, String name, String nickname, String phone, String zipcode, String city, Address address, String street, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, List<Orders> orders) {
+    public MemberDto(Long id, String pw, String name, String nickname, String phone, String zipcode, String city, Address address, String street, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, List<Orders> orders, MemberJoinType memberJoinType) {
         this.id = id;
         this.pw = pw;
         this.name = name;
@@ -57,6 +58,7 @@ public class MemberDto {
         this.delflag = delflag;
         this.delDate = delDate;
         this.orders = orders;
+        this.memberJoinType=memberJoinType;
     }
 
     public Member createMember(PasswordEncoder passwordEncoder){
@@ -72,6 +74,7 @@ public class MemberDto {
                 .delflag(this.delflag)
                 .delDate(this.delDate)
                 .role(MemberRole.USER)
+                .memberJoinType(MemberJoinType.BOOKSHELF)
                 .build();
     }
 }
