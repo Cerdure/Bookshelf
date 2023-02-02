@@ -53,11 +53,5 @@ public class Cart {
                 .build();
     }
 
-    public void amountPlus(){
-        this.amount++;
-    }
-    public void amountMinus(){
-        this.amount--;
-    }
-
+    public void changeAmount(Integer amount){this.amount = amount;}
 }

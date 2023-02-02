@@ -10,29 +10,27 @@ import javax.persistence.*;
 
 @Entity @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class OrdersDetail {
+public class OrderItem {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "order_detail_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
-    private Orders order;
+    @JoinColumn(name = "orders_id")
+    private Orders orders;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     private Book book;
 
     private Integer amount;
-    private Integer price;
 
     @Builder
-    public OrdersDetail(Long id, Orders order, Book book, int amount, int price) {
+    public OrderItem(Long id, Orders orders, Book book, int amount) {
         this.id = id;
-        this.order = order;
+        this.orders = orders;
         this.book = book;
         this.amount = amount;
-        this.price = price;
     }
 }

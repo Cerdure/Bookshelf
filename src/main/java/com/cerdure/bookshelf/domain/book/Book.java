@@ -126,4 +126,10 @@ public class Book {
             this.name = prevStr + coincidenceStr + nextStr;
     }
 
+    public void changeStock(int stock){
+        this.stock = stock;
+    }
+    public void changeSales(int sales) {
+        this.sales = sales;
+    }
 }

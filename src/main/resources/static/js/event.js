@@ -1,4 +1,5 @@
 $(function () {
+  
   const arr = [];
   let count = 0;
   let check = false;
@@ -51,7 +52,6 @@ $(function () {
     $(".active-discount-rate").text('-' + $(".bi-active").find(".book-discount-rate").val() + '%');
     $(".active-discount-price").text(Number($(".bi-active").find(".book-discount-price").val()).toLocaleString('ko-KR') + '원');
     $(".banner-before").css('backgroundImage', 'url(' + $(".bi-" + (count + 4) % 16 + " img").attr('src') + ')');
-
    
   }
 
@@ -98,7 +98,6 @@ $(function () {
     $(".active-discount-rate").text('-' + $(".bi-active").find(".book-discount-rate").val() + '%');
     $(".active-discount-price").text(Number($(".bi-active").find(".book-discount-price").val()).toLocaleString('ko-KR') + '원');
     $(".banner-before").css('backgroundImage', 'url(' + $(".bi-" + (count + 4) % 16 + " img").attr('src') + ')');
-
 
   }
 
@@ -238,7 +237,7 @@ $(function () {
   }
 
   $(window).scroll(function () { 
-    st = $(this).scrollTop();           console.log(st);
+    st = $(this).scrollTop();
     width = $(this).width();
 
     if (st > 557) {
@@ -337,10 +336,7 @@ $(function () {
         });
       }
     });
-
 });
-
-
 
 
 $(function () {

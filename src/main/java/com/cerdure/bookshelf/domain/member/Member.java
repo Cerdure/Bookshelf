@@ -3,6 +3,7 @@ package com.cerdure.bookshelf.domain.member;
 import com.cerdure.bookshelf.domain.order.Cart;
 import com.cerdure.bookshelf.domain.enums.MemberGrade;
 import com.cerdure.bookshelf.domain.enums.MemberRole;
+import com.cerdure.bookshelf.domain.order.Orders;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -52,6 +53,10 @@ public class Member implements UserDetails {
     @JsonIgnore
     private List<Cart> carts;
 
+    @OneToMany(mappedBy = "orderer")
+    @JsonIgnore
+    private List<Orders> ordersList;
+
     @Enumerated(EnumType.STRING)
     private MemberRole role;
 
@@ -78,6 +83,10 @@ public class Member implements UserDetails {
         this.delDate = delDate;
         this.carts = carts;
         this.role = role;
+    }
+
+    public void changePoint(int point){
+        this.point = point;
     }
 
     @Override

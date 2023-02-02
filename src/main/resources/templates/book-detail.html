@@ -178,8 +178,13 @@
       <img src="/img/icon/search-list-editor.svg">
       <span>리뷰 남기기</span>
     </div>
-    <button class="cart-btn" th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">장바구니에 넣기</button>
-    <button class="buy-btn" th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">구매하기</button>
+    <button class="cart-btn" th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">
+      장바구니에 넣기
+    </button>
+    <button class="buy-btn" th:onclick="|location.href='@{order(bookId=${book.id})}'|"
+            th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">
+      구매하기
+    </button>
   </div>
 
 </div>
@@ -205,10 +210,15 @@
       </div>
     </div>
     <div class="cart-btn-sub">
-      <button>장바구니에 넣기</button>
+      <button th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">
+        장바구니에 넣기
+      </button>
     </div>
     <div class="buy-btn-sub">
-      <button>구매하기</button>
+      <button th:onclick="|location.href='@{order(bookId=${book.id})}'|"
+              th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">
+        구매하기
+      </button>
     </div>
   </div>
 </div>

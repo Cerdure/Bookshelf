@@ -15,4 +15,6 @@ public interface MemberService {
     public Member findByPhone(String phone);
     public void update(Long id, MemberDto memberDto);
     public void delete(Long id);
+    public void changePoint(Authentication authentication, int point);
+    public void changePoint(Member member, int point);
 }

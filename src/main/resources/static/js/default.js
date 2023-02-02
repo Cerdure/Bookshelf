@@ -99,7 +99,7 @@ $(function () {
 
 function hideModal(){
   $(".alert-modal").fadeOut(200);
-  $(".modal-background").fadeOut(100);
+  // $(".modal-background").fadeOut(100);
 }
 
 function modalFadeIn(_this){
