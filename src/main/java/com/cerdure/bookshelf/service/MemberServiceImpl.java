@@ -1,6 +1,10 @@
 package com.cerdure.bookshelf.service;
 
+import com.cerdure.bookshelf.domain.member.Address;
 import com.cerdure.bookshelf.domain.member.Member;
+import com.cerdure.bookshelf.dto.loginApi.ApiJoinDto;
+import com.cerdure.bookshelf.dto.loginApi.MemberApiLoginInfoDto;
+import com.cerdure.bookshelf.dto.member.InfoUpdateDto;
 import com.cerdure.bookshelf.dto.member.MemberDto;
 import com.cerdure.bookshelf.repository.MemberRepository;
 import com.cerdure.bookshelf.service.interfaces.MemberService;
@@ -41,8 +45,41 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Transactional
+    public MemberApiLoginInfoDto apiJoin(ApiJoinDto apiJoinDto, String email) {
+        Member member = memberRepository.findByEmail(email);
+        Address address = Address.builder()
+                .street(apiJoinDto.getStreet())
+                .city(apiJoinDto.getCity())
+                .zipcode(apiJoinDto.getZipcode())
+                .build();
+        String passWordEmail = member.getEmail();
+        String encode = passwordEncoder.encode(passWordEmail);
+        Member joinedMember = member.apiJoin(apiJoinDto.getPhone(), address, encode,apiJoinDto.getName());
+        Member savedMember = memberRepository.save(joinedMember);
+
+        return MemberApiLoginInfoDto.builder()
+                .address(savedMember.getAddress())
+                .password(passWordEmail)
+                .phone(savedMember.getPhone())
+                .build();
+    }
+
+    @Override
     public Member findMember(Authentication authentication) {
         return memberRepository.findByPhone(authentication.getName()).get();
+    }
+
+    @Override
+    public InfoUpdateDto showInfo(Authentication authentication) {
+        Member member = this.findMember(authentication);
+        return InfoUpdateDto.builder()
+                .city(member.getAddress().getCity())
+                .postNum(member.getAddress().getZipcode())
+                .street(member.getAddress().getStreet())
+                .nickName(member.getNickname())
+                .phone(member.getPhone())
+                .build();
     }
 
     public Member findById(Long memberId) {
