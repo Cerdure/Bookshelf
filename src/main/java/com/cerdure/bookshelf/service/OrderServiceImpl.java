@@ -106,18 +106,25 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public String createOrder(OrderDto orderDto, Authentication authentication) throws Exception{
+    public String createCode(Authentication authentication) {
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"))
+                        + memberService.findMember(authentication).getId();
+    }
+
+    @Override
+    public OrderDto memberAndCode(Authentication authentication) {
+        return OrderDto.builder()
+                .member(memberService.findMember(authentication))
+                .id(createCode(authentication))
+                .build();
+    }
+
+    @Override
+    public void createOrder(OrderDto orderDto, Authentication authentication) throws Exception{
         try {
-            Member member = memberService.findMember(authentication);
-            String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
-            String orderId = date + member.getId();
-
             Orders orders = orderDto.toEntity();
-            orders.changeId(orderId);
-            orders.changeOrderer(member);
+            orders.changeOrderer(memberService.findMember(authentication));
             ordersRepository.save(orders);
-
-            return orderId;
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception();

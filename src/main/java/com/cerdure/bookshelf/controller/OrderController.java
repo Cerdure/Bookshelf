@@ -86,13 +86,21 @@ public class OrderController {
         return orderService.restPoint(point, authentication);
     }
 
+    @GetMapping("/order/create/prev")
+    @ResponseBody
+    public OrderDto orderCreatePrev(Authentication authentication) {
+        return orderService.memberAndCode(authentication);
+    }
+
     @PostMapping("/order/create")
     @ResponseBody
-    public String orderCreate(@ModelAttribute OrderDto orderDto, Authentication authentication) {
+    public Boolean orderCreate(@ModelAttribute OrderDto orderDto, Authentication authentication) {
         try {
-            return orderService.createOrder(orderDto, authentication);
+            orderService.createOrder(orderDto, authentication);
+            return true;
         } catch (Exception e) {
-            return "error";
+            e.printStackTrace();
+            return false;
         }
     }
 

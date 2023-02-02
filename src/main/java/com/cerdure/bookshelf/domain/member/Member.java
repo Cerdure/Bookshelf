@@ -35,6 +35,8 @@ public class Member implements UserDetails {
 
     private String phone;
 
+    private String email;
+
     @Embedded
     private Address address;
 
@@ -69,12 +71,13 @@ public class Member implements UserDetails {
     }
 
     @Builder
-    public Member(Long id, String pw, String name, String nickname, String phone, Address address, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, List<Cart> carts, MemberRole role) {
+    public Member(Long id, String pw, String name, String nickname, String phone, String email, Address address, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, List<Cart> carts, List<Orders> ordersList, MemberRole role) {
         this.id = id;
         this.pw = pw;
         this.name = name;
         this.nickname = nickname;
         this.phone = phone;
+        this.email = email;
         this.address = address;
         this.grade = grade;
         this.point = point;
@@ -82,6 +85,7 @@ public class Member implements UserDetails {
         this.delflag = delflag;
         this.delDate = delDate;
         this.carts = carts;
+        this.ordersList = ordersList;
         this.role = role;
     }
 

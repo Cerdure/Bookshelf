@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderDto {
 
+    private String id;
     private String receiver;
     private String phone;
     private String tel;
@@ -28,15 +29,17 @@ public class OrderDto {
     private String payType;
     private List<OrderItemDto> orderItems;
     private Long bookId;
+    private Member member;
 
     @Builder
-    public OrderDto(String receiver, String zipcode, String city, String street, String phone, String tel, String deliveryPlace, Integer originSum, Integer deliveryCharge, Integer point, Integer orderPrice, String payType, List<OrderItemDto> orderItems, Long bookId) {
+    public OrderDto(String id, String receiver, String phone, String tel, String zipcode, String city, String street, String deliveryPlace, Integer originSum, Integer deliveryCharge, Integer point, Integer orderPrice, String payType, List<OrderItemDto> orderItems, Long bookId, Member member) {
+        this.id = id;
         this.receiver = receiver;
+        this.phone = phone;
+        this.tel = tel;
         this.zipcode = zipcode;
         this.city = city;
         this.street = street;
-        this.phone = phone;
-        this.tel = tel;
         this.deliveryPlace = deliveryPlace;
         this.originSum = originSum;
         this.deliveryCharge = deliveryCharge;
@@ -45,10 +48,12 @@ public class OrderDto {
         this.payType = payType;
         this.orderItems = orderItems;
         this.bookId = bookId;
+        this.member = member;
     }
 
     public Orders toEntity(){
         return Orders.builder()
+                .id(this.id)
                 .receiver(this.receiver)
                 .phone(this.phone)
                 .tel(this.tel)

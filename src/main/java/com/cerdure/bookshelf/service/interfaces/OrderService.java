@@ -17,7 +17,9 @@ public interface OrderService {
     public void clearCart(Authentication authentication);
     public Orders findLastOrder(Authentication authentication);
     public List<Cart> newOrder(OrderDto orderDto, Authentication authentication);
-    public String createOrder(OrderDto orderDto, Authentication authentication) throws Exception;
+    public String createCode(Authentication authentication);
+    public OrderDto memberAndCode(Authentication authentication);
+    public void createOrder(OrderDto orderDto, Authentication authentication) throws Exception;
     public Boolean saveOrderItems(OrderItemDto orderItemDto, Authentication authentication);
     public Integer restPoint(Integer point, Authentication authentication);
 }

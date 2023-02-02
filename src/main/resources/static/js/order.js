@@ -49,9 +49,9 @@ $(function () {
   $(document).on("click", ".img-box", function () {
     $(this).find("input").prop('checked', true);
     $(".select-icon").hide();
-    $(".img-box").css("border", "1px solid silver");
+    $(".img-box").css("border", "1px solid lightgray");
     $(this).find(".select-icon").fadeIn(0);
-    $(this).css("border", "3px solid cornflowerblue");
+    $(this).css("border", "1px solid cornflowerblue");
   });
 
   $(document).on("click", ".post-btn", () => {
@@ -97,57 +97,39 @@ $(function () {
     })();
   });
 
-  $(document).on("click", ".agree-check", function() {
+  $(document).on("click", ".agree-check", function () {
     $(this).prop("checked") ? $(".pay-btn").removeClass("disable") : $(".pay-btn").addClass("disable");
   });
 
   $(document).on("click", ".pay-btn", () => {
     (async () => {
-      const agree = $(".agree-check").prop("checked");
-      if (agree) {
-        const orderResult = await fetch("/order/create", {
-          method: 'post',
-          cache: 'no-cache',
-          body: new URLSearchParams({
-            receiver: $(".receiver").val(),
-            phone: $(".phone-1").val() + $(".phone-2").val() + $(".phone-3").val(),
-            tel: $(".tel-1").val() + $(".tel-2").val() + $(".tel-3").val(),
-            zipcode: $(".zipcode").val(),
-            city: $(".city").val(),
-            street: $(".street").val(),
-            deliveryPlace: $(".where").val(),
-            originSum: $(".origin-sum").data("value"),
-            deliveryCharge: $(".delivery-charge").data("value"),
-            point: $(".point-value").val(),
-            orderPrice: $(".order-price").val(),
-            payType: $(".pay-type:checked").val(),
-          })
-        }).then(res => res.text());
-
-        if (orderResult == 'error') {
-          alert('요청이 실패하였습니다. (error: order)');
-        } else {
-          const itemResult = e => fetch("/order/item", {
-            method: 'post',
-            cache: 'no-cache',
-            body: new URLSearchParams({
-              orderId: orderResult,
-              bookId: e.querySelector(".book").dataset.id,
-              amount: e.querySelector(".amount").innerHTML
-            })
-          }).then(res => res.json());
-
-          const result = await $(".row").get().map(e => itemResult(e));
-
-          if (result.every(e => e)) {
-            location.href = "/order/success?orderId=" + orderResult;
-          } else {
-            alert("요청이 실패하였습니다. (error: order-item)");
-          }
-        }
-      } else {
+      if (!$(".agree-check").prop("checked")) {
         alert("구매조건 및 결제에 동의해야 진행가능합니다.");
+        return;
       }
+  
+      const orderInfo = await fetch("/order/create/prev").then(res => res.json());
+      
+      IMP.init('imp78314138');
+      IMP.request_pay({
+        pg: $(".pay-type:checked").val(),
+        pay_method: "card",
+        merchant_uid: orderInfo.id,
+        name: $(".row").get(0).find(".book").text(),
+        amount: $(".order-price").val(),
+        buyer_email: orderInfo.member.eamil,
+        buyer_name: orderInfo.member.name,
+        buyer_tel: orderInfo.member.phone,
+        buyer_addr: orderInfo.member.address.city,
+        buyer_postcode: orderInfo.member.address.zipcode
+      },
+        res => {
+          if (res.success) {
+            alert("완료 -> imp_uid : "+res.imp_uid+" / merchant_uid(orderKey) : " +res.merchant_uid);
+          } else {
+            alert("실패 : 코드("+res.error_code+") / 메세지(" + res.error_msg + ")");
+          }
+        });
     })();
   });
 
@@ -170,7 +152,50 @@ function priceCalc(priceSum, usePoint, restPoint) {
   orderPrice <= 0 ? $(".payment-method-box").addClass("disable") : '';
 }
 
+function createOrder() {
+  (async () => {
+    const orderResult = await fetch("/order/create", {
+      method: 'post',
+      cache: 'no-cache',
+      body: new URLSearchParams({
+        receiver: $(".receiver").val(),
+        phone: $(".phone-1").val() + $(".phone-2").val() + $(".phone-3").val(),
+        tel: $(".tel-1").val() + $(".tel-2").val() + $(".tel-3").val(),
+        zipcode: $(".zipcode").val(),
+        city: $(".city").val(),
+        street: $(".street").val(),
+        deliveryPlace: $(".where").val(),
+        originSum: $(".origin-sum").data("value"),
+        deliveryCharge: $(".delivery-charge").data("value"),
+        point: $(".point-value").val(),
+        orderPrice: $(".order-price").val(),
+        payType: $(".pay-type:checked").val(),
+      })
+    }).then(res => res.text());
 
+    if (orderResult == 'error') {
+      alert('요청이 실패하였습니다. (error: order)');
+    } else {
+      const itemResult = e => fetch("/order/item", {
+        method: 'post',
+        cache: 'no-cache',
+        body: new URLSearchParams({
+          orderId: orderResult,
+          bookId: e.querySelector(".book").dataset.id,
+          amount: e.querySelector(".amount").innerHTML
+        })
+      }).then(res => res.json());
+
+      const result = await $(".row").get().map(e => itemResult(e));
+
+      if (result.every(e => e)) {
+        location.href = "/order/success?orderId=" + orderResult;
+      } else {
+        alert("요청이 실패하였습니다. (error: order-item)");
+      }
+    }
+  })();
+}
 
 
 
