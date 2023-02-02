@@ -1,9 +1,7 @@
 package com.cerdure.bookshelf.service;
 
-import com.cerdure.bookshelf.domain.UploadFile;
 import com.cerdure.bookshelf.domain.board.Review;
 import com.cerdure.bookshelf.dto.board.ReviewDto;
-import com.cerdure.bookshelf.repository.FileRepository;
 import com.cerdure.bookshelf.repository.ReviewRepository;
 import com.cerdure.bookshelf.service.interfaces.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.io.File;
-import java.util.List;
 
 @Slf4j
 @Service

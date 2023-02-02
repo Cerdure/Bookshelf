@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout/default}">
+
+<th:block layout:fragment="css">
+  <link rel="stylesheet" th:href="@{/css/cart.css}">
+</th:block>
+
+<th:block layout:fragment="script">
+  <script th:src="@{/js/cart.js}"></script>
+</th:block>
+
+<div layout:fragment="content" id="page-content" data-index="">
+
+<div class="meta-wrapper">
+
+  <div class="title">장바구니</div>
+
+  <div class="option-box">
+    <div class="all-select">
+      <input class="check" type="checkbox" checked>
+      <div class="text">전체 선택</div>
+    </div>
+    <div class="del-btn btn-gray">삭제</div>
+    <div class="order-btn btn-yellow" onclick="location.href='/order'">주문</div>
+  </div>
+
+  <div class="cart-box">
+    <div class="row-head">
+      <div></div>
+      <div class="text">상품명</div>
+      <div class="text">수량</div>
+      <div class="text">가격</div>
+      <div></div>
+    </div>
+    <div class="row" th:each="cart : ${carts}" th:with="member = ${cart.member}, book = ${cart.book}">
+      <input class="check" type="checkbox" th:data-id="${book.id}" checked>
+      <div class="img-name">
+        <img th:src="${book.imgPath}">
+        <div class="name-box">
+          <div class="name" th:text="${book.name}"></div>
+          <div class="author" th:text="${book.author}"></div>
+        </div>
+      </div>
+      <div class="amount-box">
+        <div class="minus-btn btn-steel">-</div>
+        <input class="count" th:value="${cart.amount}" type="number">
+        <div class="plus-btn btn-steel">+</div>
+      </div>
+      <div class="price-box">
+        <div class="origin-price" th:text="${#numbers.formatInteger(cart.amount * cart.originPrice, 3, 'COMMA') + ' 원'}"
+        th:data-value="${cart.originPrice}"></div>
+        <div class="discount-price" th:text="${#numbers.formatInteger(cart.amount * cart.discountPrice, 3, 'COMMA') + ' 원'}"
+        th:data-value="${cart.discountPrice}"></div>
+      </div>
+      <button class="del-btn btn-gray">삭제</button>
+    </div>
+    <div class="null" th:if="${carts.size() == 0}">
+      <img src="/img/icon/exclamation-circle-fill.svg">
+      <div class="text">장바구니가 비어있습니다.</div>
+    </div>
+  </div>
+
+  <div class="bottom-box" id="sum">
+    <div class="price-sum">
+      <div class="text">주문 금액 : </div>
+      <div class="price-box">
+        <div class="origin-sum" th:if="${carts.size() > 0}" th:text="${#numbers.formatInteger(#aggregates.sum(carts.![originPrice * amount]), 3, 'COMMA')} + ' 원'"></div>
+        <div class="discount-sum" th:text="${carts.size() > 0 ? #numbers.formatInteger(#aggregates.sum(carts.![discountPrice * amount]), 3, 'COMMA') : 0} + ' 원'"></div>
+      </div>
+    </div>
+    <div class="order-btn btn-yellow-fill" onclick="location.href='/order'"
+         th:classappend="${carts.size() == 0} ? 'disable' : ''">주문하기</div>
+  </div>
+
+</div>
+
+</div>
+
+</html>

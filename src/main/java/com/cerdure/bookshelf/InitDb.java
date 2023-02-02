@@ -1,11 +1,11 @@
 package com.cerdure.bookshelf;
 
-import com.cerdure.bookshelf.domain.Trend;
+import com.cerdure.bookshelf.domain.book.Trend;
 import com.cerdure.bookshelf.domain.board.Inquire;
 import com.cerdure.bookshelf.domain.board.Notice;
 import com.cerdure.bookshelf.domain.board.Reply;
 import com.cerdure.bookshelf.domain.book.Book;
-import com.cerdure.bookshelf.domain.UploadFile;
+import com.cerdure.bookshelf.domain.board.UploadFile;
 import com.cerdure.bookshelf.domain.board.Review;
 import com.cerdure.bookshelf.domain.book.Category;
 import com.cerdure.bookshelf.domain.enums.MemberRole;
@@ -21,15 +21,6 @@ import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * 종 주문 2개
- * * userA
- * 	 * JPA1 BOOK
- * 	 * JPA2 BOOK
- * * userB
- * 	 * SPRING1 BOOK
- * 	 * SPRING2 BOOK
- */
 @Component
 @RequiredArgsConstructor
 public class InitDb {
@@ -38,7 +29,7 @@ public class InitDb {
 
     @PostConstruct
     public void init() {
-        initService.dbInitBooks();
+//        initService.dbInitBooks();
     }
 
     @Component
@@ -155,7 +146,6 @@ public class InitDb {
             for (int i=1; i<21; i++) {
                 em.persist(categories[i]);
             }
-
 
             Book[] books = new Book[93];
 
@@ -850,8 +840,6 @@ public class InitDb {
                     .name("테스터")
                     .nickname("테스터")
                     .phone("01011112222")
-                    .birth("901020")
-                    .sex("1")
                     .pw(passwordEncoder.encode("1234"))
                     .address(new Address("서울 당산동","145가","K013"))
                     .role(MemberRole.USER)
@@ -861,8 +849,6 @@ public class InitDb {
                     .name("테스터1")
                     .nickname("유저11")
                     .phone("01012345678")
-                    .birth("901020")
-                    .sex("1")
                     .pw(passwordEncoder.encode("1234"))
                     .address(new Address("서울 당산동","145가","K013"))
                     .role(MemberRole.USER)
@@ -873,8 +859,6 @@ public class InitDb {
                     .name("테스터2")
                     .nickname("유저22")
                     .phone("01022222222")
-                    .birth("901020")
-                    .sex("1")
                     .pw(passwordEncoder.encode("1234"))
                     .address(new Address("서울 당산동","145가","K013"))
                     .role(MemberRole.USER)
@@ -885,8 +869,6 @@ public class InitDb {
                     .name("테스터3")
                     .nickname("유저33")
                     .phone("01033333333")
-                    .birth("901020")
-                    .sex("1")
                     .pw(passwordEncoder.encode("1234"))
                     .address(new Address("서울 당산동","145가","K013"))
                     .role(MemberRole.USER)
@@ -897,8 +879,6 @@ public class InitDb {
                     .name("북셸프")
                     .nickname("북셸프")
                     .phone("00011110000")
-                    .birth("000000")
-                    .sex("1")
                     .pw(passwordEncoder.encode("1234"))
                     .address(new Address("서울 당산동","145가","K013"))
                     .role(MemberRole.ADMIN)
@@ -909,8 +889,6 @@ public class InitDb {
                     .name("고객센터")
                     .nickname("고객센터")
                     .phone("00099990000")
-                    .birth("000000")
-                    .sex("1")
                     .pw(passwordEncoder.encode("1234"))
                     .address(new Address("서울 당산동","145가","K013"))
                     .role(MemberRole.ADMIN)

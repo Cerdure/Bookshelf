@@ -1,5 +1,48 @@
 
 $(function () {
+
+    let currentIndex = $("#page-content").data("index");
+  
+    $(".top-nav ul li")
+      .hover(function () {
+        let index = $(this).index();
+        if (index == 0) {
+          $("#underbar").stop().animate({ 'left': '0' }, 200, 'swing');
+        } else {
+          $("#underbar").stop().animate({ 'left': 20 * index + '%' }, 200, 'swing');
+        }
+      })
+      .click(function () {
+        $(this).animate({ 'color': 'black' }, 300);
+        $(".top-nav ul li").not(this).css('color', "rgb(180, 180, 180)");
+        currentIndex = $(this).index();
+      })
+      .mouseleave(function () {
+        if (currentIndex == 0) {
+          $("#underbar").stop().animate({ 'left': '0' }, 200, 'swing');
+        } else {
+          $("#underbar").stop().animate({ 'left': 20 * currentIndex + '%' }, 200, 'swing');
+        }
+      });
+  
+    $(".bottom-nav ul li")
+      .hover(function () {
+        let index = $(this).index();
+        if (index == 0) {
+          $("#overbar").stop().animate({ 'left': '0%' }, 600, 'swing');
+        } else {
+          $("#overbar").stop().animate({ 'left': 20 * (index - 1) + '%' }, 300, 'swing');
+        }
+      })
+      .mouseleave(function () {
+        if (currentIndex == 0) {
+          $("#overbar").stop().animate({ 'left': '0%' }, 600, 'swing');
+        } else {
+          $("#overbar").stop().animate({ 'left': 20 * currentIndex + '%' }, 300, 'swing');
+        }
+      });
+
+
   let st = $(window).scrollTop();
   let width = $(window).width();
 
@@ -48,4 +91,25 @@ $(function () {
   $(".top-move-button").click(function () {
     $('html').stop().animate({ scrollTop: 0 }, 1000);
   });
+
+  $("#cart").click(function(){
+    location.href="/cart";
+  });
 });
+
+function hideModal(){
+  $(".alert-modal").fadeOut(200);
+  // $(".modal-background").fadeOut(100);
+}
+
+function modalFadeIn(_this){
+  $(_this).css("display", "flex");
+  $(_this).animate({"opacity":"1"}, 500);
+}
+
+function modalFadeOut(_this){
+  $(_this).animate({"opacity":"0"}, 200);
+  $(_this).css("display", "none");
+}
+
+

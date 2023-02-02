@@ -194,7 +194,6 @@ $('.zipcode, .city').on('keyup focus',function(){
             oncomplete: function(data) {
                 $('.zipcode').val(data.zonecode);
                 $('.city').val(data.address);
-                
             }
         }).open();
         $('.zipcode').parent().addClass($('.zipcode').val()==""?'':'passed');
