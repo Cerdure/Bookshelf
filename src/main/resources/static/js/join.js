@@ -90,6 +90,44 @@ $(".phone").on('keyup focus',function() {
   join();
 });
 
+    function pwCheck() {
+        let originValue = $('.pw').val();
+        let thisValue = $('.pw-check').val();
+        if (thisValue==originValue && thisValue != "") {
+            $('.pw-check').parent().css('border', "1px solid rgb(101, 168, 255)")
+                .addClass('passed');
+        } else if (thisValue != "") {
+            $('.pw-check').parent().css('border', "1px solid #ff3873")
+                .removeClass('passed');
+        } else {
+            $('.pw-check').parent().css('border', "1px solid lightgray")
+                .removeClass('passed');
+        }
+        join();
+
+    }
+
+    $(".pw").on('keyup focus',function() {
+        const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,14}$/;
+        let value = $(this).val();
+        if (pwRegex.test(value)) {
+            $(this).parent().css('border', "1px solid rgb(101, 168, 255)")
+                .addClass('passed');
+            $('.pw-info').css('color', "rgb(101, 168, 255)");
+        } else if (value != "") {
+            $(this).parent().css('border', "1px solid #ff3873")
+                .removeClass('passed');
+            $('.pw-info').css('color', "#ff3873");
+        } else {
+            $(this).parent().css('border', "1px solid lightgray")
+                .removeClass('passed');
+            $('.pw-info').css('color', "rgb(170, 170, 170)");
+        }
+        pwCheck();
+    });
+    $(".pw-check").on('keyup focus',function() {
+        pwCheck();
+    });
 
 let timerInterval;
 $(".code-send").click(function(){

@@ -5,6 +5,7 @@ import com.cerdure.bookshelf.domain.order.Cart;
 import com.cerdure.bookshelf.domain.enums.MemberGrade;
 import com.cerdure.bookshelf.domain.enums.MemberRole;
 import com.cerdure.bookshelf.domain.order.Orders;
+import com.cerdure.bookshelf.dto.member.NewAddressDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -50,11 +51,11 @@ public class Member implements UserDetails {
 
     private LocalDate delDate;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
     @JsonIgnore
     private List<Cart> carts;
 
-    @OneToMany(mappedBy = "orderer")
+    @OneToMany(mappedBy = "orderer", orphanRemoval = true)
     @JsonIgnore
     private List<Orders> ordersList;
 
@@ -136,5 +137,30 @@ public class Member implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
+    }
+
+    public Member changePhoneNumber(String phone) {
+        this.phone=phone;
+        return this;
+    }
+    public Member changeEmail(String email) {
+        this.email=email;
+        return this;
+    }
+    public Member changeNames(String newName, String newNickName) {
+        this.name=newName;
+        this.nickname=newNickName;
+        return this;
+    }
+
+    public Address changeAddress(Address address) {
+        this.address=address;
+
+        return this.address;
+    }
+
+    public String changePassword(String newPassword) {
+        this.pw=newPassword;
+        return  this.pw;
     }
 }
