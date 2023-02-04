@@ -79,6 +79,9 @@ public class MemberServiceImpl implements MemberService {
                 .street(member.getAddress().getStreet())
                 .nickName(member.getNickname())
                 .phone(member.getPhone())
+                .memberJoinType(member.getMemberJoinType())
+                .email(member.getEmail())
+                .name(member.getName())
                 .build();
     }
 
