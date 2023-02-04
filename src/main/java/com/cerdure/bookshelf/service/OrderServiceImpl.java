@@ -1,6 +1,7 @@
 package com.cerdure.bookshelf.service;
 
 import com.cerdure.bookshelf.domain.book.Book;
+import com.cerdure.bookshelf.domain.enums.OrderState;
 import com.cerdure.bookshelf.domain.member.Member;
 import com.cerdure.bookshelf.domain.order.Cart;
 import com.cerdure.bookshelf.domain.order.OrderItem;
@@ -8,6 +9,7 @@ import com.cerdure.bookshelf.domain.order.Orders;
 import com.cerdure.bookshelf.dto.order.CartDto;
 import com.cerdure.bookshelf.dto.order.OrderDto;
 import com.cerdure.bookshelf.dto.order.OrderItemDto;
+import com.cerdure.bookshelf.dto.order.OrderSearchDto;
 import com.cerdure.bookshelf.repository.CartRepository;
 import com.cerdure.bookshelf.repository.OrderItemRepository;
 import com.cerdure.bookshelf.repository.OrdersRepository;
@@ -16,15 +18,22 @@ import com.cerdure.bookshelf.service.interfaces.MemberService;
 import com.cerdure.bookshelf.service.interfaces.OrderService;
 import com.cerdure.bookshelf.web.exception.NotEnoughStockException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.InstanceAlreadyExistsException;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -50,7 +59,7 @@ public class OrderServiceImpl implements OrderService {
     public Object modifyCart(Long bookId, Integer amount, Authentication authentication) {
         Cart cart = findCart(bookId, authentication);
         Book book = bookService.findById(bookId);
-        if(amount > book.getStock() || book.getStock() < 1) {
+        if (amount > book.getStock() || book.getStock() < 1) {
             return book.getStock();
         } else if (amount < 1) {
             throw new IllegalStateException("최솟값입니다.");
@@ -87,10 +96,63 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Page<Orders> searchOrders(OrderSearchDto orderSearchDto, Member member) {
+        int page = orderSearchDto.getPage() == null ? 0 : orderSearchDto.getPage() - 1;
+        Pageable pageable = PageRequest.of(page, 4, Sort.by("id").descending());
+        LocalDateTime startDate = LocalDateTime.of(orderSearchDto.getStartDate(), LocalTime.MIN);
+        LocalDateTime endDate = LocalDateTime.of(orderSearchDto.getEndDate(), LocalTime.MAX);
+        String keyword = orderSearchDto.getName() == null ? "" : orderSearchDto.getName();
+        List<OrderState> orderStates = new ArrayList<>();
+        if(orderSearchDto.getOrderState() == OrderState.ALL){
+            orderStates.add(OrderState.ORDER);
+            orderStates.add(OrderState.CANCEL);
+            orderStates.add(OrderState.SOLD);
+        } else {
+            orderStates.add(orderSearchDto.getOrderState());
+        }
+        Page<Orders> orders = ordersRepository
+                .findDistinctByOrderItems_Book_NameContainsIgnoreCaseAndOrderItems_OrderStateInAndRegDateBetween
+                        (keyword, orderStates, startDate, endDate, pageable);
+        orders.forEach(order -> {
+            List<OrderItem> orderItems = order.getOrderItems().stream().filter(orderItem -> {
+                Book book = orderItem.getBook();
+
+                if (!keyword.equals("")) {
+                    book.coincidenceHighlight(keyword);
+                    orderItem.changeBook(book);
+                }
+                return book.getName().contains(keyword) && orderStates.contains(orderItem.getOrderState());
+            }).collect(Collectors.toList());
+            order.changeOrderItems(orderItems);
+        });
+
+//        Page<Orders> orders = ordersRepository.findByOrdererAndRegDateBetween(member, startDate, endDate, pageable)
+//                .map(order -> {
+//                    List<OrderItem> orderItems = order.getOrderItems().stream().filter(orderItem -> {
+//                                String keyword = orderSearchDto.getName() == null ? "" : orderSearchDto.getName();
+//                                Book book = orderItem.getBook();
+//                                if (!keyword.equals("")) {
+//                                    book.coincidenceHighlight(keyword);
+//                                    orderItem.changeBook(book);
+//                                }
+//                                return book.getName().contains(keyword)
+//                                        && orderSearchDto.getOrderState() == null ||
+//                                        orderSearchDto.getOrderState().equals(OrderState.ALL) ||
+//                                        orderItem.getOrderState().equals(orderSearchDto.getOrderState());
+//                            }
+//                    ).collect(Collectors.toList());
+//                    if (orderItems == null || orderItems.size() == 0) return null;
+//                    order.changeOrderItems(orderItems);
+//                    return order;
+//                });
+        return orders;
+    }
+
+    @Override
     public List<Cart> newOrder(OrderDto orderDto, Authentication authentication) {
         List<Cart> orders = new ArrayList<>();
         Long bookId = orderDto.getBookId();
-        if(bookId == null) {
+        if (bookId == null) {
             orders = findAllCart(authentication);
         } else {
             Book book = bookService.findById(bookId);
@@ -108,7 +170,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public String createCode(Authentication authentication) {
         return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"))
-                        + memberService.findMember(authentication).getId();
+                + memberService.findMember(authentication).getId();
     }
 
     @Override
@@ -120,7 +182,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void createOrder(OrderDto orderDto, Authentication authentication) throws Exception{
+    public void createOrder(OrderDto orderDto, Authentication authentication) throws Exception {
         try {
             Orders orders = orderDto.toEntity();
             orders.changeOrderer(memberService.findMember(authentication));
@@ -132,7 +194,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Boolean saveOrderItems(OrderItemDto orderItemDto, Authentication authentication){
+    public Boolean saveOrderItems(OrderItemDto orderItemDto, Authentication authentication) {
         try {
             Orders orders = ordersRepository.findById(orderItemDto.getOrderId()).get();
             Book book = bookService.findById(orderItemDto.getBookId());
@@ -156,5 +218,24 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Integer restPoint(Integer point, Authentication authentication) {
         return memberService.findMember(authentication).getPoint() - point;
+    }
+
+    @Override
+    public void cancelOrder(String orderId, Authentication authentication) {
+        Orders orders = ordersRepository.findByIdAndOrderer(orderId, memberService.findMember(authentication));
+        orders.getOrderItems().forEach(orderItem -> {
+            orderItem.changeState(OrderState.CANCEL);
+            orderItemRepository.save(orderItem);
+        });
+        orders.changeState(OrderState.CANCEL);
+        ordersRepository.save(orders);
+    }
+
+    @Override
+    public void cancelOrderItem(String orderId, Long orderItemId, Authentication authentication) {
+        Orders orders = ordersRepository.findByIdAndOrderer(orderId, memberService.findMember(authentication));
+        OrderItem orderItem = orderItemRepository.findByIdAndOrders(orderItemId, orders);
+        orderItem.changeState(OrderState.CANCEL);
+        orderItemRepository.save(orderItem);
     }
 }

@@ -107,15 +107,17 @@ $(function () {
         alert("구매조건 및 결제에 동의해야 진행가능합니다.");
         return;
       }
-  
+
       const orderInfo = await fetch("/order/create/prev").then(res => res.json());
-      
+      const name = $(".row").get().length == 1 ?
+        $(".row:nth-child(2) .book").text()
+        : $(".row:nth-child(2) .book").text() + ' 외 ' + ($(".row").get().length - 1) + '건';
       IMP.init('imp78314138');
       IMP.request_pay({
         pg: $(".pay-type:checked").val(),
         pay_method: "card",
         merchant_uid: orderInfo.id,
-        name: $(".row").get(0).find(".book").text(),
+        name: name,
         amount: $(".order-price").val(),
         buyer_email: orderInfo.member.eamil,
         buyer_name: orderInfo.member.name,
@@ -125,9 +127,9 @@ $(function () {
       },
         res => {
           if (res.success) {
-            alert("완료 -> imp_uid : "+res.imp_uid+" / merchant_uid(orderKey) : " +res.merchant_uid);
+            createOrder(orderInfo.id);
           } else {
-            alert("실패 : 코드("+res.error_code+") / 메세지(" + res.error_msg + ")");
+            alert("실패 : 코드(" + res.error_code + ") / 메세지(" + res.error_msg + ")");
           }
         });
     })();
@@ -152,12 +154,13 @@ function priceCalc(priceSum, usePoint, restPoint) {
   orderPrice <= 0 ? $(".payment-method-box").addClass("disable") : '';
 }
 
-function createOrder() {
+function createOrder(orderId) {
   (async () => {
     const orderResult = await fetch("/order/create", {
       method: 'post',
       cache: 'no-cache',
       body: new URLSearchParams({
+        id: orderId,
         receiver: $(".receiver").val(),
         phone: $(".phone-1").val() + $(".phone-2").val() + $(".phone-3").val(),
         tel: $(".tel-1").val() + $(".tel-2").val() + $(".tel-3").val(),
@@ -173,14 +176,12 @@ function createOrder() {
       })
     }).then(res => res.text());
 
-    if (orderResult == 'error') {
-      alert('요청이 실패하였습니다. (error: order)');
-    } else {
+    if (orderResult) {
       const itemResult = e => fetch("/order/item", {
         method: 'post',
         cache: 'no-cache',
         body: new URLSearchParams({
-          orderId: orderResult,
+          orderId: orderId,
           bookId: e.querySelector(".book").dataset.id,
           amount: e.querySelector(".amount").innerHTML
         })
@@ -189,11 +190,12 @@ function createOrder() {
       const result = await $(".row").get().map(e => itemResult(e));
 
       if (result.every(e => e)) {
-        location.href = "/order/success?orderId=" + orderResult;
-      } else {
-        alert("요청이 실패하였습니다. (error: order-item)");
+        const getPoint = (Number($(".order-price").val()) * $(".point-rate").data("value")) / 100;
+        location.href = "/order/success?orderId=" + orderId + "&point=" + getPoint;
+        return;
       }
     }
+    alert('요청이 실패하였습니다. (error: order)');
   })();
 }
 

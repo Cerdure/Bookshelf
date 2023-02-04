@@ -5,69 +5,90 @@ html {
 body {
   overflow-x: hidden;
   margin: 0;
-  height: 100%;
-  background-image: url(/img/background/top-background.jpg);
-  background-size: cover;
-  background-position: center;
 }
-
-.meta-wrapper {
-  position: relative;
-  width: 520px;
-  height: 100%;
-  margin: auto;
-  background-color: white;
-  box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-.meta-wrapper::-webkit-scrollbar {
+body::-webkit-scrollbar {
   width: 12px;
   background-color: white;
 }
-.meta-wrapper::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb {
   background-color: white;
   box-shadow: 0px 0px 50px 0px black;
   border: 2px solid #e3e3e3;
   border-radius: 10px;
 }
-.inner-wrapper {
+
+.meta-wrapper {
   position: relative;
   width: 100%;
-  height: 90%;
+  height: 100vh;
+  background-image: url(/img/background/top-background.jpg);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
+
+.inner-wrapper {
+  position: relative;
+  width: 440px;
+  height: 100%;
+  background-color: white;
+  box-shadow: 0 0 20px 0 rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  padding-bottom: 0;
+  overflow-y: scroll;
+}
+
+.inner-wrapper::-webkit-scrollbar {
+  width: 12px;
+  background-color: white;
+}
+.inner-wrapper::-webkit-scrollbar-thumb {
+  background-color: white;
+  box-shadow: 0px 0px 50px 0px black;
+  border: 2px solid #e3e3e3;
+  border-radius: 10px;
+}
+
 header {
   position: relative;
-  padding-top: 40px;
-  width: 200px;
-  height: 100px;
-  margin: auto;
+  height: 10%;
+  margin-bottom: 40px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 header img {
-  position: absolute;
-  left: 0px;
-  width: 50px;
+  width: 40px;
+  margin-right: 10px;
 }
 header div{
-  position: absolute;
-  right: 0px;
-  padding-top: 2px;
   width: 150px;
   height: 40px;
   color: rgb(82, 82, 82);
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .container-wrapper {
   position: relative;
   width: 100%;
-  height: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 form {
   position: relative;
   width: 340px;
-  margin: auto;
 }
 input {
   border: 1px solid lightgray;
@@ -169,20 +190,21 @@ input {
 .option-wrapper {
   position: relative;
   width: 340px;
-  height: 30px;
-  margin: auto;
-  margin-top: 20px;
   font-size: 14px;
   font-weight: 400;
   color: rgb(117, 117, 117);
+  margin-top: 20px;
+  display: flex;
+  white-space: nowrap;
 }
 
 #rememberMe {
   display: none;
 }
 .id-save-wrapper {
-  position: absolute;
-  left: 0px;
+  width: 100%;
+  display: flex;
+  justify-content: start;
 }
 .id-save-check {
   position: relative;
@@ -192,7 +214,6 @@ input {
   border: 1px solid rgb(211, 211, 211);
   outline: none;
   border-radius: 10px;
-  float: left;
   padding: 5px;
   margin-right: 10px;
   cursor: pointer;
@@ -204,9 +225,6 @@ input {
 }
 
 .find-idpw {
-  position: absolute;
-  top: 2px;
-  right: 4px;
   cursor: pointer;
 }
 
@@ -214,14 +232,44 @@ input {
 .button-wrapper {
   position: relative;
   text-align: center;
+  margin-top: 40px;
 }
+
+.button-wrapper .line {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 2px;
+  background-color: lightgray;
+  z-index: 1;
+}
+
+.button-wrapper .text {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  background-color: white;
+  font-weight: 900;
+  color: dimgray;
+  z-index: 2;
+}
+
 .button-wrapper img {
-  width: 40px;
-  margin: 5px;
+  width: 50px;
+  margin: 20px;
+  margin-bottom: 0;
   padding: 20px 0;
   cursor: pointer;
 }
 
+.button-wrapper img:hover {
+  transform: scale(1.1);
+  transition: 0.3s;
+}
 
 .caution {
   position: relative;
@@ -229,16 +277,14 @@ input {
   font-size: 14px;
   font-weight: 600;
   color: gray;
+  margin: 40px 0;
 }
-
 
 .join {
   position: relative;
   left: 0px;
   width: 338px;
   height: 26px;
-  margin: auto;
-  margin-top: 20px;
   text-align: center;
   border: 1px solid gray;
   border-radius: 10px;
@@ -261,10 +307,49 @@ input {
   cursor: pointer;
 }
 
+.btn-yellow-fill {
+  border: 1px solid #f5b94a !important;
+  background-color: #f5b94a !important;
+  color: white !important;
+}
+
+.btn-yellow-fill:hover {
+  color: #f5b94a !important;
+  background-color: white !important;
+  border: 1px solid #f5b94a !important;
+  transition: 0.3s;
+}
+
+.btn-gray {
+  border: 1px solid gray !important;
+  background-color: white !important;
+  color: gray !important;
+}
+
+.btn-gray:hover {
+  color: white !important;
+  background-color: gray !important;
+  border: 1px solid gray !important;
+  transition: 0.3s;
+}
+
+.btn-gray-fill {
+  border: 1px solid gray !important;
+  background-color: gray !important;
+  color: white !important;
+}
+
+.btn-gray-fill:hover {
+  color: gray !important;
+  background-color: white !important;
+  border: 1px solid gray !important;
+  transition: 0.3s;
+}
+
+
 .footer-wrapper {
-  position: absolute;
-  width: 520px;
-  height: 10%;
+  margin-top: 40px;
+  background-color: white;
   color: gray;
 }
 .footer-wrapper::before {

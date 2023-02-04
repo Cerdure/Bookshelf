@@ -22,22 +22,21 @@ public class LoginController {
     private final LoginServiceImpl loginService;
 
     @GetMapping("/login")
-    public String login(@Valid @ModelAttribute("loginDto") LoginDto loginDto, BindingResult bindingResult){
+    public String login(@Valid @ModelAttribute("loginDto") LoginDto loginDto, BindingResult bindingResult) {
         return "login";
     }
 
     @GetMapping("/logout/check")
-    public String logout(HttpServletRequest request){
-        HttpSession session = request.getSession(false);
-
-
-        if(((LoginApiSessionDto) session.getAttribute("apiLogin")).getCode()!=null){
-            LoginApiSessionDto memberSession =(LoginApiSessionDto) session.getAttribute("apiLogin");
-            if(memberSession.getMemberJoinType().equals(MemberJoinType.KAKAO)){
+    public String logout(HttpServletRequest request) {
+        try {
+            LoginApiSessionDto memberSession = (LoginApiSessionDto) request.getSession(false).getAttribute("apiLogin");
+            if (memberSession.getMemberJoinType().equals(MemberJoinType.KAKAO)) {
                 return "redirect:/logout/api/kakao";
-            }else
-                return "redirect:/logout";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            return "redirect:/logout";
         }
-        return "redirect:/logout";
     }
 }

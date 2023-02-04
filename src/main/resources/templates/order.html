@@ -127,7 +127,7 @@
           <div class="text">포인트 사용</div>
           <input class="point-value data" type="number" value="0">
           <button class="all-point btn btn-gray" type="button">전액 사용</button>
-          <div class="rest" th:text="'잔여 포인트 : ' + ${#numbers.formatInteger(member.point, 3, 'COMMA')}"
+          <div class="rest" th:text="'잔여 포인트 : ' + ${member.point == 0 ? 0 : #numbers.formatInteger(member.point, 3, 'COMMA')}"
             th:data-value="${member.point}"></div>
         </div>
         <div class="payment-sum-box row-box">
@@ -143,9 +143,18 @@
           <div class="data"
             th:text="${#numbers.formatInteger(#aggregates.sum(orders.![discountPrice * amount]) + 3000, 3, 'COMMA')}">
           </div>
-          <input class="order-price" type="hidden"
-            th:value="${#aggregates.sum(orders.![discountPrice * amount]) + 3000}">
           <div class="unit">원</div>
+          <input class="order-price" type="hidden"
+                 th:value="${#aggregates.sum(orders.![discountPrice * amount]) + 3000}">
+          <div class="get-point">
+            <img class="plus-circle" src="/img/icon/plus-circle-bold.png">
+            <th:block th:switch="${member.grade}" th:with="grade = ${T(com.cerdure.bookshelf.domain.enums.MemberGrade)}">
+              <div class="point-rate" th:case="${grade.NEW}" data-value="1">1% 적립</div>
+              <div class="point-rate" th:case="${grade.SILVER}" data-value="2">2% 적립</div>
+              <div class="point-rate" th:case="${grade.GOLD}" data-value="3">3% 적립</div>
+              <div class="point-rate" th:case="${grade.VIP}" data-value="4">4% 적립</div>
+            </th:block>
+          </div>
         </div>
       </div>
     </div>

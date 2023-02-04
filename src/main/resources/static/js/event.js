@@ -237,7 +237,7 @@ $(function () {
   }
 
   $(window).scroll(function () { 
-    st = $(this).scrollTop();
+    st = $(this).scrollTop(); console.log(st)
     width = $(this).width();
 
     if (st > 557) {
@@ -299,12 +299,12 @@ $(function () {
         .animate({ 'color': 'rgb(255, 190, 0)' }, 200);
       $(".category-title span:not(.category-title span:nth-child(1))").stop()
         .animate({ 'color': '#696969' }, 200);
-    } else if (st < 1750) {
+    } else if (st < 1500) {
       $(".category-title span:nth-child(2)").stop()
         .animate({ 'color': 'rgb(255, 190, 0)' }, 200);
       $(".category-title span:not(.category-title span:nth-child(2))").stop()
         .animate({ 'color': '#696969' }, 200);
-    } else if (st < 2700) {
+    } else if (st < 2500) {
       $(".category-title span:nth-child(3)").stop()
         .animate({ 'color': 'rgb(255, 190, 0)' }, 200);
       $(".category-title span:not(.category-title span:nth-child(3))").stop()

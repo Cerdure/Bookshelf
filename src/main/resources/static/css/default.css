@@ -110,8 +110,8 @@ header {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: 0;
-  width: 30px;
+  left: 4px;
+  width: 22px;
   cursor: pointer;
 }
 
@@ -119,7 +119,7 @@ header {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: 36px;
+  left: 33px;
   font-family: 'Oswald', sans-serif;
   font-size: 20px;
   cursor: pointer;
@@ -309,7 +309,7 @@ footer {
 .footer-title {
   position: relative;
   bottom: 40px;
-  left: 30px;
+  left: 28px;
 }
 
 .footer-infor-title {
@@ -322,8 +322,8 @@ footer {
 
 footer img {
   position: relative;
-  width: 25px;
-  bottom: 10px;
+  width: 22px;
+  bottom: 11px;
 }
 
 footer p {
@@ -475,6 +475,17 @@ footer ul li {
 
 
 /*********** modules START ***********/
+.row-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.column-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 .btn-yellow {
   border: 1px solid #f5b94a !important;

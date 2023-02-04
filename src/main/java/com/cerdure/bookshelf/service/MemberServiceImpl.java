@@ -102,15 +102,17 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void changePoint(Authentication authentication, int point) {
+    @Transactional
+    public void changePoint(Authentication authentication, int minusPoint) {
         Member member = findMember(authentication);
-        member.changePoint(member.getPoint() - point);
+        member.changePoint(member.getPoint() - minusPoint);
         memberRepository.save(member);
     }
 
     @Override
-    public void changePoint(Member member, int point) {
-        member.changePoint(member.getPoint() - point);
+    @Transactional
+    public void changePoint(Member member, int minusPoint) {
+        member.changePoint(member.getPoint() - minusPoint);
         memberRepository.save(member);
     }
 

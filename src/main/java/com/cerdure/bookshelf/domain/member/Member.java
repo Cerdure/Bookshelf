@@ -62,6 +62,7 @@ public class Member implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private MemberRole role;
+
     @Enumerated(EnumType.STRING)
     private MemberJoinType memberJoinType;
 
@@ -74,12 +75,13 @@ public class Member implements UserDetails {
     }
 
     @Builder
-    public Member(Long id, String pw, String name, String nickname, String phone, Address address, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, List<Cart> carts, MemberRole role) {
+    public Member(Long id, String pw, String name, String nickname, String phone, String email, Address address, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, List<Cart> carts, List<Orders> ordersList, MemberRole role, MemberJoinType memberJoinType) {
         this.id = id;
         this.pw = pw;
         this.name = name;
         this.nickname = nickname;
         this.phone = phone;
+        this.email = email;
         this.address = address;
         this.grade = grade;
         this.point = point;
@@ -89,7 +91,7 @@ public class Member implements UserDetails {
         this.carts = carts;
         this.ordersList = ordersList;
         this.role = role;
-        this.memberJoinType=memberJoinType;
+        this.memberJoinType = memberJoinType;
     }
 
     public void changePoint(int point){

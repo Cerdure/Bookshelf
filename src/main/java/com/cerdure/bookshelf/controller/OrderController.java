@@ -111,9 +111,12 @@ public class OrderController {
     }
 
     @GetMapping("/order/success")
-    public String orderSuccess(@RequestParam("orderId") String orderId, Authentication authentication, Model model) {
+    public String orderSuccess(@RequestParam("orderId") String orderId,
+                               @RequestParam("point") Integer point, Authentication authentication, Model model) {
         orderService.clearCart(authentication);
+        memberService.changePoint(authentication, -point);
         model.addAttribute("orderId", orderId);
+        model.addAttribute("point", point);
         return "order-success";
     }
 }

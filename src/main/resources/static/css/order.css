@@ -228,6 +228,10 @@ input {
   margin-right: 20px;
 }
 
+.payment-sum-box {
+  white-space: nowrap;
+}
+
 .payment-sum-box .plus,
 .payment-sum-box .minus,
 .payment-sum-box .equal {
@@ -238,6 +242,30 @@ input {
 .payment-sum-box .data {
   font-size: 25px;
   margin-right: 5px;
+}
+
+.payment-sum-box .get-point {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: 1px solid #ffb700;
+  margin-left: 20px;
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+.payment-sum-box .get-point .plus-circle {
+  width: 17px;
+  height: 17px;
+  margin-right: 5px;
+  filter: invert(76%) sepia(39%) saturate(3938%) hue-rotate(359deg) brightness(104%) contrast(107%);
+}
+
+.payment-sum-box .get-point .point-rate {
+  color: #b98a00;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 .payment-method-box {

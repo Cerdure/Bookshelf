@@ -1,39 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <title>Document</title>
+    <link rel="stylesheet" href="/css/join-api.css">
+    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="/js/join-api.js"></script>
+    <title>회원가입 | Bookshelf</title>
 </head>
+
 <body>
     <div class="join-api">
         <div class="join">
-            <form th:action="@{/login/api/apiJoin/{email} (email=${email})}" method="post" name="apiJoin">
-                <div>
-                    <h3 class="join_title"><label for="memberName">이름</label></h3>
-                    <input type="text" id="memberName" placeholder="이름 입력" name="name">
-                    <span class="error_next_box" id="error_txt_name"></span>
+            <form class="column-box" th:action="@{/login/api/apiJoin/{email} (email=${email})}" method="post"
+                name="apiJoin">
+                <div class="title row-box">
+                    <img src="/img/icon/arrow-left-circle.svg" onclick="location.href='/login'">
+                    <h1 class="text">간편 회원가입</h1>
                 </div>
-                <div>
-                    <h3 class="join_title"><label for="phoneNumber">전화번호</label></h3>
-                    <input type="text" id="phoneNumber" placeholder="전화번호 입력" name="phone">
-                    <span class="error_next_box" id="error_txt_phone"></span>
+
+                <div class="content-box column-box">
+                    <div class="group-box column-box">
+                            <div class="info-group column-box">
+                        <h3 class="join_title"><label for="memberName">이름</label></h3>
+                        <input type="text" id="memberName" placeholder="이름 입력" name="name">
+                        <span class="error_next_box" id="error_txt_name"></span>
+                    </div>
+                    <div class="info-group column-box">
+                        <h3 class="join_title"><label for="phoneNumber">전화번호</label></h3>
+                        <input type="text" id="phoneNumber" placeholder="전화번호 입력" name="phone">
+                        <span class="error_next_box" id="error_txt_phone"></span>
+                    </div>
+                    <div class="address-box column-box">
+                        <div class="row-box">
+                            <div class="zipcode-box info-group column-box">
+                                <h3 class="join_title"><label for="memberAddress">우편번호</label></h3>
+                                <input type="text" class="zipcode" id="memberAddress" placeholder="우편번호 입력" name="zipcode">
+                            </div>
+                            <div class="adr-btn btn-gray-fill" onclick="addressSearch()">주소 검색</div>
+                        </div>
+                        <div class="info-group column-box">
+                            <h3 class="join_title"><label for="memberAddress">주소</label></h3>
+                            <input type="text" class="city" id="memberAddress" placeholder="주소 입력" name="street">
+                        </div>
+                        <div class="info-group column-box">
+                            <h3 class="join_title"><label for="memberAddress">상세주소</label></h3>
+                            <input type="text" class="street" id="memberAddress" placeholder="상세주소 입력" name="city">
+                        </div>
+                        <span class="error_next_box" id="error_txt_address"></span>
+                    </div>
+                    </div>
+                    <button class="submitButton btn-yellow-fill" onclick="submitButton(); return false">다음으로</button>
                 </div>
-                <div>
-                    <h3 class="join_title"><label for="memberAddress">주소</label></h3>
-                    <input type="text" class="zipcode" id="memberAddress" placeholder="우편번호 입력" name="zipcode">
-                    <input type="text" class="city" id="memberAddress" placeholder="주소 입력" name="street">
-                    <input type="text" class="street" id="memberAddress" placeholder="상세주소 입력" name="city">
-                    <span class="error_next_box" id="error_txt_address"></span>
-                </div>
-                <div>
-                    <button class="submitButton" onclick="submitButton(); return false">다음으로</button>
+
+                <div class="footer-wrapper">
+                    <div class="footer">
+                        © BOOKSHELF CENTRE
+                    </div>
                 </div>
             </form>
         </div>
     </div>
 </body>
+
 </html>
