@@ -1,5 +1,6 @@
 package com.cerdure.bookshelf.controller;
 import com.cerdure.bookshelf.dto.member.InfoUpdateDto;
+import com.cerdure.bookshelf.dto.member.MemberProfileDto;
 import com.cerdure.bookshelf.dto.member.NewAddressDto;
 import com.cerdure.bookshelf.dto.member.NewNamesDto;
 import com.cerdure.bookshelf.service.interfaces.MemberInfoUpdateService;
@@ -9,13 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @Controller
 @RequiredArgsConstructor
@@ -84,5 +84,21 @@ public class MemberInfoUpdateController {
         String phone = authentication.getName();
         return memberInfoUpdateService.memberDelete(phone);
     }
+    @PostMapping("/memberInfo/profile")
+    @ResponseBody
+    public String memberProfileChange(@ModelAttribute MemberProfileDto memberProfileDto, Authentication authentication) throws IOException {
+        log.info("file={}",memberProfileDto.getFile());
+        String phone = authentication.getName();
+        String profile = memberInfoUpdateService.memberProfileChange(memberProfileDto.getFile(), phone);
+        return profile;
+    }
 
+
+    @GetMapping("/memberInfo/profile/basic")
+    @ResponseBody
+    public String memberProfileBsic(Authentication authentication) {
+        String phone = authentication.getName();
+        String basic = memberInfoUpdateService.memberChangebasic(phone);
+        return basic;
+    }
 }

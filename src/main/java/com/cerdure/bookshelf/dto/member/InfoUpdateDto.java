@@ -20,4 +20,5 @@ public class InfoUpdateDto {
     private String street;
     private String email;
     private MemberJoinType memberJoinType;
+    private String memberprofile;
 }

@@ -2,10 +2,12 @@ package com.cerdure.bookshelf.service;
 
 import com.cerdure.bookshelf.domain.member.Address;
 import com.cerdure.bookshelf.domain.member.Member;
+import com.cerdure.bookshelf.domain.member.MemberProfile;
 import com.cerdure.bookshelf.dto.loginApi.ApiJoinDto;
 import com.cerdure.bookshelf.dto.loginApi.MemberApiLoginInfoDto;
 import com.cerdure.bookshelf.dto.member.InfoUpdateDto;
 import com.cerdure.bookshelf.dto.member.MemberDto;
+import com.cerdure.bookshelf.repository.MemberProfileRepository;
 import com.cerdure.bookshelf.repository.MemberRepository;
 import com.cerdure.bookshelf.service.interfaces.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +26,25 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-
+    private final MemberProfileRepository memberProfileRepository;
     @Transactional
     public Long join(MemberDto memberDto) {
         validateDuplicateMember(memberDto);
-        Member member = memberDto.createMember(passwordEncoder);
+        MemberProfile basicProfile = getBasicProfile();
+        Member member = memberDto.createMember(passwordEncoder,basicProfile);
         memberRepository.save(member);
         return member.getId();
+    }
+    public MemberProfile getBasicProfile() {
+        String fullPath = System.getProperty("user.dir") + "/src/main/resources/static/upload-img/"+"basic.jpeg";
+        MemberProfile basicProfile = MemberProfile.builder()
+                .profileFullPath(fullPath)
+                .storeProfileName("basic.jpeg")
+                .originalProfileName("basic.jpeg")
+                .build();
+        basicProfile.prePersist();
+        MemberProfile savedProfile = memberProfileRepository.save(basicProfile);
+        return savedProfile;
     }
 
     public void validateDuplicateMember(MemberDto memberDto) {
@@ -73,12 +87,14 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public InfoUpdateDto showInfo(Authentication authentication) {
         Member member = this.findMember(authentication);
+        String profile = member.getMemberProfile().getProfileDir() + member.getMemberProfile().getStoreProfileName();
         return InfoUpdateDto.builder()
                 .city(member.getAddress().getCity())
                 .postNum(member.getAddress().getZipcode())
                 .street(member.getAddress().getStreet())
                 .nickName(member.getNickname())
                 .phone(member.getPhone())
+                .memberprofile(profile)
                 .memberJoinType(member.getMemberJoinType())
                 .email(member.getEmail())
                 .name(member.getName())
