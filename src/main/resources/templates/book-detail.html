@@ -10,6 +10,10 @@
 </th:block>
 
 <th:block layout:fragment="script">
+  <script th:inline="javascript">
+    var mark=[[${mark}]];
+    var bookName=[[${book.name}]];
+  </script>
   <script th:src="@{/js/book-detail.js}"></script>
 </th:block>
 
@@ -25,7 +29,7 @@
     <div class="right-box">
       <div class="top">
         <div id="book-id" th:data-value="${book.id}"></div>
-        <div class="title" th:text="${book.name}"></div>
+        <div class="title" id="bookTitle" th:text="${book.name}"></div>
         <div class="author" th:text="${book.author}"></div>
         <div class="price-header">
           <div th:class="${book.discountRate == 0} ? 'discount-price' : 'origin-price'" th:text="${#numbers.formatInteger(book.originPrice, 3, 'COMMA') + '원'}"></div>
@@ -42,7 +46,7 @@
           <li><img src="/img/book-cover/search-category-politics.jpg"></li>
           </div>
         <div class="text">북마크한 사람</div>
-        <div class="number">1,560명</div>
+        <div class="number totalBookmark" th:text="${book.totalBookMark}">1,560명</div>
         </div>
         <div class="reviews">
           <img class="icon" src="/img/icon/search-list-theme.svg">
@@ -171,8 +175,8 @@
 
   <div class="side-wrapper">
     <div class="bookmark" th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">
-      <img src="/img/icon/bookmark.svg">
-      <span>북마크하기</span>
+      <img src="/img/icon/bookmark.svg" class="memberBookMark" >
+      <span class="currnentBookmark" onclick="bookMark()">북마크하기</span>
     </div>
     <div class="write-review" th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">
       <img src="/img/icon/search-list-editor.svg">

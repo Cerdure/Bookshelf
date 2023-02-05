@@ -1,6 +1,7 @@
 package com.cerdure.bookshelf.service.interfaces;
 
 import com.cerdure.bookshelf.domain.book.Book;
+import com.cerdure.bookshelf.domain.member.Member;
 import com.cerdure.bookshelf.dto.book.BookDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,5 +28,7 @@ public interface BookService {
     void validateDuplicateBook(BookDto bookDto);
     public void modify(BookDto bookDto);
     public void delete(BookDto bookDto);
+    boolean bookMark(Book book, Member member);
+
 
 }

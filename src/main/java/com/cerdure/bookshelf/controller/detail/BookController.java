@@ -1,5 +1,6 @@
 package com.cerdure.bookshelf.controller.detail;
 
+import com.cerdure.bookshelf.dto.BookmarkDto;
 import com.cerdure.bookshelf.dto.utils.DataUtils;
 import com.cerdure.bookshelf.domain.board.Review;
 import com.cerdure.bookshelf.domain.book.Book;
@@ -9,6 +10,7 @@ import com.cerdure.bookshelf.service.BookServiceImpl;
 import com.cerdure.bookshelf.service.MemberServiceImpl;
 import com.cerdure.bookshelf.service.ReviewServiceImpl;
 import com.cerdure.bookshelf.service.UploadFileServiceImpl;
+import com.cerdure.bookshelf.service.interfaces.BookmarkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -21,13 +23,21 @@ import org.springframework.web.bind.annotation.*;
 public class BookController {
 
     private final BookServiceImpl bookService;
+    private final BookmarkService bookmarkService;
     private final MemberServiceImpl memberService;
     private final ReviewServiceImpl reviewService;
     private final UploadFileServiceImpl uploadFileService;
 
     @GetMapping("/book{id}")
-    public String bookDetail(@RequestParam("id") Long id, Model model) throws Exception {
+    public String bookDetail(@RequestParam("id") Long id,Authentication authentication, Model model) throws Exception {
         Book book = bookService.findById(id);
+        Member member = memberService.findMember(authentication);
+        boolean mark = bookService.bookMark(book, member);
+        if(mark==true){
+            model.addAttribute("mark",1);
+        }else{
+            model.addAttribute("mark",0);
+        }
         DataUtils dataUtils = new DataUtils();
         model.addAttribute("book", book);
         model.addAttribute("dataUtils", dataUtils);
@@ -78,4 +88,13 @@ public class BookController {
         model.addAttribute("dataUtils", dataUtils);
         return "redirect:/book?id="+bookId;
     }
+
+    @GetMapping("/marking")
+    @ResponseBody
+    public BookmarkDto bookMarking(@RequestParam("bookName") String bookName, Authentication authentication){
+        Member member = memberService.findMember(authentication);
+        return bookmarkService.marking(bookName, member);
+    }
+
+
 }
