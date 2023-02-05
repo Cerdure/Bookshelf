@@ -9,8 +9,10 @@ import com.cerdure.bookshelf.dto.member.InfoUpdateDto;
 import com.cerdure.bookshelf.dto.member.MemberDto;
 import com.cerdure.bookshelf.repository.MemberProfileRepository;
 import com.cerdure.bookshelf.repository.MemberRepository;
+import com.cerdure.bookshelf.service.interfaces.MemberInfoUpdateService;
 import com.cerdure.bookshelf.service.interfaces.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,11 +24,13 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final MemberProfileRepository memberProfileRepository;
+    private final MemberInfoUpdateImpl memberInfoUpdate;
     @Transactional
     public Long join(MemberDto memberDto) {
         validateDuplicateMember(memberDto);
@@ -60,8 +64,16 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public MemberApiLoginInfoDto apiJoin(ApiJoinDto apiJoinDto, String email) {
-        Member member = memberRepository.findByEmail(email);
+    public MemberApiLoginInfoDto apiJoin(ApiJoinDto apiJoinDto) {
+        Member member = memberRepository.findByEmail(apiJoinDto.getEmail());
+        Optional<Member> memberCheck = memberRepository.findByPhone(apiJoinDto.getPhoneNumber());
+
+        if(!memberCheck.isEmpty()){
+            log.info("이미 가입한 회원입니다");
+            memberRepository.deleteById(member.getId());
+            return null;
+        }
+
         Address address = Address.builder()
                 .street(apiJoinDto.getStreet())
                 .city(apiJoinDto.getCity())
@@ -69,7 +81,7 @@ public class MemberServiceImpl implements MemberService {
                 .build();
         String passWordEmail = member.getEmail();
         String encode = passwordEncoder.encode(passWordEmail);
-        Member joinedMember = member.apiJoin(apiJoinDto.getPhone(), address, encode,apiJoinDto.getName());
+        Member joinedMember = member.apiJoin(apiJoinDto.getPhoneNumber(), address, encode,apiJoinDto.getMemberName());
         Member savedMember = memberRepository.save(joinedMember);
 
         return MemberApiLoginInfoDto.builder()

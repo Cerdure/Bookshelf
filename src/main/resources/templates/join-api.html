@@ -1,34 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <script src="/js/join-api.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+   <!--<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>-->
+    <script type="text/javascript" src="/js/join-api.js"></script>
     <title>Document</title>
 </head>
 <body>
     <div class="join-api">
         <div class="join">
-            <form th:action="@{/login/api/apiJoin/{email} (email=${email})}" method="post" name="apiJoin">
+            <form action="/login/apiJoin" method="post" class="apiJoin" id="apiJoin" name="apiJoin">
+                    <input type=hidden id="email" name="email" th:value="${email}">
                 <div>
                     <h3 class="join_title"><label for="memberName">이름</label></h3>
-                    <input type="text" id="memberName" placeholder="이름 입력" name="name">
-                    <span class="error_next_box" id="error_txt_name"></span>
+                    <input type="text" id="memberName" placeholder="이름 입력" name="memberName">
+                    <span class="error_next_box" id="error_txt_name" name="error_txt_name" style="color: red"></span>
                 </div>
                 <div>
                     <h3 class="join_title"><label for="phoneNumber">전화번호</label></h3>
-                    <input type="text" id="phoneNumber" placeholder="전화번호 입력" name="phone">
-                    <span class="error_next_box" id="error_txt_phone"></span>
+                    <input type="text" id="phoneNumber" placeholder="전화번호 입력" name="phoneNumber">
+                    <span class="error_next_box" id="error_txt_phone" name="error_txt_phone" style="color: red"></span>
                 </div>
                 <div>
-                    <h3 class="join_title"><label for="memberAddress">주소</label></h3>
-                    <input type="text" class="zipcode" id="memberAddress" placeholder="우편번호 입력" name="zipcode">
-                    <input type="text" class="city" id="memberAddress" placeholder="주소 입력" name="street">
-                    <input type="text" class="street" id="memberAddress" placeholder="상세주소 입력" name="city">
-                    <span class="error_next_box" id="error_txt_address"></span>
+                    <h3 class="join_title"><label>주소</label></h3>
+                    <input type="text" class="zipcode memberAddress" placeholder="우편번호 입력" name="zipcode">
+                    <input type="text" class="city memberAddress" placeholder="주소 입력" name="street">
+                    <input type="text" class="street memberAddress" placeholder="상세주소 입력" name="city">
+                    <span class="error_next_box" id="error_txt_address" name="error_txt_address" style="color: red"></span>
                 </div>
                 <div>
                     <button class="submitButton" onclick="submitButton(); return false">다음으로</button>

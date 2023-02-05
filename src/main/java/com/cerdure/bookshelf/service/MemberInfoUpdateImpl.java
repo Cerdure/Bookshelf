@@ -127,9 +127,6 @@ public class MemberInfoUpdateImpl implements MemberInfoUpdateService {
                 .build();
 
         Address newMemberAddress= member.changeAddress(newAddress);
-        log.info("getStreet={}",newMemberAddress.getStreet());
-        log.info("getCity={}",newMemberAddress.getCity());
-        log.info("getZipcode={}",newMemberAddress.getZipcode());
 
         if(newMemberAddress.getCity()==newAddressDto.getCity()&&
          newMemberAddress.getStreet()==newAddressDto.getStreet()&&

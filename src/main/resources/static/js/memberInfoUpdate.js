@@ -72,7 +72,7 @@ async function checkPhoneNumber(){
     console.log("phone="+phone);
 
     var check=await fetch("/memberinfo/phone/check/?phone="+phone).then(re=>re.text()).catch(err=>console.log(err));
-    if(check){
+    if(check=="true"){
         var num=await fetch("/memberinfo/phone/makeNum/?phone="+phone).then(re=>re.text()).catch(err=>console.log(err));
         $('.hidenNumber').val(num);
         $('.phoneNum').val();
@@ -103,7 +103,7 @@ async function memberEmailChange(){
     var newEmail = $('.newEmail').val()
     var check=await fetch("/memberinfo/email/?email="+newEmail).then(re=>re.text()).catch(err=>console.log(err));
 
-    if(check){
+    if(check=="true"){
         alert("이메일 변경이 완료되었습니다")
         $('.email').innerHTML=newEmail;
         $('.emailPart').hide();
@@ -125,7 +125,7 @@ async function changeAddress(){
     var city = $('.city').val()
 
     var check=await fetch("/memberinfo/address/?zipcode="+zipcode+"&street="+street+"&city="+city).then(re=>re.text()).catch(err=>console.log(err));
-    if(check){
+    if(check=="true"){
         alert("변경 되었습니다.")
     }else{
         alert("재입력 부탁드립니다.")
@@ -134,7 +134,7 @@ async function changeAddress(){
 async function changePassword(){
     var password = $('.password').val();
     var check=await fetch("/memberinfo/password/?password="+password).then(re=>re.text()).catch(err=>console.log(err));
-    if(check){
+    if(check=="true"){
         alert("변경 되었습니다.")
         $('.passwordPart').hide();
     }else{
@@ -145,9 +145,9 @@ async function changePassword(){
 async function deleteMember(){
 
     var check=await fetch("/memberinfo/delete").then(re=>re.text()).catch(err=>console.log(err));
-    if(check){
+    if(check=="true"){
         alert("회원탈퇴가 완료되었습니다");
-        window.location.href("/logout");
+        window.location.href="/logout";
     }else{
         alert("이미 없는 회원입니다")
     }
