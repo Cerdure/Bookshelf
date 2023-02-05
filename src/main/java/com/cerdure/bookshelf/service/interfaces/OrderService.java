@@ -9,6 +9,7 @@ import com.cerdure.bookshelf.dto.order.OrderItemDto;
 import com.cerdure.bookshelf.dto.order.OrderSearchDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.security.core.Authentication;
 
 import java.time.LocalDateTime;
@@ -22,7 +23,7 @@ public interface OrderService {
     public void clearCart(Authentication authentication);
 
     public Orders findLastOrder(Authentication authentication);
-    public Page<Orders> searchOrders(OrderSearchDto orderSearchDto, Member member);
+    public Slice<Orders> searchOrders(OrderSearchDto orderSearchDto, Member member);
     public List<Cart> newOrder(OrderDto orderDto, Authentication authentication);
     public void createOrder(OrderDto orderDto, Authentication authentication) throws Exception;
     public void cancelOrder(String orderId, Authentication authentication);

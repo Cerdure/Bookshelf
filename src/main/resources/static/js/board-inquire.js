@@ -100,7 +100,7 @@ $(function () {
         $(".inquire-write-wrapper").css('filter','brightness(1)');
       });
       alert.querySelector(".ok").addEventListener("click", formClose);
-      modalFadeIn(".alert-btn-2");
+      flexFadeIn(".alert-btn-2");
     });
 
 

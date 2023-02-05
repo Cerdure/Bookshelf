@@ -324,7 +324,7 @@ $(function () {
         $(".review-write-wrapper").css('filter', 'brightness(1)');
       });
       alert.querySelector(".ok").addEventListener("click", formClose);
-      modalFadeIn(".alert-btn-2");
+      flexFadeIn(".alert-btn-2");
     });
 
     $(document).on("change", "#modify-wrapper .review-write-photo-input", function (event) {
@@ -417,7 +417,7 @@ $(function () {
         $(".review-write-wrapper").css('filter', 'brightness(1)');
       });
       alert.querySelector(".ok").addEventListener("click", formClose);
-      modalFadeIn(".alert-btn-2");
+      flexFadeIn(".alert-btn-2");
     }
   }
 

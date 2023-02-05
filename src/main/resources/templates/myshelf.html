@@ -102,7 +102,7 @@
           <li>필터 이용 시 선택한 주문정보만 조회 가능합니다.</li>
         </div>
         <div class="order-list-title-detail-range">
-          <span class="detail-range-title">기간조회</span>
+          <span class="detail-range-title">조회기간</span>
           <select id="detail-range-select">
             <option value="month-1" selected="selected">최근 1개월</option>
             <option value="month-2">최근 2개월</option>
@@ -111,20 +111,20 @@
             <option value="direct">직접입력</option>
           </select>
           <div class="detail-range-start-wrapper">
-            <input class="detail-range-start" name="startDate" type="text">
+            <input class="detail-range-start detail-range-disable" name="startDate" type="text">
             <img class="detail-range-start-icon" src="/img/icon/calendar.svg">
           </div>
           <div class="detail-range-between">~</div>
           <div class="detail-range-end-wrapper">
-            <input class="detail-range-end" name="endDate" type="text">
+            <input class="detail-range-end detail-range-disable" name="endDate" type="text">
             <img class="detail-range-end-icon" src="/img/icon/calendar.svg">
           </div>
         </div>
         <div class="order-list-detail-state">
-          <span class="detail-state-title">구매 상태</span>
+          <span class="detail-state-title">주문상태</span>
           <select name="orderState" id="detail-state-select">
             <option value="ALL" selected="selected">전체</option>
-            <option value="ORDER">구매 완료</option>
+            <option value="ORDER">결제완료</option>
             <option value="CANCEL">취소</option>
             <option value="SOLD">품절</option>
           </select>
@@ -139,6 +139,7 @@
             <span>초기화</span>
           </div>
           <div class="detail-bottom-apply">
+            <input id="page" name="page" type="hidden" value="1">
             <span>적용</span>
           </div>
         </div>
@@ -151,35 +152,38 @@
             <img src="/img/icon/calendar.svg">
             <span>상세조회</span>
           </div>
-          <span class="order-list-title-info">최근 1개월 구매 내역입니다.</span>
+          <span class="order-list-title-info">최근 1개월 주문내역입니다.</span>
         </div>
       </div>
 
       <div class="order-list-wrapper" id="order-box">
-        <div class="order-list-top-box" th:if="${orderSearchDto}">
-          <li class="order-list-top-box-title">
-            <div>
-              <span>주문 내역</span>
+        <div class="search-info-box row-box" th:if="${orderSearchDto}">
+          <div class="data-box row-box">
+            <div class="search-keyword row-box">
+              <img src="/img/icon/search.svg">
+              <div class="keyword" th:text="${orderSearchDto.name}"></div>
             </div>
-          </li>
-          <li>
-            <div>
-              <span th:text="${orderCount}"></span>
-              <span>구매 완료</span>
+            <div class="row-box">
+              <div class="search-period row-box">
+                <div class="label">조회기간</div>
+                <div class="date-box row-box">
+                  <div class="start" th:text="${#temporals.format(orderSearchDto.startDate, 'yyyy년 M월 d일')}"></div>
+                  <div class="split">~</div>
+                  <div class="end" th:text="${#temporals.format(orderSearchDto.endDate, 'yyyy년 M월 d일')}"></div>
+                </div>
+              </div>
+              <div class="search-state row-box">
+                <div class="label">주문상태</div>
+                <th:block th:switch="${orderSearchDto.orderState}" th:with="state = ${T(com.cerdure.bookshelf.domain.enums.OrderState)}">
+                  <div class="state" th:case="${state.ALL}">전체</div>
+                  <div class="state" th:case="${state.ORDER}">결제완료</div>
+                  <div class="state" th:case="${state.CANCEL}">취소</div>
+                  <div class="state" th:case="${state.SOLD}">품절</div>
+                </th:block>
+              </div>
             </div>
-          </li>
-          <li>
-            <div>
-              <span th:text="${cancelCount}"></span>
-              <span>취소</span>
-            </div>
-          </li>
-          <li>
-            <div>
-              <span th:text="${soldCount}"></span>
-              <span>품절</span>
-            </div>
-          </li>
+          </div>
+          <div class="btn btn-gray">변경</div>
         </div>
 
         <div class="order-list-middle-box">
@@ -213,22 +217,26 @@
               <div class="text">확인/신청</div>
             </div>
           </div>
-          <div class="order-list-contents-null" th:if="${orders.totalElements == 0}">
+          <div class="order-list-contents-null" th:if="${orders.numberOfElements == 0}">
             <img src="/img/icon/exclamation-circle-fill.svg">
-            <span>조회되는 주문 정보가 없습니다.</span>
+            <span>조회된 주문 정보가 없습니다.</span>
           </div>
-          <div class="row" th:each="order : ${orders}"
-               th:with="orderstate = ${T(com.cerdure.bookshelf.domain.enums.OrderState)}">
+          <div class="column-box" id="page-box" th:data-last="${orders.last}">
+          <div class="row" th:each="order : ${orders}" th:data-price="${order.orderPrice}"
+               th:with="state = ${T(com.cerdure.bookshelf.domain.enums.OrderState)},
+                        isORDER = ${order.orderState.equals(state.ORDER)}">
             <div class="date-code-box column-box">
               <div class="text">주문일자</div>
               <div class="date" th:text="${#temporals.format(order.regDate, 'yyyy-MM-dd')}"></div>
               <div class="text">주문번호</div>
               <div class="order-id" th:text="${order.id}"></div>
               <button class="order-detail-btn btn-gray">주문상세보기</button>
-              <button class="order-cancel-btn btn-red" th:text="${order.orderState == orderstate.ORDER} ? '전체주문취소' : '취소된 주문'"></button>
+              <button th:classappend="${isORDER} ? 'order-cancel-btn btn-red' : 'disable btn-gray'"
+                      th:text="${isORDER} ? '전체주문취소' : '취소된 주문'"></button>
             </div>
             <div class="item-box column-box">
-              <div class="item row-box" th:each="item : ${order.orderItems}" th:with="book = ${item.book}">
+              <div class="item row-box" th:each="item : ${order.orderItems}" th:data-id="${item.id}"
+                   th:with="book = ${item.book}, itemState = ${item.orderState}">
                 <div class="item-info row-box">
                   <img th:src="${book.imgPath}">
                   <div class="info column-box">
@@ -241,46 +249,24 @@
                     </div>
                   </div>
                 </div>
-                <th:block th:switch="${item.orderState}">
-                  <div class="state" th:case="${orderstate.ORDER}">결제완료</div>
-                  <div class="state" th:case="${orderstate.CANCEL}">주문취소</div>
-                  <div class="state" th:case="${orderstate.SOLD}">품절</div>
+                <th:block th:switch="${itemState}">
+                  <div class="state" th:case="${state.ORDER}">결제완료</div>
+                  <div class="state" th:case="${state.CANCEL}">주문취소</div>
+                  <div class="state" th:case="${state.SOLD}">품절</div>
                 </th:block>
                 <div class="btn-box">
-                  <th:block th:switch="${item.orderState}">
-                    <button class="item-cancel-btn btn-red" th:case="${orderstate.ORDER}">주문취소</button>
-                    <button class="disable btn-red" th:case="*">취소된 주문</button>
-                  </th:block>
+                  <button th:classappend="${itemState == state.ORDER} ? 'item-cancel-btn btn-red' : 'disable btn-gray'"
+                          th:text="${itemState == state.ORDER} ? '주문취소' : '취소된 주문'"></button>
                 </div>
               </div>
             </div>
           </div>
+          </div>
         </div>
 
-        <div class="controller-box">
-          <span class="controller"
-            th:with="start=${T(java.lang.Math).floor(orders.number/10)*10 + 1}, last=(${orders.totalPages})">
-            <a th:class="${orders.first} ? 'disable'" th:onclick="'orderPageMove(' + ${orders.number} + ')'">
-              <img class="controller-btn-left" src="/img/icon/btn_pagination_prev@2x.png">
-            </a>
-            <a th:onclick="'orderPageMove(1)'" th:if="${orders.totalPages < 4 ? false :orders.number > 1}"
-               th:text="1" aria-label="First">
-            </a>
-            <span th:if="${orders.totalPages < 4 ? false :orders.number > 1}">...</span>
-            <a th:each="page: ${#numbers.sequence(start, last)}" th:onclick="'orderPageMove(' + ${page} + ')'"
-              th:if="${orders.first ? (page == 0 ? false : page < orders.number + 4) :
-                (orders.last ? page > orders.number - 2 : (page < orders.number + 3) && (page > orders.number - 1))}"
-              th:class="${page == orders.number + 1} ? 'index-active'" th:text="${page}">
-            </a>
-            <span th:if="${orders.totalPages < 4 ? false :orders.number < orders.totalPages - 2}">...</span>
-            <a th:onclick="'orderPageMove(' + ${orders.totalPages} + ')'"
-              th:if="${orders.totalPages < 4 ? false : orders.number < orders.totalPages - 2}"
-              th:text="${orders.totalPages}" aria-label="Last">
-            </a>
-            <a th:class="${orders.last} ? 'disable'" th:onclick="'orderPageMove(' + ${orders.number +2} ')'">
-              <img class="controller-btn-right" src="/img/icon/btn_pagination_next@2x.png">
-            </a>
-          </span>
+        <div class="next-btn btn-gray row-box" th:if="${!orders.last}">
+          <div class="text">더보기</div>
+          <img src="/img/icon/down-arr.png">
         </div>
 
       </div>

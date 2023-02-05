@@ -173,10 +173,13 @@
             <span class="coupon-left-box-point">1,000</span>
           </div>
         </div>
-        <div class="coupon-info-wrapper">
-          <span class="coupon-info-title">출석체크</span>
-          <p class="coupon-info">| 한달 최대 4,000포인트 혜택</p>
-          <p class="coupon-info">| 1,000포인트 x 4회, 당일 사용</p>
+        <div class="coupon-info-wrapper row-box">
+          <div class="column-box">
+            <span class="coupon-info-title">출석체크</span>
+            <p class="coupon-info">| 한달 최대 4,000포인트 혜택</p>
+            <p class="coupon-info">| 1,000포인트 x 4회, 당일 사용</p>
+          </div>
+          <button class="btn-gray-fill">바로가기</button>
         </div>
       </div>
 
@@ -193,10 +196,13 @@
             <span class="coupon-left-box-point">200</span>
           </div>
         </div>
-        <div class="coupon-info-wrapper">
-          <span class="coupon-info-title">구매 후 리뷰 작성 시</span>
-          <p class="coupon-info">| 책 리뷰 200포인트</p>
-          <p class="coupon-info">| 발급 당일 사용 가능</p>
+        <div class="coupon-info-wrapper row-box">
+          <div class="column-box">
+            <span class="coupon-info-title">구매 후 리뷰 작성 시</span>
+            <p class="coupon-info">| 책 리뷰 200포인트</p>
+            <p class="coupon-info">| 발급 당일 사용 가능</p>
+          </div>
+          <button class="btn-gray-fill">바로가기</button>
         </div>
       </div>
 
@@ -213,20 +219,23 @@
             <span class="coupon-left-box-point">1,000</span>
           </div>
         </div>
-        <div class="coupon-info-wrapper">
-          <span class="coupon-info-title">이달의 포인트</span>
-          <p class="coupon-info">| ID당 월 1회 지급</p>
-          <p class="coupon-info">| 발급 당일 사용 가능</p>
+        <div class="coupon-info-wrapper row-box">
+          <div class="column-box">
+            <span class="coupon-info-title">이달의 포인트</span>
+            <p class="coupon-info">| ID당 월 1회 지급</p>
+            <p class="coupon-info">| 발급 당일 사용 가능</p>
+          </div>
+          <button class="month-point-btn btn-gray-fill">포인트 받기</button>
         </div>
       </div>
     </div>
 
   </div>
 
-  <div class="grade-wrapper">
+  <div class="grade-wrapper" th:with="grade = ${T(com.cerdure.bookshelf.domain.enums.MemberGrade)}">
     <div class="grade-title">| 회원 등급 혜택</div>
 
-    <div class="grade">
+    <div class="grade column-box" th:classappend="${member?.grade?.equals(grade.VIP)} ? 'active-grade' : ''">
       <div class="grade-top">
         <div class="vip-logo">V</div>
         <div class="grade-top-title">VIP</div>
@@ -238,7 +247,7 @@
         <p>추가 4%</p>
       </div>
       <div class="grade-bottom">
-        <div class="grade-bottom-title">북셸프 통합 포인트</div>
+        <div class="grade-bottom-title">매달 북셸프 쿠폰 지급</div>
         <div class="grade-bottom-li">
           <div class="grade-bottom-box-5000">
             <div class="grade-bottom-box-5000-back1"></div>
@@ -252,7 +261,7 @@
               <span class="grade-bottom-left-box-point-text">P</span>
             </div>
           </div>
-          <div class="grade-bottom-info">7만원 이상 구매 시</div>
+          <div class="grade-bottom-info">7만원 이상 구매 시 사용가능</div>
         </div>
         <div class="grade-bottom-li">
           <div class="grade-bottom-box-3000">
@@ -267,7 +276,7 @@
               <span class="grade-bottom-left-box-point-text">P</span>
             </div>
           </div>
-          <div class="grade-bottom-info">5만원 이상 구매 시</div>
+          <div class="grade-bottom-info">5만원 이상 구매 시 사용가능</div>
         </div>
         <div class="grade-bottom-li">
           <div class="grade-bottom-box-2000">
@@ -282,13 +291,17 @@
               <span class="grade-bottom-left-box-point-text">P</span>
             </div>
           </div>
-          <div class="grade-bottom-info">3만원 이상 구매 시</div>
+          <div class="grade-bottom-info">3만원 이상 구매 시 사용가능</div>
           <div class="multi">X2</div>
         </div>
+        <button class="coupon-down-btn btn-yellow-fill row-box">
+          <text>쿠폰 받기</text>
+          <img src="/img/icon/download.svg">
+        </button>
       </div>
     </div>
 
-    <div class="grade">
+    <div class="grade column-box" th:classappend="${member?.grade?.equals(grade.GOLD)} ? 'active-grade' : ''">
       <div class="grade-top">
         <div class="gold-logo">G</div>
         <div class="grade-top-title">GOLD</div>
@@ -300,7 +313,7 @@
         <p>추가 3%</p>
       </div>
       <div class="grade-bottom">
-        <div class="grade-bottom-title">북셸프 통합 포인트</div>
+        <div class="grade-bottom-title">매달 북셸프 쿠폰 지급</div>
         <div class="grade-bottom-li">
           <div class="grade-bottom-box-5000">
             <div class="grade-bottom-box-5000-back1"></div>
@@ -314,7 +327,7 @@
               <span class="grade-bottom-left-box-point-text">P</span>
             </div>
           </div>
-          <div class="grade-bottom-info">7만원 이상 구매 시</div>
+          <div class="grade-bottom-info">7만원 이상 구매 시 사용가능</div>
         </div>
         <div class="grade-bottom-li">
           <div class="grade-bottom-box-3000">
@@ -329,7 +342,7 @@
               <span class="grade-bottom-left-box-point-text">P</span>
             </div>
           </div>
-          <div class="grade-bottom-info">5만원 이상 구매 시</div>
+          <div class="grade-bottom-info">5만원 이상 구매 시 사용가능</div>
         </div>
         <div class="grade-bottom-li">
           <div class="grade-bottom-box-2000">
@@ -344,12 +357,16 @@
               <span class="grade-bottom-left-box-point-text">P</span>
             </div>
           </div>
-          <div class="grade-bottom-info">3만원 이상 구매 시</div>
+          <div class="grade-bottom-info">3만원 이상 구매 시 사용가능</div>
         </div>
+        <button class="coupon-down-btn btn-yellow-fill row-box" th:if="${member?.grade?.equals(grade.GOLD)}">
+          <text>쿠폰 받기</text>
+          <img src="/img/icon/download.svg">
+        </button>
       </div>
     </div>
 
-    <div class="grade">
+    <div class="grade column-box" th:classappend="${member?.grade?.equals(grade.SILVER)} ? 'active-grade' : ''">
       <div class="grade-top">
         <div class="silver-logo">S</div>
         <div class="grade-top-title">SILVER</div>
@@ -361,8 +378,7 @@
         <p>추가 2%</p>
       </div>
       <div class="grade-bottom">
-        <div class="grade-bottom-title">북셸프 통합 포인트</div>
-
+        <div class="grade-bottom-title">매달 북셸프 쿠폰 지급</div>
         <div class="grade-bottom-li">
           <div class="grade-bottom-box-3000">
             <div class="grade-bottom-box-3000-back1"></div>
@@ -376,7 +392,7 @@
               <span class="grade-bottom-left-box-point-text">P</span>
             </div>
           </div>
-          <div class="grade-bottom-info">5만원 이상 구매 시</div>
+          <div class="grade-bottom-info">5만원 이상 구매 시 사용가능</div>
         </div>
         <div class="grade-bottom-li">
           <div class="grade-bottom-box-2000">
@@ -391,12 +407,16 @@
               <span class="grade-bottom-left-box-point-text">P</span>
             </div>
           </div>
-          <div class="grade-bottom-info">3만원 이상 구매 시</div>
+          <div class="grade-bottom-info">3만원 이상 구매 시 사용가능</div>
         </div>
+        <button class="coupon-down-btn btn-yellow-fill row-box" th:if="${member?.grade?.equals(grade.SILVER)}">
+          <text>쿠폰 받기</text>
+          <img src="/img/icon/download.svg">
+        </button>
       </div>
     </div>
 
-    <div class="grade">
+    <div class="grade column-box" th:classappend="${member?.grade?.equals(grade.NEW)} ? 'active-grade' : ''">
       <div class="grade-top">
         <div class="new-logo">N</div>
         <div class="grade-top-title">NEW</div>
@@ -408,8 +428,7 @@
         <p>추가 1%</p>
       </div>
       <div class="grade-bottom">
-        <div class="grade-bottom-title">북셸프 통합 포인트</div>
-
+        <div class="grade-bottom-title">매달 북셸프 쿠폰 지급</div>
         <div class="grade-bottom-li">
           <div class="grade-bottom-box-2000">
             <div class="grade-bottom-box-2000-back1"></div>
@@ -423,8 +442,12 @@
               <span class="grade-bottom-left-box-point-text">P</span>
             </div>
           </div>
-          <div class="grade-bottom-info">3만원 이상 구매 시</div>
+          <div class="grade-bottom-info">3만원 이상 구매 시 사용가능</div>
         </div>
+        <button class="coupon-down-btn btn-yellow-fill row-box" th:if="${member?.grade?.equals(grade.NEW)}">
+          <text>쿠폰 받기</text>
+          <img src="/img/icon/download.svg">
+        </button>
       </div>
     </div>
   </div>

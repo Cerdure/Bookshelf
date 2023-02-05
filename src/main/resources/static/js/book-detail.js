@@ -208,7 +208,7 @@ $(function () {
         $(".modal-background").fadeOut(100);
       });
       $(".modal-background").fadeIn(100);
-      modalFadeIn(".alert-btn-1");
+      flexFadeIn(".alert-btn-1");
     })();
   });
 
@@ -268,7 +268,7 @@ $(function () {
         $(".review-write-wrapper").css('filter', 'brightness(1)');
       });
       alert.querySelector(".ok").addEventListener("click", formClose);
-      modalFadeIn(".alert-btn-2");
+      flexFadeIn(".alert-btn-2");
     });
 
     $(document).on("change", "#modify-wrapper .review-write-photo-input", function (event) {

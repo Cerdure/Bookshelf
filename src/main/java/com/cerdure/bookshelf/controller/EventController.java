@@ -3,7 +3,9 @@ package com.cerdure.bookshelf.controller;
 import com.cerdure.bookshelf.domain.book.Book;
 import com.cerdure.bookshelf.dto.book.BookDto;
 import com.cerdure.bookshelf.service.BookServiceImpl;
+import com.cerdure.bookshelf.service.interfaces.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,13 +18,17 @@ import java.util.List;
 public class EventController {
 
     private final BookServiceImpl bookService;
+    private final MemberService memberService;
 
     @GetMapping("/event")
-    public String event(Model model){
+    public String event(Authentication authentication, Model model){
         List<Book> bannerBooks = bookService.findDiscountTop16();
         List<Book> saleBooks = bookService.findDiscountTop18();
         model.addAttribute("bannerBooks", bannerBooks);
         model.addAttribute("saleBooks", saleBooks);
+        if(authentication != null){
+            model.addAttribute("member", memberService.findMember(authentication));
+        }
         return "event";
     }
 

@@ -18,10 +18,7 @@ import com.cerdure.bookshelf.service.interfaces.MemberService;
 import com.cerdure.bookshelf.service.interfaces.OrderService;
 import com.cerdure.bookshelf.web.exception.NotEnoughStockException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -96,7 +93,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Page<Orders> searchOrders(OrderSearchDto orderSearchDto, Member member) {
+    public Slice<Orders> searchOrders(OrderSearchDto orderSearchDto, Member member) {
         int page = orderSearchDto.getPage() == null ? 0 : orderSearchDto.getPage() - 1;
         Pageable pageable = PageRequest.of(page, 4, Sort.by("id").descending());
         LocalDateTime startDate = LocalDateTime.of(orderSearchDto.getStartDate(), LocalTime.MIN);
@@ -110,7 +107,7 @@ public class OrderServiceImpl implements OrderService {
         } else {
             orderStates.add(orderSearchDto.getOrderState());
         }
-        Page<Orders> orders = ordersRepository
+        Slice<Orders> orders = ordersRepository
                 .findDistinctByOrderItems_Book_NameContainsIgnoreCaseAndOrderItems_OrderStateInAndRegDateBetween
                         (keyword, orderStates, startDate, endDate, pageable);
         orders.forEach(order -> {
@@ -125,26 +122,6 @@ public class OrderServiceImpl implements OrderService {
             }).collect(Collectors.toList());
             order.changeOrderItems(orderItems);
         });
-
-//        Page<Orders> orders = ordersRepository.findByOrdererAndRegDateBetween(member, startDate, endDate, pageable)
-//                .map(order -> {
-//                    List<OrderItem> orderItems = order.getOrderItems().stream().filter(orderItem -> {
-//                                String keyword = orderSearchDto.getName() == null ? "" : orderSearchDto.getName();
-//                                Book book = orderItem.getBook();
-//                                if (!keyword.equals("")) {
-//                                    book.coincidenceHighlight(keyword);
-//                                    orderItem.changeBook(book);
-//                                }
-//                                return book.getName().contains(keyword)
-//                                        && orderSearchDto.getOrderState() == null ||
-//                                        orderSearchDto.getOrderState().equals(OrderState.ALL) ||
-//                                        orderItem.getOrderState().equals(orderSearchDto.getOrderState());
-//                            }
-//                    ).collect(Collectors.toList());
-//                    if (orderItems == null || orderItems.size() == 0) return null;
-//                    order.changeOrderItems(orderItems);
-//                    return order;
-//                });
         return orders;
     }
 
@@ -237,5 +214,10 @@ public class OrderServiceImpl implements OrderService {
         OrderItem orderItem = orderItemRepository.findByIdAndOrders(orderItemId, orders);
         orderItem.changeState(OrderState.CANCEL);
         orderItemRepository.save(orderItem);
+        List<OrderItem> orderItems = orderItemRepository.findByOrdersAndOrderState(orders, OrderState.ORDER);
+        if(orderItems.size() == 0) {
+            orders.changeState(OrderState.CANCEL);
+            ordersRepository.save(orders);
+        }
     }
 }

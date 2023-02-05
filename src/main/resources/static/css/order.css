@@ -289,6 +289,14 @@ input {
   overflow: hidden;
 }
 
+.payment-method-box .img-box:first-child {
+  border: 1px solid cornflowerblue;
+}
+
+.payment-method-box .img-box:first-child .select-icon {
+  display: block;
+}
+
 .payment-method-box .img-box:hover {
   border: 1px solid cornflowerblue;
   transition: 0.3s;

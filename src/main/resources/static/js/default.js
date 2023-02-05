@@ -101,12 +101,12 @@ function hideModal(){
   $(".alert-modal").fadeOut(200);
 }
 
-function modalFadeIn(_this){
+function flexFadeIn(_this){
   $(_this).css("display", "flex");
   $(_this).animate({"opacity":"1"}, 500);
 }
 
-function modalFadeOut(_this){
+function flexFadeOut(_this){
   $(_this).animate({"opacity":"0"}, 200);
   $(_this).css("display", "none");
 }
