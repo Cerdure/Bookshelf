@@ -136,31 +136,16 @@ $(function () {
     $(".middle-nav div").removeClass("active-index");
     $(this).addClass("active-index");
   });
-
-
-  $(".record-sort span").click(function () {
-    let recordSortIndex = $(this).index();
-    $(".record-sort-button").animate({ 'left': (5 + 65 * recordSortIndex) + 'px' }, 300);
-    $(".record-sort span").animate({ 'color': '#b3b3b3' }, 100);
-    $(this).animate({ 'color': '#6495ed' }, 300);
+  
+  $(document).on("click", ".coupon-box", e => {
+    $(".modal-background").fadeIn(100);
+    flexFadeIn(".coupon-modal");
   });
 
-
-
-  const graphValue = [];
-  let labelLength;
-  for (var i = 0; i < 3; i++) {
-    graphValue[i] = $(".record-graph-data-label-" + (i + 1)).text();
-    labelLength = graphValue[i].length;
-    graphValue[i] = Number(graphValue[i].substring(0, labelLength - 1));
-  }
-  let maxgraphValue = Math.max(graphValue[0], graphValue[1], graphValue[2]);
-
-  for (var i = 1; i < 4; i++) {
-    $(".record-graph-stick-wrapper-" + i).css('height', (240 * graphValue[i - 1] / maxgraphValue) + 'px');
-    $(".record-graph-stick-" + i).css('height', ((240 * graphValue[i - 1] / maxgraphValue) - 30) + 'px');
-  }
-
+  $(document).on("click", ".coupon-modal .top img, .modal-background", e => {
+    flexFadeOut(".coupon-modal");
+    $(".modal-background").fadeOut(100);
+  });
 
   $(".order-list-title-button").click(() => {
     detailSearchOpen();
@@ -279,7 +264,7 @@ $(function () {
       const result = await reqMoreOrderData(Number($("#page").val()) + 1);
       let div = document.createElement("add-page");
       div.innerHTML = result;
-      document.querySelector(".order-list-contents-wrapper").appendChild(div);
+      dom(".order-list-contents-wrapper").appendChild(div);
       const isLast = $("add-page:last-child #page-box").data("last");
       if (isLast) $(this).hide();
     })();
@@ -290,7 +275,7 @@ $(function () {
     const price = selectRow.data("price");
     const items = selectRow.find(".item").get();
     const itemsCount = Number(items.length);
-    const alert = document.querySelector(".alert-btn-2");
+    const alert = dom(".alert-btn-2");
     alert.querySelector(".text").innerHTML =
       "주문을 취소하시겠습니까?";
     alert.querySelector(".data").innerHTML =
@@ -310,7 +295,7 @@ $(function () {
     selectRow = $(this).closest(".row");
     selectItem = $(this).closest(".item");
     const price = selectItem.find(".price").text();
-    const alert = document.querySelector(".alert-btn-2");
+    const alert = dom(".alert-btn-2");
     alert.querySelector(".text").innerHTML =
       "주문을 취소하시겠습니까?";
     alert.querySelector(".data").innerHTML =

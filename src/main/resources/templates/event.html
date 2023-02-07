@@ -225,7 +225,7 @@
             <p class="coupon-info">| ID당 월 1회 지급</p>
             <p class="coupon-info">| 발급 당일 사용 가능</p>
           </div>
-          <button class="month-point-btn btn-gray-fill">포인트 받기</button>
+          <button class="month-point-btn btn-yellow-fill">포인트 받기</button>
         </div>
       </div>
     </div>
@@ -242,7 +242,7 @@
         <p>최근 3개월 순수 구매액<br>30만원 이상</p>
       </div>
       <div class="grade-middle">
-        <p>온라인 상품별 추가 적립률</p>
+        <p>상품 구매 시 포인트 적립률</p>
         <img class="plus" src="/img/icon/plus.svg">
         <p>추가 4%</p>
       </div>
@@ -294,7 +294,7 @@
           <div class="grade-bottom-info">3만원 이상 구매 시 사용가능</div>
           <div class="multi">X2</div>
         </div>
-        <button class="coupon-down-btn btn-yellow-fill row-box">
+        <button class="month-coupon-btn btn-yellow-fill row-box" th:if="${member?.grade?.equals(grade.VIP)}">
           <text>쿠폰 받기</text>
           <img src="/img/icon/download.svg">
         </button>
@@ -308,7 +308,7 @@
         <p>최근 3개월 순수 구매액<br>20~30만원</p>
       </div>
       <div class="grade-middle">
-        <p>온라인 상품별 추가 적립률</p>
+        <p>상품 구매 시 포인트 적립률</p>
         <img class="plus" src="/img/icon/plus.svg">
         <p>추가 3%</p>
       </div>
@@ -359,7 +359,7 @@
           </div>
           <div class="grade-bottom-info">3만원 이상 구매 시 사용가능</div>
         </div>
-        <button class="coupon-down-btn btn-yellow-fill row-box" th:if="${member?.grade?.equals(grade.GOLD)}">
+        <button class="month-coupon-btn btn-yellow-fill row-box" th:if="${member?.grade?.equals(grade.GOLD)}">
           <text>쿠폰 받기</text>
           <img src="/img/icon/download.svg">
         </button>
@@ -373,7 +373,7 @@
         <p>최근 3개월 순수 구매액<br>10~20만원</p>
       </div>
       <div class="grade-middle">
-        <p>온라인 상품별 추가 적립률</p>
+        <p>상품 구매 시 포인트 적립률</p>
         <img class="plus" src="/img/icon/plus.svg">
         <p>추가 2%</p>
       </div>
@@ -409,7 +409,7 @@
           </div>
           <div class="grade-bottom-info">3만원 이상 구매 시 사용가능</div>
         </div>
-        <button class="coupon-down-btn btn-yellow-fill row-box" th:if="${member?.grade?.equals(grade.SILVER)}">
+        <button class="month-coupon-btn btn-yellow-fill row-box" th:if="${member?.grade?.equals(grade.SILVER)}">
           <text>쿠폰 받기</text>
           <img src="/img/icon/download.svg">
         </button>
@@ -423,7 +423,7 @@
         <p>최근 3개월 순수 구매액<br>10만원 미만</p>
       </div>
       <div class="grade-middle">
-        <p>온라인 상품별 추가 적립률</p>
+        <p>상품 구매 시 포인트 적립률</p>
         <img class="plus" src="/img/icon/plus.svg">
         <p>추가 1%</p>
       </div>
@@ -444,7 +444,7 @@
           </div>
           <div class="grade-bottom-info">3만원 이상 구매 시 사용가능</div>
         </div>
-        <button class="coupon-down-btn btn-yellow-fill row-box" th:if="${member?.grade?.equals(grade.NEW)}">
+        <button class="month-coupon-btn btn-yellow-fill row-box" th:if="${member?.grade?.equals(grade.NEW)}">
           <text>쿠폰 받기</text>
           <img src="/img/icon/download.svg">
         </button>

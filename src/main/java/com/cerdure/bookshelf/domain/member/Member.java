@@ -17,11 +17,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static javax.persistence.FetchType.LAZY;
-
 @Entity @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
 public class Member implements UserDetails {
 
     @Id @GeneratedValue
@@ -52,11 +49,11 @@ public class Member implements UserDetails {
 
     private LocalDate delDate;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
     @JsonIgnore
     private List<Cart> carts;
 
-    @OneToMany(mappedBy = "orderer")
+    @OneToMany(mappedBy = "orderer", orphanRemoval = true)
     @JsonIgnore
     private List<Orders> ordersList;
 
@@ -65,6 +62,14 @@ public class Member implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private MemberJoinType memberJoinType;
+
+    @OneToOne(mappedBy = "member", orphanRemoval = true)
+    @JsonIgnore
+    private EventState eventState;
+
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
+    @JsonIgnore
+    private List<MemberCoupon> memberCoupons;
 
     @PrePersist
     public void prePersist() {
@@ -75,7 +80,7 @@ public class Member implements UserDetails {
     }
 
     @Builder
-    public Member(Long id, String pw, String name, String nickname, String phone, String email, Address address, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, List<Cart> carts, List<Orders> ordersList, MemberRole role, MemberJoinType memberJoinType) {
+    public Member(Long id, String pw, String name, String nickname, String phone, String email, Address address, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, List<Cart> carts, List<Orders> ordersList, MemberRole role, MemberJoinType memberJoinType, EventState eventState) {
         this.id = id;
         this.pw = pw;
         this.name = name;
@@ -92,10 +97,15 @@ public class Member implements UserDetails {
         this.ordersList = ordersList;
         this.role = role;
         this.memberJoinType = memberJoinType;
+        this.eventState = eventState;
     }
 
     public void changePoint(int point){
         this.point = point;
+    }
+
+    public void changeGrade(MemberGrade grade){
+        this.grade = grade;
     }
 
     @Override

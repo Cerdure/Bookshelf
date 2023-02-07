@@ -24,6 +24,7 @@ public class OrderDto {
     private String deliveryPlace;
     private Integer originSum;
     private Integer deliveryCharge;
+    private Long couponId;
     private Integer point;
     private Integer orderPrice;
     private String payType;

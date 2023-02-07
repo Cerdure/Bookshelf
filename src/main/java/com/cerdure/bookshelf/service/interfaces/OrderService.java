@@ -27,6 +27,7 @@ public interface OrderService {
     public List<Cart> newOrder(OrderDto orderDto, Authentication authentication);
     public void createOrder(OrderDto orderDto, Authentication authentication) throws Exception;
     public void cancelOrder(String orderId, Authentication authentication);
+    public Integer sumOfOrderAmount(Member member, LocalDateTime startDate);
 
     public Boolean saveOrderItems(OrderItemDto orderItemDto, Authentication authentication);
     public void cancelOrderItem(String orderId, Long orderItemId, Authentication authentication);

@@ -102,7 +102,7 @@
 
             <div class="review-write-attach-photo-button">
               <input name="imageFiles" class="review-write-photo-input" type="file" multiple="multiple"
-                accept=".jpg, .jpeg, .png, .gif" onchange="setThumbnail(event,this)">
+                accept=".jpg, .jpeg, .png, .gif" onchange="setThumbnail(eventState,this)">
             </div>
 
           </div>
@@ -186,7 +186,7 @@
 
             <div class="review-write-photo-wrapper" th:each="file: ${modReview!=null?modReview.files:null}">
               <div class="review-write-photo-cancel" onclick="deleteImg(this)">X</div>
-              <input class="review-write-photo" onchange="setThumbnail(event,this)" th:style="'background-image:url(' + ${file.fullPath} + ');'" >
+              <input class="review-write-photo" onchange="setThumbnail(eventState,this)" th:style="'background-image:url(' + ${file.fullPath} + ');'" >
             </div>
 
           </div>
@@ -244,39 +244,32 @@
             <button class="select">선택</button>
           </div>
 
-          <div class="search-controller">
-        <span class="controller"
-              th:with="start=${T(java.lang.Math).floor(books.number/10)*10 + 1}, last=(${books.totalPages})">
-
-           <a th:class="${books.first} ? 'disable'">
-             <img class="controller-btn-left" src="/img/icon/btn_pagination_prev@2x.png">
-           </a>
-
-          <a th:if="${books.totalPages < 4 ? false :books.number > 1}"
-             th:text="1" id="idx">
-          </a>
-
-          <span th:if="${books.totalPages < 4 ? false :books.number > 1}">...</span>
-
-           <a th:each="page: ${#numbers.sequence(start, last)}"
-              th:if="${books.first ? page < books.number +4 :
-              (books.last ? page > books.number -2 : (page < books.number +3) && (page > books.number -1))}"
-              th:class="${page == books.number + 1} ? 'index-active'" id="idx"
-              th:text="${page}">
-           </a>
-
-          <span th:if="${books.totalPages < 4 ? false :books.number < books.totalPages -2}">...</span>
-
-          <a th:if="${books.totalPages < 4 ? false :books.number < books.totalPages -2}"
-             th:text="${books.totalPages}" id="idx">
-          </a>
-
-          <a th:class="${books.last} ? 'disable'">
-            <img class="controller-btn-right" src="/img/icon/btn_pagination_next@2x.png">
-          </a>
-
-        </span>
-          </div>
+          <pagination class="row-box"
+                      th:with="start=${T(java.lang.Math).floor(books.number/10)*10 + 1}, last=(${books.totalPages})">
+            <a th:class="${books.first} ? 'disable'" th:onclick="|bookSearch('${books.number}')|">
+              <img class="btn-left" src="/img/icon/btn_pagination_prev@2x.png">
+            </a>
+            <index class="row-box">
+              <a aria-label="First" th:onclick="bookSearch('1')"
+                 th:if="${books.totalPages < 4 ? false :books.number > 1}" th:text="1">
+              </a>
+              <ellipsis th:if="${books.totalPages < 4 ? false :books.number > 1}">...</ellipsis>
+              <a th:each="page: ${#numbers.sequence(start, last)}"
+                 th:if="${books.first ? (page == 0 ? false : page < books.number + 4) :
+                  (books.last ? page > books.number - 2 : (page < books.number + 3) && (page > books.number - 1))}"
+                 th:class="${page == books.number + 1} ? 'index-active'" th:text="${page}"
+                 th:onclick="|bookSearch('${page}')|">
+              </a>
+              <ellipsis th:if="${books.totalPages < 4 ? false :books.number < books.totalPages - 2}">...</ellipsis>
+              <a aria-label="Last" th:onclick="|bookSearch('${books.totalPages}')|"
+                 th:if="${books.totalPages < 4 ? false :books.number < books.totalPages - 2}"
+                 th:text="${books.totalPages}">
+              </a>
+            </index>
+            <a th:class="${books.last} ? 'disable'" th:onclick="|bookSearch('${books.number + 2}')|">
+              <img class="btn-right" src="/img/icon/btn_pagination_next@2x.png">
+            </a>
+          </pagination>
 
         </div>
       </div>
@@ -354,43 +347,32 @@
 
         </div>
 
-        <div class="review-controller">
-          <span class="controller"
-                th:with="start=${T(java.lang.Math).floor(reviews.number/10)*10 + 1}, last=(${reviews.totalPages})">
-
-             <a th:class="${reviews.first} ? 'disable'"
-                th:href="@{/review(page=${reviews.number})}">
-               <img class="controller-btn-left" src="/img/icon/btn_pagination_prev@2x.png">
-             </a>
-
-            <a th:href="@{/review(page=1)}"
-               th:if="${reviews.number > 1}"
-               th:text="1">
-            </a>
-
-            <span th:if="${reviews.number > 1}">...</span>
-
-             <a th:each="page: ${#numbers.sequence(start, last)}"
-                th:if="${reviews.first ? page < reviews.number +4 :
-                (reviews.last ? page > reviews.number -2 : (page < reviews.number +3) && (page > reviews.number -1))}"
-                th:class="${page == reviews.number + 1} ? 'index-active'"
-                th:text="${page}" th:href="@{/review(page=${page})}">
-             </a>
-
-            <span th:if="${reviews.number < reviews.totalPages -2}">...</span>
-
-            <a th:href="@{/review(page=${reviews.totalPages})}"
-               th:if="${reviews.number < reviews.totalPages -2}"
-               th:text="${reviews.totalPages}" aria-label="Last" >
-            </a>
-
-            <a th:class="${reviews.last} ? 'disable'"
-               th:href="@{/review(page=${reviews.number +2})}">
-              <img class="controller-btn-right" src="/img/icon/btn_pagination_next@2x.png">
-            </a>
-
-          </span>
-        </div>
+      <pagination class="row-box"
+                  th:with="start=${T(java.lang.Math).floor(reviews.number/10)*10 + 1}, last=(${reviews.totalPages})">
+        <a th:class="${reviews.first} ? 'disable'" th:href="@{/review(page=${reviews.number})}">
+          <img class="btn-left" src="/img/icon/btn_pagination_prev@2x.png">
+        </a>
+        <index class="row-box">
+          <a aria-label="First" th:href="@{/review(page=1)}"
+             th:if="${reviews.totalPages < 4 ? false :reviews.number > 1}" th:text="1">
+          </a>
+          <ellipsis th:if="${reviews.totalPages < 4 ? false :reviews.number > 1}">...</ellipsis>
+          <a th:each="page: ${#numbers.sequence(start, last)}"
+             th:if="${reviews.first ? (page == 0 ? false : page < reviews.number + 4) :
+                  (reviews.last ? page > reviews.number - 2 : (page < reviews.number + 3) && (page > reviews.number - 1))}"
+             th:class="${page == reviews.number + 1} ? 'index-active'" th:text="${page}"
+             th:href="@{/review(page=${page})}">
+          </a>
+          <ellipsis th:if="${reviews.totalPages < 4 ? false :reviews.number < reviews.totalPages - 2}">...</ellipsis>
+          <a aria-label="Last" th:href="@{/review(page=${reviews.totalPages})}"
+             th:if="${reviews.totalPages < 4 ? false :reviews.number < reviews.totalPages - 2}"
+             th:text="${reviews.totalPages}">
+          </a>
+        </index>
+        <a th:class="${reviews.last} ? 'disable'" th:href="@{/review(page=${reviews.number +2})}">
+          <img class="btn-right" src="/img/icon/btn_pagination_next@2x.png">
+        </a>
+      </pagination>
 
         <div class="alert-window close-alert">
           <div class="text">

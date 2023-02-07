@@ -6,6 +6,7 @@ import com.cerdure.bookshelf.service.LoginServiceImpl;
 import com.cerdure.bookshelf.dto.member.LoginDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Objects;
 
 @Slf4j
 @Controller
@@ -24,6 +26,12 @@ public class LoginController {
     @GetMapping("/login")
     public String login(@Valid @ModelAttribute("loginDto") LoginDto loginDto, BindingResult bindingResult) {
         return "login";
+    }
+
+    @GetMapping("/login/check")
+    @ResponseBody
+    public Boolean loginCheck(Authentication authentication) {
+        return Objects.isNull(authentication);
     }
 
     @GetMapping("/logout/check")

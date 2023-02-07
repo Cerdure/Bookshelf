@@ -14,6 +14,7 @@ import com.cerdure.bookshelf.repository.CartRepository;
 import com.cerdure.bookshelf.repository.OrderItemRepository;
 import com.cerdure.bookshelf.repository.OrdersRepository;
 import com.cerdure.bookshelf.service.interfaces.BookService;
+import com.cerdure.bookshelf.service.interfaces.EventService;
 import com.cerdure.bookshelf.service.interfaces.MemberService;
 import com.cerdure.bookshelf.service.interfaces.OrderService;
 import com.cerdure.bookshelf.web.exception.NotEnoughStockException;
@@ -108,8 +109,8 @@ public class OrderServiceImpl implements OrderService {
             orderStates.add(orderSearchDto.getOrderState());
         }
         Slice<Orders> orders = ordersRepository
-                .findDistinctByOrderItems_Book_NameContainsIgnoreCaseAndOrderItems_OrderStateInAndRegDateBetween
-                        (keyword, orderStates, startDate, endDate, pageable);
+                .findDistinctByOrdererAndOrderItems_Book_NameContainsIgnoreCaseAndOrderItems_OrderStateInAndRegDateBetween
+                        (member, keyword, orderStates, startDate, endDate, pageable);
         orders.forEach(order -> {
             List<OrderItem> orderItems = order.getOrderItems().stream().filter(orderItem -> {
                 Book book = orderItem.getBook();
@@ -145,56 +146,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public String createCode(Authentication authentication) {
-        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"))
-                + memberService.findMember(authentication).getId();
-    }
-
-    @Override
-    public OrderDto memberAndCode(Authentication authentication) {
-        return OrderDto.builder()
-                .member(memberService.findMember(authentication))
-                .id(createCode(authentication))
-                .build();
-    }
-
-    @Override
     public void createOrder(OrderDto orderDto, Authentication authentication) throws Exception {
         try {
             Orders orders = orderDto.toEntity();
             orders.changeOrderer(memberService.findMember(authentication));
             ordersRepository.save(orders);
+            memberService.changePoint(authentication, orders.getPoint());
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception();
         }
-    }
-
-    @Override
-    public Boolean saveOrderItems(OrderItemDto orderItemDto, Authentication authentication) {
-        try {
-            Orders orders = ordersRepository.findById(orderItemDto.getOrderId()).get();
-            Book book = bookService.findById(orderItemDto.getBookId());
-            int amount = orderItemDto.getAmount();
-
-            book.changeStock(book.getStock() - amount);
-            book.changeSales(book.getSales() + amount);
-            memberService.changePoint(authentication, orders.getPoint());
-            orderItemRepository.save(OrderItem.builder()
-                    .orders(orders)
-                    .book(book)
-                    .amount(amount)
-                    .build());
-
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    @Override
-    public Integer restPoint(Integer point, Authentication authentication) {
-        return memberService.findMember(authentication).getPoint() - point;
     }
 
     @Override
@@ -209,6 +170,31 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Integer sumOfOrderAmount(Member member, LocalDateTime startDate) {
+        return ordersRepository.findByOrdererAndRegDateAfter(member, startDate)
+                .stream().mapToInt(Orders::getOrderPrice).sum();
+    }
+
+    @Override
+    public Boolean saveOrderItems(OrderItemDto orderItemDto, Authentication authentication) {
+        try {
+            Orders orders = ordersRepository.findById(orderItemDto.getOrderId()).get();
+            Book book = bookService.findById(orderItemDto.getBookId());
+            int amount = orderItemDto.getAmount();
+            book.changeStock(book.getStock() - amount);
+            book.changeSales(book.getSales() + amount);
+            orderItemRepository.save(OrderItem.builder()
+                    .orders(orders)
+                    .book(book)
+                    .amount(amount)
+                    .build());
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
     public void cancelOrderItem(String orderId, Long orderItemId, Authentication authentication) {
         Orders orders = ordersRepository.findByIdAndOrderer(orderId, memberService.findMember(authentication));
         OrderItem orderItem = orderItemRepository.findByIdAndOrders(orderItemId, orders);
@@ -220,4 +206,24 @@ public class OrderServiceImpl implements OrderService {
             ordersRepository.save(orders);
         }
     }
+
+    @Override
+    public String createCode(Authentication authentication) {
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"))
+                + memberService.findMember(authentication).getId();
+    }
+
+    @Override
+    public OrderDto memberAndCode(Authentication authentication) {
+        return OrderDto.builder()
+                .member(memberService.findMember(authentication))
+                .id(createCode(authentication))
+                .build();
+    }
+
+    @Override
+    public Integer restPoint(Integer point, Authentication authentication) {
+        return memberService.findMember(authentication).getPoint() - point;
+    }
+
 }

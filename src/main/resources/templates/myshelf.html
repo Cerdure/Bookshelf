@@ -14,6 +14,39 @@
 
 <div layout:fragment="content" id="page-content" data-index="3">
 
+  <modal class="coupon-modal column-box">
+    <div class="top row-box">
+      <div class="text">보유 쿠폰</div>
+      <div class="data" th:text="${member.memberCoupons.size()}"></div>
+      <div class="unit">장</div>
+      <img src="/img/icon/btn_dialog_close@2x.png">
+    </div>
+    <div class="middle column-box">
+      <item class="coupon row-box" th:each="memberCoupon : ${member.memberCoupons}"
+            th:with="coupon = ${memberCoupon.coupon}" th:data-id="${memberCoupon.id}"
+            th:classappend="'coupon-' + ${coupon.id}">
+        <div class="left-side column-box">
+          <div class="logo-box row-box">
+            <img src="/img/icon/logo.png">
+            <div class="text">BookShelf</div>
+          </div>
+          <div class="coupon-price row-box" th:data-value="${coupon.price}">
+            <div class="data" th:text="${#numbers.formatInteger(coupon.price, 3, 'COMMA')}">2,000</div>
+            <div class="unit">원</div>
+          </div>
+          <div class="coupon-min row-box">
+            <div class="data" th:text="${#numbers.formatInteger(coupon.min, 3, 'COMMA')}"></div>
+            <div class="text">원 이상 구매 시</div>
+          </div>
+        </div>
+        <div class="right-side">
+          <div class="back-circle-1"></div>
+          <div class="back-circle-2"></div>
+        </div>
+      </item>
+    </div>
+  </modal>
+
   <div class="top-back-wrapper">
     <div class="top-background-frame">
       <div class="top-background"></div>
@@ -25,9 +58,13 @@
         <div class="top-back-title-text">의 책장</div>
       </div>
       <img class="top-back-setting" src="/img/icon/setting-list.svg">
-      <div class="top-back-point-wrapper">
+      <div class="top-back-point-wrapper row-box">
         <img class="top-back-point-icon" src="/img/icon/bootstrap-fill.svg">
         <div class="top-back-point-text" th:text="${member.point} + ' 포인트'"></div>
+        <div class="coupon-box row-box">
+          <img class="coupon-icon" src="/img/icon/coupon-mono.png">
+          <div class="coupon-text" th:text="'쿠폰 ' + ${member.memberCoupons.size()} + '장'"></div>
+        </div>
       </div>
     </div>
   </div>

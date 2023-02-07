@@ -431,40 +431,31 @@ footer ul li {
 
 /*********** pagination START ***********/
 
-.pagenation {
-  position: relative;
-  top: 20px;
-  display: inline-block;
+pagination {
   width: 228px;
+  margin: 40px auto;
 }
 
-.pagenation .btn-left {
-  position: absolute;
-  top: 2px;
-  left: 0px;
-  display: inline-block;
+pagination .btn-left {
   width: 20px;
   cursor: pointer;
 }
 
-.pagenation .btn-right {
-  position: absolute;
-  top: 2px;
-  right: 0px;
-  display: inline-block;
+pagination .btn-right {
   width: 20px;
   cursor: pointer;
 }
 
-.pagenation a{
-  display: inline-block;
+pagination .row-box {
+  width: 100%;
+  justify-content: center;
+}
+
+pagination a{
   width: 19px;
   margin: 0 2px;
-  border-radius: 50%;
-  line-height: 19px;
-  cursor: pointer;
-  text-decoration: none;
   font-weight: 900;
+  cursor: pointer;
 }
 
 /*********** pagination END ***********/

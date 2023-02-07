@@ -1,46 +1,45 @@
-
 $(function () {
 
-    let currentIndex = $("#page-content").data("index");
-  
-    $(".top-nav ul li")
-      .hover(function () {
-        let index = $(this).index();
-        if (index == 0) {
-          $("#underbar").stop().animate({ 'left': '0' }, 200, 'swing');
-        } else {
-          $("#underbar").stop().animate({ 'left': 20 * index + '%' }, 200, 'swing');
-        }
-      })
-      .click(function () {
-        $(this).animate({ 'color': 'black' }, 300);
-        $(".top-nav ul li").not(this).css('color', "rgb(180, 180, 180)");
-        currentIndex = $(this).index();
-      })
-      .mouseleave(function () {
-        if (currentIndex == 0) {
-          $("#underbar").stop().animate({ 'left': '0' }, 200, 'swing');
-        } else {
-          $("#underbar").stop().animate({ 'left': 20 * currentIndex + '%' }, 200, 'swing');
-        }
-      });
-  
-    $(".bottom-nav ul li")
-      .hover(function () {
-        let index = $(this).index();
-        if (index == 0) {
-          $("#overbar").stop().animate({ 'left': '0%' }, 600, 'swing');
-        } else {
-          $("#overbar").stop().animate({ 'left': 20 * (index - 1) + '%' }, 300, 'swing');
-        }
-      })
-      .mouseleave(function () {
-        if (currentIndex == 0) {
-          $("#overbar").stop().animate({ 'left': '0%' }, 600, 'swing');
-        } else {
-          $("#overbar").stop().animate({ 'left': 20 * currentIndex + '%' }, 300, 'swing');
-        }
-      });
+  let currentIndex = $("#page-content").data("index");
+
+  $(".top-nav ul li")
+    .hover(function () {
+      let index = $(this).index();
+      if (index == 0) {
+        $("#underbar").stop().animate({ 'left': '0' }, 200, 'swing');
+      } else {
+        $("#underbar").stop().animate({ 'left': 20 * index + '%' }, 200, 'swing');
+      }
+    })
+    .click(function () {
+      $(this).animate({ 'color': 'black' }, 300);
+      $(".top-nav ul li").not(this).css('color', "rgb(180, 180, 180)");
+      currentIndex = $(this).index();
+    })
+    .mouseleave(function () {
+      if (currentIndex == 0) {
+        $("#underbar").stop().animate({ 'left': '0' }, 200, 'swing');
+      } else {
+        $("#underbar").stop().animate({ 'left': 20 * currentIndex + '%' }, 200, 'swing');
+      }
+    });
+
+  $(".bottom-nav ul li")
+    .hover(function () {
+      let index = $(this).index();
+      if (index == 0) {
+        $("#overbar").stop().animate({ 'left': '0%' }, 600, 'swing');
+      } else {
+        $("#overbar").stop().animate({ 'left': 20 * (index - 1) + '%' }, 300, 'swing');
+      }
+    })
+    .mouseleave(function () {
+      if (currentIndex == 0) {
+        $("#overbar").stop().animate({ 'left': '0%' }, 600, 'swing');
+      } else {
+        $("#overbar").stop().animate({ 'left': 20 * currentIndex + '%' }, 300, 'swing');
+      }
+    });
 
 
   let st = $(window).scrollTop();
@@ -92,23 +91,59 @@ $(function () {
     $('html').stop().animate({ scrollTop: 0 }, 1000);
   });
 
-  $("#cart").click(function(){
-    location.href="/cart";
+  $("#cart").click(function () {
+    location.href = "/cart";
   });
 });
 
-function hideModal(){
+let opacity, fadeInInterval, fadeOutInterval;
+
+function dom(_this) {
+  return document.querySelector(_this);
+}
+
+function domAll(_this) {
+  return document.querySelectorAll(_this);
+}
+
+function toggle(_this, boolean){
+  if(boolean) {
+    $(_this).fadeIn(0);
+  } else {
+    $(_this).fadeOut(0);
+  }
+}
+
+function toggleClass(_this, _class, boolean){
+  if(boolean) {
+    $(_this).addClass(_class);
+  } else {
+    $(_this).removeClass(_class);
+  }
+}
+
+function anonymousBlock() {
+  (async () => {
+    const isAnonymous = await fetch("/login/check").then(res => res.json());
+    if (isAnonymous) {
+      alert("로그인 후 이용가능합니다.");
+      location.href = "/login";
+      return
+    }
+  })();
+}
+
+function hideModal() {
   $(".alert-modal").fadeOut(200);
 }
 
-function flexFadeIn(_this){
+function flexFadeIn(_this) {
   $(_this).css("display", "flex");
-  $(_this).animate({"opacity":"1"}, 500);
+  $(_this).animate({ "opacity": "1" }, 500);
 }
 
-function flexFadeOut(_this){
-  $(_this).animate({"opacity":"0"}, 200);
+function flexFadeOut(_this) {
+  $(_this).animate({ "opacity": "0" }, 200);
   $(_this).css("display", "none");
 }
-
 

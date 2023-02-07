@@ -10,6 +10,7 @@ import com.cerdure.bookshelf.domain.board.Review;
 import com.cerdure.bookshelf.domain.book.Category;
 import com.cerdure.bookshelf.domain.enums.MemberRole;
 import com.cerdure.bookshelf.domain.member.Address;
+import com.cerdure.bookshelf.domain.member.Coupon;
 import com.cerdure.bookshelf.domain.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +21,8 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -30,6 +33,7 @@ public class InitDb {
     @PostConstruct
     public void init() {
 //        initService.dbInitBooks();
+//        initService.initCoupon();
     }
 
     @Component
@@ -39,6 +43,14 @@ public class InitDb {
 
         private final EntityManager em;
         private final BCryptPasswordEncoder passwordEncoder;
+
+        public void initCoupon() {
+            List<Coupon> coupons = new ArrayList<>();
+            coupons.add(Coupon.builder().price(5000).min(70000).build());
+            coupons.add(Coupon.builder().price(3000).min(50000).build());
+            coupons.add(Coupon.builder().price(2000).min(30000).build());
+            coupons.forEach(coupon -> em.persist(coupon));
+        }
 
         public void dbInitBooks() {
             Category[] categories = new Category[21];

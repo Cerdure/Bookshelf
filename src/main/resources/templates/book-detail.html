@@ -291,7 +291,7 @@
 
         <div class="review-write-attach-photo-button">
           <input name="imageFiles" class="review-write-photo-input" type="file" multiple="multiple"
-            accept=".jpg, .jpeg, .png, .gif" onchange="setThumbnail(event,this)">
+            accept=".jpg, .jpeg, .png, .gif" onchange="setThumbnail(eventState,this)">
         </div>
 
       </div>
@@ -373,7 +373,7 @@
 
         <div class="review-write-photo-wrapper" th:each="file: ${modReview!=null?modReview.files:null}">
           <div class="review-write-photo-cancel" onclick="deleteImg(this)">X</div>
-          <input class="review-write-photo" onchange="setThumbnail(event,this)" th:style="'background-image:url(' + ${file.fullPath} + ');'" >
+          <input class="review-write-photo" onchange="setThumbnail(eventState,this)" th:style="'background-image:url(' + ${file.fullPath} + ');'" >
         </div>
 
       </div>
