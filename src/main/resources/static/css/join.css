@@ -136,8 +136,7 @@ label {
 }
 .id::placeholder,
 .name::placeholder,
-.birth-1::placeholder,
-.birth-2::placeholder,
+.email::placeholder,
 .phone::placeholder,
 .code::placeholder,
 .pw::placeholder,
@@ -148,55 +147,16 @@ label {
   color: #d9d9d9;
 }
 
-.birth-1 {
+.email {
   position: absolute;
   bottom: 5px;
-  width: 200px;
-  height: 30px;
-  border: none;
-  outline: none;
-  resize: none;
-  text-indent: 14px;
-  font-size: 18px;
-  font-family: 'Noto Sans KR', sans-serif;
-  float: left;
-}
-.birth-line {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 5px;
-  width: 10px;
-  height: 30px;
-  text-align: center;
-  font-size: 21px;
-  font-family: 'Noto Sans KR', sans-serif;
-  color: gray;
-  float: left;
-}
-.birth-2{
-  position: absolute;
-  bottom: 5px;
-  left: 55%;
-  transform: translateX(-50%);
-  width: 25px;
+  width: 100%;
   height: 30px;
   border: none;
   outline: none;
   font-size: 18px;
+  text-indent: 15px;
   font-family: 'Noto Sans KR', sans-serif;
-  text-indent: 10px;
-  resize: none;
-  float: left;
-}
-.birth-dot {
-  position: absolute;
-  left: 71%;
-  transform: translateX(-50%);
-  bottom: 10px;
-  font-size: 18px;
-  opacity: 0.6;
-  float: left;
 }
 
 .phone {

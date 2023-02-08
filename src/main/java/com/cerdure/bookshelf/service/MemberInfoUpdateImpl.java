@@ -29,6 +29,7 @@ import java.util.UUID;
 @Transactional
 @Slf4j
 public class MemberInfoUpdateImpl implements MemberInfoUpdateService {
+
     @Value("${social.client.message.api-key}")
     private String apiKey;
     @Value("${social.client.message.secret-key}")
@@ -36,64 +37,64 @@ public class MemberInfoUpdateImpl implements MemberInfoUpdateService {
     private String fileDir = System.getProperty("user.dir") + "/src/main/resources/static/upload-img/";
     private final MemberRepository memberRepository;
     private final MemberProfileRepository memberProfileRepository;
+
     @Override
     public Boolean memberPhoneCheck(String phoneNumber) {
-       if(memberRepository.findByPhone(phoneNumber)==null){
-           return true;
-       }else{
-           return false;
-       }
+        if (memberRepository.findByPhone(phoneNumber) == null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public Boolean memberPasswordChange(String newPassword, String phone) {
         Member member = findByPhone(phone);
         String changePassword = member.changePassword(newPassword);
-        if(changePassword==newPassword){
+        if (changePassword == newPassword) {
             return true;
         }
-            return false;
+        return false;
     }
 
     @Override
     public String makeNum(String phoneNumber) {
-
         Random random = new Random();
         String numStr = "";
-
-        for(int i=0; i<4; i++){
+        for (int i = 0; i < 4; i++) {
             String ran = Integer.toString(random.nextInt(10));
-            numStr+=ran;
+            numStr += ran;
         }
         Message message = new Message(apiKey, secretKey);
         HashMap<String, String> params = new HashMap<>();
-        params.put("to",phoneNumber);
-        params.put("from","01064090592");
-        params.put("type","SMS");
-        params.put("text","BOOKSHELF 휴대폰인증 메시지 : 인증버호는 "+"["+numStr+"]"+"입니다.");
-        params.put("app_version","test app 1.2");
+        params.put("to", phoneNumber);
+        params.put("from", "01064090592");
+        params.put("type", "SMS");
+        params.put("text", "BOOKSHELF 휴대폰인증 메시지 : 인증버호는 " + "[" + numStr + "]" + "입니다.");
+        params.put("app_version", "test app 1.2");
 
-        try{
+        try {
             JSONObject obj = (JSONObject) message.send(params);
-        }catch (CoolsmsException e){
-            log.info("message={}",e.getMessage());
-            log.info("code={}",e.getCode());
+        } catch (CoolsmsException e) {
+            log.info("message={}", e.getMessage());
+            log.info("code={}", e.getCode());
         }
         return numStr;
     }
 
     @Override
-    public String changeNumber(String phoneNumber,String newPhoneNumber) {
+    public String changeNumber(String phoneNumber, String newPhoneNumber) {
         Member member = findByPhone(phoneNumber);
         Member newPhoneNum = member.changePhoneNumber(newPhoneNumber);
         Member savedMember = memberRepository.save(newPhoneNum);
         return savedMember.getPhone();
     }
+
     @Override
-    public Boolean memberEmailChange(String email,String phone) {
-        if(memberRepository.findByEmail(email)!=null){
+    public Boolean memberEmailChange(String email, String phone) {
+        if (memberRepository.findByEmail(email) != null) {
             return false;
-        }else{
+        } else {
             Member member = findByPhone(phone);
             Member newEmail = member.changeEmail(email);
             memberRepository.save(newEmail);
@@ -114,11 +115,11 @@ public class MemberInfoUpdateImpl implements MemberInfoUpdateService {
 
     private Member findByPhone(String phone) {
         return memberRepository.findByPhone(phone).orElseThrow(() ->
-                  new IllegalArgumentException("없는 회원입니다"));
+                new IllegalArgumentException("없는 회원입니다"));
     }
 
     @Override
-    public Boolean memberChangeAddress(NewAddressDto newAddressDto,String phone) {
+    public Boolean memberChangeAddress(NewAddressDto newAddressDto, String phone) {
         Member member = findByPhone(phone);
         Address newAddress = Address.builder()
                 .city(newAddressDto.getCity())
@@ -126,11 +127,11 @@ public class MemberInfoUpdateImpl implements MemberInfoUpdateService {
                 .street(newAddressDto.getStreet())
                 .build();
 
-        Address newMemberAddress= member.changeAddress(newAddress);
+        Address newMemberAddress = member.changeAddress(newAddress);
 
-        if(newMemberAddress.getCity()==newAddressDto.getCity()&&
-         newMemberAddress.getStreet()==newAddressDto.getStreet()&&
-         newMemberAddress.getZipcode()==newAddressDto.getZipcode()){
+        if (newMemberAddress.getCity() == newAddressDto.getCity() &&
+                newMemberAddress.getStreet() == newAddressDto.getStreet() &&
+                newMemberAddress.getZipcode() == newAddressDto.getZipcode()) {
             return true;
         }
         return false;
@@ -139,7 +140,7 @@ public class MemberInfoUpdateImpl implements MemberInfoUpdateService {
     @Override
     public Boolean memberDelete(String phone) {
         memberRepository.deleteByPhone(phone);
-        if(memberRepository.findByPhone(phone)==null){
+        if (memberRepository.findByPhone(phone) == null) {
             return true;
         }
         return false;
@@ -149,21 +150,22 @@ public class MemberInfoUpdateImpl implements MemberInfoUpdateService {
     public String memberProfileChange(MultipartFile file, String phone) throws IOException {
         String storeFileName = createStoreFileName(file.getOriginalFilename());
         MemberProfile memberProfile = getMemberProfile(phone);
-        MemberProfile cahngeMemberProfile = memberProfile.changeProfile(storeFileName, file.getOriginalFilename(), getFullPath(storeFileName));
+        MemberProfile changeMemberProfile = memberProfile.changeProfile(storeFileName, file.getOriginalFilename(), getFullPath(storeFileName));
 
-        MemberProfile savedProfile = memberProfileRepository.save(cahngeMemberProfile);
+        MemberProfile savedProfile = memberProfileRepository.save(changeMemberProfile);
         file.transferTo(new File(getFullPath(storeFileName)));
-        String newProfile=savedProfile.getProfileDir()+savedProfile.getStoreProfileName();
+        String newProfile = savedProfile.getProfileDir() + savedProfile.getStoreProfileName();
         return newProfile;
     }
+
     @Override
     public String memberChangebasic(String phone) {
-        String basicprofile="basic.jpeg";
+        String basicprofile = "basic.jpeg";
         MemberProfile memberProfile = getMemberProfile(phone);
         MemberProfile profile = memberProfile.changeProfile(basicprofile, basicprofile, getFullPath(basicprofile));
 
         MemberProfile savedProfile = memberProfileRepository.save(profile);
-        String basicProfile=savedProfile.getProfileDir()+savedProfile.getStoreProfileName();
+        String basicProfile = savedProfile.getProfileDir() + savedProfile.getStoreProfileName();
         return basicProfile;
     }
 
@@ -175,10 +177,9 @@ public class MemberInfoUpdateImpl implements MemberInfoUpdateService {
         return memberProfile;
     }
 
-
     private String createStoreFileName(String originalFilename) {
         String ext = extractExt(originalFilename);
-        if(ext=="" || ext==null){
+        if (ext == "" || ext == null) {
             return null;
         } else {
             String uuid = UUID.randomUUID().toString();

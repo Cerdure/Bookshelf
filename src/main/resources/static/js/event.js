@@ -453,8 +453,10 @@ $(function () {
 
   const checkImg = "/img/icon/patch-check-fill.svg";
 
+
+
   $(window).scroll(function () {
-    if (!checked && $(this).scrollTop() > 2900) {
+    if (!checked && dom(".check-wrapper").getBoundingClientRect().top < 100) {
       $(".check-day" + currentDay).css({
         'height': '100%',
         'position': 'absolute',
@@ -471,9 +473,6 @@ $(function () {
       });
       count++;
       setTimeout(function () {
-        $(".check-fill-end").animate({
-          'left': 147.5 + 494.5 / lastDay * count + 'px'
-        }, 500).css('animation', 'border-color-change 1s');
         $(".check-fill").animate({
           'left': -100 + 100 / lastDay * count + '%'
         }, 500).css('animation', 'background-color-change linear 1s');
