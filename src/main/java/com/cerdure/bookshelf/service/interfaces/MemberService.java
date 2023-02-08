@@ -13,7 +13,7 @@ public interface MemberService {
     public void save(Member member);
     public Long join(MemberDto memberDto);
     void validateDuplicateMember(MemberDto memberDto);
-    MemberApiLoginInfoDto apiJoin(ApiJoinDto apiJoinDto, String email);
+    MemberApiLoginInfoDto apiJoin(ApiJoinDto apiJoinDto);
     public List<Member> findMembers();
     public Member findMember(Authentication authentication);
     InfoUpdateDto showInfo(Authentication authentication);

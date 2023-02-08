@@ -16,10 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -35,18 +32,21 @@ public class LoginApiSimpleJoinController {
         model.addAttribute("email",email);
         return "join-api";
     }
-    @PostMapping("/login/api/apiJoin/{email}")
-    private String simpleJoin(@PathVariable(name="email")String email, @Validated @ModelAttribute ApiJoinDto apiJoinDto){
-        log.info("PostMail={}",email);
+    @PostMapping("/login/apiJoin")
+    @ResponseBody
+    private boolean simpleJoin(@Validated @ModelAttribute ApiJoinDto apiJoinDto){
+        log.info("PostMail={}", apiJoinDto.getEmail());
 
-        MemberApiLoginInfoDto member = memberService.apiJoin(apiJoinDto, email);
-        log.info("phone={}",member.getPhone());
-        log.info("pw={}",member.getPassword());
+        MemberApiLoginInfoDto member = memberService.apiJoin(apiJoinDto);
 
-        UsernamePasswordAuthenticationToken kakaoUser = new UsernamePasswordAuthenticationToken(member.getPhone(), member.getPassword());
-        Authentication authentication = authenticationManager.authenticate(kakaoUser);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        return "redirect:/";
+        if(member==null){
+            log.info("null 이미 가입한 회원입니다");
+            return false;
+        }else{
+            UsernamePasswordAuthenticationToken kakaoUser = new UsernamePasswordAuthenticationToken(member.getPhone(), member.getPassword());
+            Authentication authentication = authenticationManager.authenticate(kakaoUser);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            return true;
+        }
     }
 }

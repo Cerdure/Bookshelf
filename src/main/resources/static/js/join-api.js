@@ -1,71 +1,75 @@
-$(function () {
-
-    let width = $(window).width();
-
-    if (width < 1000) {
-        $(".bottom-nav-wrapper").stop().animate({ 'bottom': '0px' }, 500);
-        $(".bottom-nav-sub-wrapper").stop().animate({ 'bottom': '50px' }, 500);
-        $(".main-wrapper").stop().animate({ 'padding-right': '0' }, 500);
-        $(".side-wrapper").stop().animate({ 'right': '-300px' }, 500);
-        $(".other-reviews").stop().css({ 'margin-bottom': '100px' });
-    } else {
-        $(".bottom-nav-wrapper").stop().animate({ 'bottom': '-80px' }, 500);
-        $(".bottom-nav-sub-wrapper").stop().animate({ 'bottom': '-80px' }, 500);
-        $(".main-wrapper").stop().animate({ 'padding-right': '200px' }, 500);
-        $(".side-wrapper").stop().animate({ 'right': '0' }, 300);
-        $(".other-reviews").stop().css({ 'margin-bottom': '0' });
-    }
-
-    $(window).resize(function () {
-        width = $(this).width();
-        if (width < 1000) {
-            $(".bottom-nav-wrapper").stop().animate({ 'bottom': '0px' }, 500);
-            $(".bottom-nav-sub-wrapper").stop().animate({ 'bottom': '50px' }, 500);
-            $(".main-wrapper").stop().animate({ 'padding-right': '0' }, 500);
-            $(".side-wrapper").stop().animate({ 'right': '-300px' }, 500);
-            $(".other-reviews").stop().css({ 'margin-bottom': '100px' });
-        } else {
-            $(".bottom-nav-wrapper").stop().animate({ 'bottom': '-80px' }, 500);
-            $(".bottom-nav-sub-wrapper").stop().animate({ 'bottom': '-80px' }, 500);
-            $(".main-wrapper").stop().animate({ 'padding-right': '200px' }, 500);
-            $(".side-wrapper").stop().animate({ 'right': '0' }, 300);
-            $(".other-reviews").stop().css({ 'margin-bottom': '0' });
+$(function (){
+    var nameValue = $("input#memberName").val();
+    var regExp1 = /^[가-힣]{2,10}$/;
+    $(".memberName").on('keyup focus',function() {
+        if (regExp1.test(nameValue)){
+            error_txt_name.innerHTML = null;
+        }
+    });
+    $(".phoneNumber").on('keyup focus',function() {
+        if (phoneNumber.value !== ""){
+            error_txt_phone.innerHTML = null;
         }
     });
 
-});
-
-function addressSearch() {
-    $('.street').focus();
-    new daum.Postcode({
-        oncomplete: function (data) {
-            $('.zipcode').val(data.zonecode);
-            $('.city').val(data.address);
+    $(".memberAddress").on('keyup focus',function() {
+        var zipcode=document.querySelector('.zipcode');
+        var city=document.querySelector('.city');
+        var street=document.querySelector('.street');
+        if (zipcode.value !== "" && city.value !== "" && street.value !== ""){
+            error_txt_address.innerHTML = null;
         }
-    }).open();
-}
+    });
+})
 
+async function submitButton(){
 
-function submitButton() {
-
-    var name = $("input#memberName").val();
+    var nameValue = $("input#memberName").val();
     var regExp1 = /^[가-힣]{2,10}$/;
+    var formdata = new FormData();
+    var email=$('#email').val();
+    var memberName=$('#memberName');
+    var phoneNumber=$('#phoneNumber');
 
-    if (!regExp1.test(name)) {
+    if (!regExp1.test(nameValue)){
         error_txt_name.innerHTML = "한글 2글자 ~ 10글자";
-        saveJoin.name.focus();
+        memberName.focus();
         return false;
     }
-    if (saveJoin.phoneNumber.value == "") {
+    if (phoneNumber.value == ""){
         error_txt_phone.innerHTML = "전화번호 입력하세요";
-        saveJoin.phone.focus();
-        return;
+        phoneNumber.focus();
+        return false;
     }
-    if (saveJoin.zipcode.value == "" || saveJoin.city.value == "" || saveJoin.street.value == "") {
+    
+    var zipcode=document.querySelector('.zipcode');
+    var city=document.querySelector('.city');
+    var street=document.querySelector('.street');
+    if (zipcode.value== "" || city.value == "" || street.value == ""){
         error_txt_address.innerHTML = "정확한 주소를 입력 하세요";
-        saveJoin.zipcode.focus();
+        zipcode.focus();
         return false;
     }
 
-    apiJoin.submit();
+    formdata.append('email',email);
+    formdata.append('memberName',memberName.val());
+    formdata.append('phoneNumber',phoneNumber.val());
+    formdata.append('zipcode',zipcode.value);
+    formdata.append('city',city.value);
+    formdata.append('street',street.value);
+
+
+    var check= await fetch('/login/apiJoin',{
+        method: 'post',
+        cache: 'no-cache',
+        body:formdata
+    }).then(re=>re.text()).catch(err=>console.log(err));
+    console.log(check)
+    if(check=="true"){
+        alert('회원가입이 완료되었습니다.');
+        window.location.href="/";
+    }else{
+        alert('이미 가입한 회원입니다.');
+        window.location.href="/login";
+    }
 }

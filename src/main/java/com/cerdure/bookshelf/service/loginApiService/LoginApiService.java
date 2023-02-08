@@ -3,11 +3,13 @@ package com.cerdure.bookshelf.service.loginApiService;
 import com.cerdure.bookshelf.domain.enums.MemberJoinType;
 import com.cerdure.bookshelf.domain.enums.MemberRole;
 import com.cerdure.bookshelf.domain.member.Member;
+import com.cerdure.bookshelf.domain.member.MemberProfile;
 import com.cerdure.bookshelf.dto.loginApi.AuthResponseDto;
 import com.cerdure.bookshelf.dto.loginApi.LoginApiSessionDto;
 import com.cerdure.bookshelf.dto.loginApi.MemberApiLoginInfoDto;
 import com.cerdure.bookshelf.dto.loginApi.MemberResponseDto;
 import com.cerdure.bookshelf.repository.MemberRepository;
+import com.cerdure.bookshelf.service.MemberServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,7 @@ import java.util.Optional;
 public class LoginApiService {
     private final List<LoginAllApiService> loginAllApiService;
     private final MemberRepository memberRepository;
-
+    private final MemberServiceImpl memberServiceImpl;
     public LoginApiSessionDto doApiLogin(String code, MemberJoinType joinType){
         LoginAllApiService loginApiService = this.getLoginApiService(joinType);
         AuthResponseDto accessToken = loginApiService.getAccessToken(code);
@@ -31,13 +33,14 @@ public class LoginApiService {
         }
 
         if(memberRepository.findByEmail(userInfo.getEmail())==null){
-
+            MemberProfile basicProfile = memberServiceImpl.getBasicProfile();
             Member member = Member.builder()
                     .memberJoinType(joinType)
                     .email(userInfo.getEmail())
                     .nickname(userInfo.getNickname())
                     .role(MemberRole.USER)
                     .regDate(LocalDate.now())
+                    .memberProfile(basicProfile)
                     .build();
             memberRepository.save(member);
         }

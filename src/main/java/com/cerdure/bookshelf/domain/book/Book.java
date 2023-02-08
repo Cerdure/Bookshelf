@@ -37,7 +37,7 @@ public class Book {
     private Integer stock;
     private Integer sales;
     private Integer rating;
-
+    private Integer totalBookMark;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
@@ -77,19 +77,19 @@ public class Book {
         this.discountRate = this.discountRate == null ? (int) (Math.random() * 6) * 10 : this.discountRate;
         this.discountPrice = this.discountPrice == null ? this.originPrice * (100 - this.discountRate) / 100 : this.discountPrice;
         this.stock = this.stock == null ? 20 : this.stock;
-        this.sales = this.sales == null ? (int) (Math.random() * 100 + 1) : this.sales;
-        this.rating = this.rating == null ? (int) (Math.random() * 5 + 1) : this.rating;
-        this.intro = this.intro == null ? this.name + " 책 소개" : this.intro;
-        this.bookIndex = this.bookIndex == null ? this.name + " 목차" : this.bookIndex;
-        this.publisherReview = this.publisherReview == null ? this.name + " 서평" : this.publisherReview;
+        this.sales = this.sales == null ? (int)(Math.random()*100+1) : this.sales;
+        this.rating = this.rating == null ? (int)(Math.random()*5+1) : this.rating;
+        this.intro = this.intro == null ? this.name+" 책 소개" : this.intro;
+        this.bookIndex = this.bookIndex == null ? this.name+" 목차" : this.bookIndex;
+        this.publisherReview = this.publisherReview == null ? this.name+" 서평" : this.publisherReview;
+        this.totalBookMark = this.totalBookMark == null ? 0 : this.totalBookMark;
     }
-
+    
     @Builder
-    public Book(Long id, String name, String imgPath, Category category, String author, String publisher, LocalDate publishDate, String ISBN, Integer originPrice, Integer discountRate, Integer discountPrice, Integer stock, Integer sales, Integer rating, String intro, String bookIndex, String publisherReview) {
+    public Book(Long id, String name, String imgPath, String author, String publisher, LocalDate publishDate, String ISBN, Integer originPrice, Integer discountRate, Integer discountPrice, Integer stock, Integer sales, Integer rating, Integer totalBookMark, Category category, List<Review> reviews, String intro, String bookIndex, String publisherReview) {
         this.id = id;
         this.name = name;
         this.imgPath = imgPath;
-        this.category = category;
         this.author = author;
         this.publisher = publisher;
         this.publishDate = publishDate;
@@ -98,12 +98,18 @@ public class Book {
         this.discountRate = discountRate;
         this.discountPrice = discountPrice;
         this.stock = stock;
+        this.sales = sales;
+        this.rating = rating;
+        this.totalBookMark = totalBookMark;
+        this.category = category;
+        this.reviews = reviews;
         this.intro = intro;
         this.bookIndex = bookIndex;
         this.publisherReview = publisherReview;
-        this.sales = sales;
-        this.rating = rating;
     }
+
+
+
 
     public static String randomName() {
         List<String> 성 = Arrays.asList("김", "이", "박", "최", "정", "강", "조", "윤", "장", "임", "한", "오", "서", "신", "권", "황");
@@ -133,5 +139,13 @@ public class Book {
 
     public void changeSales(int sales) {
         this.sales = sales;
+    }
+    public Book addTotalMark(int mark){
+        this.totalBookMark +=mark;
+        return this;
+    }
+    public Book minusTotalMark(int mark){
+        this.totalBookMark -=mark;
+        return this;
     }
 }
