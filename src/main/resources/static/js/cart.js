@@ -37,11 +37,11 @@ $(function () {
     $(".check").get().forEach(e => e.checked = $(this).prop("checked"));
   });
 
-  $(document).on("click", ".row .check", function () {
+  $(document).on("click", ".row .check", () => {
     $(".all-select .check").prop("checked", $(".row .check").get().every(e => { return e.checked }));
   });
 
-  $(document).on("click", ".option-box .del-btn", function () {
+  $(document).on("click", ".option-box .del-btn", () => {
     removeCart(0);
   });
 
@@ -49,62 +49,57 @@ $(function () {
     removeCart(this);
   });
 
-  minusCheck();
+  $(document).on("keyup", ".count", function () {
+    modifyCart(this, 0);
+  });
 
   $(document).on("click", ".minus-btn", function () {
-    (async () => {
-      const row = $(this).closest(".row");
-      const bookId = row.find(".check").data("id");
-      const success = await fetch("/cart/remove?bookId=" + bookId).then(res => res.text());
-      if (success) {
-        const count = row.find(".count");
-        const countVal = Number(count.val())--;
-        const originPrice = row.find(".origin-price");
-        const originPriceVal = Number(originPrice.data("value")) * countVal;
-        const discountPrice = row.find(".discount-price");
-        const discountPriceVal = Number(discountPrice.data("value")) * countVal;
-        originPrice.text(originPriceVal.toLocaleString('ko-KR') + '원');
-        discountPrice.text(discountPriceVal.toLocaleString('ko-KR') + '원');
-        count.val(countVal);
-        sumUpdate();
-        minusCheck();
-      } else {
-        alert("요청이 실패하였습니다.");
-      }
-    })();
+    modifyCart(this, -1);
   });
 
   $(document).on("click", ".plus-btn", function () {
-    (async () => {
-      const row = $(this).closest(".row");
-      const bookId = row.find(".check").data("id");
-      const result = await fetch("/cart/add?bookId=" + bookId).then(res => res.text());
-      if (result == 'ok') {
-        const count = row.find(".count");
-        const countVal = Number(count.val())++;
-        const originPrice = row.find(".origin-price");
-        const originPriceVal = Number(originPrice.data("value")) * countVal;
-        const discountPrice = row.find(".discount-price");
-        const discountPriceVal = Number(discountPrice.data("value")) * countVal;
-        originPrice.text(originPriceVal.toLocaleString('ko-KR') + '원');
-        discountPrice.text(discountPriceVal.toLocaleString('ko-KR') + '원');
-        count.val(countVal);
-        sumUpdate();
-        minusCheck();
-      } else if (result == 'sold') {
-        alert("재고가 부족합니다.");
-      } else {
-        alert("요청이 실패하였습니다.");
-      }
-    })();
+    modifyCart(this, 1);
   });
 
+  minusCheck();
+
 });
+
+function modifyCart(_this, typeCode) {
+  (async () => {
+    const row = $(_this).closest(".row");
+    const count = row.find(".count");
+    const countVal = Number(count.val()) + typeCode;
+    const bookId = row.find(".check").data("id");
+    const result = await fetch("/cart/modify?bookId=" + bookId + "&amount=" + countVal).then(res => res.text());
+
+    if (result == 'ok') {
+      const originPrice = row.find(".origin-price");
+      const originPriceVal = Number(originPrice.data("value")) * countVal;
+      const discountPrice = row.find(".discount-price");
+      const discountPriceVal = Number(discountPrice.data("value")) * countVal;
+      originPrice.text(originPriceVal.toLocaleString('ko-KR') + '원');
+      discountPrice.text(discountPriceVal.toLocaleString('ko-KR') + '원');
+      if (typeCode != 0) count.val(countVal);
+      sumUpdate();
+      minusCheck();
+    } else if (result == 'min') {
+      alert("최솟값입니다.");
+      count.val(1);
+    } else if (result == 'error') {
+      alert("요청이 실패하였습니다.");
+    } else {
+      alert("재고가 부족합니다.");
+      count.val(result);
+    }
+  })();
+}
 
 function removeCart(_this) {
   (async () => {
     const isOne = _this == 0 ? false : true;
-    const data = isOne ? $(_this).parent().find("input").data("id")
+    const data = isOne ?
+      $(_this).closest(".row").find(".check").data("id")
       : $(".row input:checked").get().map(e => { return e.dataset.id });
 
     const success = await fetch("/cart/remove", {
@@ -114,7 +109,8 @@ function removeCart(_this) {
     }).then(res => res.json());
 
     if (success) {
-      isOne ? $(_this).parent().remove()
+      isOne ?
+        $(_this).parent().remove()
         : $(".row input:checked").get().forEach(e => e.parentNode.remove());
       $(".row").get().length == 0 ? location.reload() : sumUpdate();
     } else {
@@ -132,7 +128,8 @@ function sumUpdate() {
 
 function minusCheck() {
   $(".amount-box").get().forEach(e => {
-    e.querySelector("input").value < 2 ? e.querySelector(".minus-btn").classList.add('disable')
+    e.querySelector("input").value < 2 ?
+      e.querySelector(".minus-btn").classList.add('disable')
       : e.querySelector(".minus-btn").classList.remove('disable');
   });
 }

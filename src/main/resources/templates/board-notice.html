@@ -108,44 +108,33 @@
       </div>
     </div>
   </div>
-  
-  <div class="notice-controller">
-          <span class="controller"
-                th:with="start=${T(java.lang.Math).floor(notices.number/10)*10 + 1}, last=(${notices.totalPages})">
 
-             <a th:class="${notices.first} ? 'disable'"
-                th:href="@{/notice(page=${notices.number})}">
-               <img class="controller-btn-left" src="/img/icon/btn_pagination_prev@2x.png">
-             </a>
-
-            <a th:href="@{/notice(page=1)}"
-               th:if="${notices.totalPages < 4 ? false :notices.number > 1}"
-               th:text="1" aria-label="First">
-            </a>
-
-            <span th:if="${notices.totalPages < 4 ? false :notices.number > 1}">...</span>
-
-             <a th:each="page: ${#numbers.sequence(start, last)}"
-                th:if="${notices.first ? (page == 0 ? false : page < notices.number + 4) :
-                (notices.last ? page > notices.number - 2 : (page < notices.number + 3) && (page > notices.number - 1))}"
-                th:class="${page == notices.number + 1} ? 'index-active'"
-                th:text="${page}" th:href="@{/notice(page=${page})}">
-             </a>
-
-            <span th:if="${notices.totalPages < 4 ? false :notices.number < notices.totalPages - 2}">...</span>
-
-            <a th:href="@{/notice(page=${notices.totalPages})}"
-               th:if="${notices.totalPages < 4 ? false : notices.number < notices.totalPages - 2}"
-               th:text="${notices.totalPages}" aria-label="Last" >
-            </a>
-
-            <a th:class="${notices.last} ? 'disable'"
-               th:href="@{/notice(page=${notices.number +2})}">
-              <img class="controller-btn-right" src="/img/icon/btn_pagination_next@2x.png">
-            </a>
-
-          </span>
-  </div>
+  <pagination class="row-box"
+              th:with="start=${T(java.lang.Math).floor(notices.number/10)*10 + 1}, last=(${notices.totalPages})">
+    <a th:class="${notices.first} ? 'disable'" th:href="@{/notice(page=${notices.number})}">
+      <img class="btn-left" src="/img/icon/btn_pagination_prev@2x.png">
+    </a>
+    <index class="row-box">
+      <a aria-label="First" th:href="@{/notice(page=1)}"
+         th:if="${notices.totalPages < 4 ? false :notices.number > 1}" th:text="1">
+      </a>
+      <ellipsis th:if="${notices.totalPages < 4 ? false :notices.number > 1}">...</ellipsis>
+      <a th:each="page: ${#numbers.sequence(start, last)}"
+         th:if="${notices.first ? (page == 0 ? false : page < notices.number + 4) :
+                  (notices.last ? page > notices.number - 2 : (page < notices.number + 3) && (page > notices.number - 1))}"
+         th:class="${page == notices.number + 1} ? 'index-active'" th:text="${page}"
+         th:href="@{/notice(page=${page})}">
+      </a>
+      <ellipsis th:if="${notices.totalPages < 4 ? false :notices.number < notices.totalPages - 2}">...</ellipsis>
+      <a aria-label="Last" th:href="@{/notice(page=${notices.totalPages})}"
+         th:if="${notices.totalPages < 4 ? false :notices.number < notices.totalPages - 2}"
+         th:text="${notices.totalPages}">
+      </a>
+    </index>
+    <a th:class="${notices.last} ? 'disable'" th:href="@{/notice(page=${notices.number +2})}">
+      <img class="btn-right" src="/img/icon/btn_pagination_next@2x.png">
+    </a>
+  </pagination>
   
 </div>
 

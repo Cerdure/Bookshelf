@@ -76,7 +76,10 @@
     <div class="title">상품 문의</div>
   </div>
 
-  <div class="detail-wrapper">
+  <div class="detail-wrapper"
+       th:with="inquireWriter = ${#authorization.expression('isAnonymous()') ? false :
+                             #authorization.expression('hasRole(''ADMIN'')') ||
+                             (#authentication.principal?.username == inquire.member.phone)}">
     <input id="inquireId" th:value="${inquire.id}" type="hidden">
     <span class="reFlag"  th:text="${inquire.reFlag == 1 ? '답변완료' : '미답변'}"></span>
     <span class="title" th:text="${inquire.title}"></span>
@@ -85,8 +88,8 @@
       <span class="type" th:text="${inquire.member.nickname}"></span>
       <span class="split">ㅣ</span>
       <span class="date" th:text="${#temporals.format(inquire.regDate, 'yyyy.MM.dd')}"></span>
-      <span th:if="${#authorization.expression('hasRole(''ADMIN'')')} ? true : (${#authentication.principal.username} == ${inquire.member.phone})" class="remove">삭제</span>
-      <span th:if="${#authorization.expression('hasRole(''ADMIN'')')} ? true : (${#authentication.principal.username} == ${inquire.member.phone})" class="edit">수정</span>
+      <span th:if="${inquireWriter}" class="remove">삭제</span>
+      <span th:if="${inquireWriter}" class="edit">수정</span>
     </div>
     <div class="contents" th:utext="${inquire.content}"}></div>
 
@@ -101,7 +104,10 @@
       <div class="comment-button-cancel" onclick="commentCancel(this)">취소</div>
       </div>
 
-      <div th:each="reply : ${inquire.replies}" th:if="${reply.parent==null}">
+      <div th:each="reply : ${inquire.replies}" th:if="${reply.parent==null}"
+           th:with="replyWriter = ${#authorization.expression('isAnonymous()') ? false :
+                             #authorization.expression('hasRole(''ADMIN'')') ||
+                             (#authentication.principal?.username == reply.member.phone)}">
 
         <div th:fragment="replyBlock" th:remove="tag">
 
@@ -117,8 +123,8 @@
               <div class="option">
                 <img class="opt-btn" src="/img/icon/three-dots-vertical.svg">
                 <div class="box">
-                  <div class="edit" th:if="${#authorization.expression('hasRole(''ADMIN'')')} ? true : (${#authentication.principal.username} == ${reply.member?.phone})">수정</div>
-                  <div class="remove" th:if="${#authorization.expression('hasRole(''ADMIN'')')} ? true : (${#authentication.principal.username} == ${reply.member?.phone})">삭제</div>
+                  <div class="edit" th:if="${replyWriter}">수정</div>
+                  <div class="remove" th:if="${replyWriter}">삭제</div>
                   <div class="reply">답글 달기</div>
                 </div>
               </div>

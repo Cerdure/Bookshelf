@@ -10,6 +10,10 @@
 </th:block>
 
 <th:block layout:fragment="script">
+  <script th:inline="javascript">
+    var mark=[[${mark}]];
+    var bookName=[[${book.name}]];
+  </script>
   <script th:src="@{/js/book-detail.js}"></script>
 </th:block>
 
@@ -25,7 +29,7 @@
     <div class="right-box">
       <div class="top">
         <div id="book-id" th:data-value="${book.id}"></div>
-        <div class="title" th:text="${book.name}"></div>
+        <div class="title" id="bookTitle" th:text="${book.name}"></div>
         <div class="author" th:text="${book.author}"></div>
         <div class="price-header">
           <div th:class="${book.discountRate == 0} ? 'discount-price' : 'origin-price'" th:text="${#numbers.formatInteger(book.originPrice, 3, 'COMMA') + '원'}"></div>
@@ -42,7 +46,7 @@
           <li><img src="/img/book-cover/search-category-politics.jpg"></li>
           </div>
         <div class="text">북마크한 사람</div>
-        <div class="number">1,560명</div>
+        <div class="number totalBookmark" th:text="${book.totalBookMark}">1,560명</div>
         </div>
         <div class="reviews">
           <img class="icon" src="/img/icon/search-list-theme.svg">
@@ -171,15 +175,20 @@
 
   <div class="side-wrapper">
     <div class="bookmark" th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">
-      <img src="/img/icon/bookmark.svg">
-      <span>북마크하기</span>
+      <img src="/img/icon/bookmark.svg" class="memberBookMark" >
+      <span class="currnentBookmark" onclick="bookMark()">북마크하기</span>
     </div>
     <div class="write-review" th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">
       <img src="/img/icon/search-list-editor.svg">
       <span>리뷰 남기기</span>
     </div>
-    <button class="cart-btn" th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">장바구니에 넣기</button>
-    <button class="buy-btn" th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">구매하기</button>
+    <button class="cart-btn" th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">
+      장바구니에 넣기
+    </button>
+    <button class="buy-btn" th:onclick="|location.href='@{order(bookId=${book.id})}'|"
+            th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">
+      구매하기
+    </button>
   </div>
 
 </div>
@@ -205,10 +214,15 @@
       </div>
     </div>
     <div class="cart-btn-sub">
-      <button>장바구니에 넣기</button>
+      <button th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">
+        장바구니에 넣기
+      </button>
     </div>
     <div class="buy-btn-sub">
-      <button>구매하기</button>
+      <button th:onclick="|location.href='@{order(bookId=${book.id})}'|"
+              th:classappend="${#authorization.expression('hasRole(''USER'')')} ? '' : 'disable'">
+        구매하기
+      </button>
     </div>
   </div>
 </div>
@@ -281,7 +295,7 @@
 
         <div class="review-write-attach-photo-button">
           <input name="imageFiles" class="review-write-photo-input" type="file" multiple="multiple"
-            accept=".jpg, .jpeg, .png, .gif" onchange="setThumbnail(event,this)">
+            accept=".jpg, .jpeg, .png, .gif" onchange="setThumbnail(eventState,this)">
         </div>
 
       </div>
@@ -363,7 +377,7 @@
 
         <div class="review-write-photo-wrapper" th:each="file: ${modReview!=null?modReview.files:null}">
           <div class="review-write-photo-cancel" onclick="deleteImg(this)">X</div>
-          <input class="review-write-photo" onchange="setThumbnail(event,this)" th:style="'background-image:url(' + ${file.fullPath} + ');'" >
+          <input class="review-write-photo" onchange="setThumbnail(eventState,this)" th:style="'background-image:url(' + ${file.fullPath} + ');'" >
         </div>
 
       </div>

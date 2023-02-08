@@ -90,10 +90,56 @@ $(".phone").on('keyup focus',function() {
   join();
 });
 
+    function pwCheck() {
+        let originValue = $('.pw').val();
+        let thisValue = $('.pw-check').val();
+        if (thisValue==originValue && thisValue != "") {
+            $('.pw-check').parent().css('border', "1px solid rgb(101, 168, 255)")
+                .addClass('passed');
+        } else if (thisValue != "") {
+            $('.pw-check').parent().css('border', "1px solid #ff3873")
+                .removeClass('passed');
+        } else {
+            $('.pw-check').parent().css('border', "1px solid lightgray")
+                .removeClass('passed');
+        }
+        join();
+
+    }
+
+    $(".pw").on('keyup focus',function() {
+        const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,14}$/;
+        let value = $(this).val();
+        if (pwRegex.test(value)) {
+            $(this).parent().css('border', "1px solid rgb(101, 168, 255)")
+                .addClass('passed');
+            $('.pw-info').css('color', "rgb(101, 168, 255)");
+        } else if (value != "") {
+            $(this).parent().css('border', "1px solid #ff3873")
+                .removeClass('passed');
+            $('.pw-info').css('color', "#ff3873");
+        } else {
+            $(this).parent().css('border', "1px solid lightgray")
+                .removeClass('passed');
+            $('.pw-info').css('color', "rgb(170, 170, 170)");
+        }
+        pwCheck();
+    });
+    $(".pw-check").on('keyup focus',function() {
+        pwCheck();
+    });
 
 let timerInterval;
 $(".code-send").click(function(){
-  let time = 180;
+    (async ()=>{
+        var phone =$('.phone').val();
+        console.log("checkPhoneNumber")
+        console.log("phone="+phone);
+        var num=await fetch("/join/makeCheckNum/?phone="+phone).then(re=>re.text()).catch(err=>console.log(err));
+        $('.hidenNumber').val(num);
+        this.addClass("clicked")
+    })();
+    let time = 180;
   clearInterval(timerInterval);
   $(".timer").hide().text('03:00');
   if(!$(this).hasClass("clicked")){
@@ -114,25 +160,34 @@ $(".code-send").click(function(){
                        .removeClass("clicked");
       } else if(time<=0){
         $(".timer").text('시간 만료');
+        $('.hidenNumber').val(null);//jeon추가 시간 만료시 초기화
       }
     },1000);
   }    
 });
+
 $(".code-check").click(function(){
   $(".verify").animate({'height':'0'},300,function(){
     $(".verify").hide();
   });
   clearInterval(timerInterval);
-  $(".code-send").hide().text('인증 완료')
-  .css({'pointer-events':'none','line-height':'60px','color':'rgb(170,170,170)'})
-  .addClass("clicked")
-  .fadeIn(300);
-  $(".timer").hide();
-  // $('.phone').attr('disabled','true');
-  
-  $('.phone, .code').parent().addClass('passed');
-  $('.phone').parent().find('.clear-btn').remove();
-  join();
+  var number =$('.hidenNumber').val();
+  var inputNumber =$('.code').val();
+  if(number==inputNumber){
+      $(".code-send").hide().text('인증 완료')
+          .css({'pointer-events':'none','line-height':'60px','color':'rgb(170,170,170)'})
+          .addClass("clicked")
+          .fadeIn(300);
+      $(".timer").hide();
+      // $('.phone').attr('disabled','true');
+
+      $('.phone, .code').parent().addClass('passed');
+      $('.phone').parent().find('.clear-btn').remove();
+      join();
+      $('.verify').hide();
+  }else{
+      alert("올바르지 않은 번호입니다.")
+  }
 });
 
 
@@ -194,7 +249,6 @@ $('.zipcode, .city').on('keyup focus',function(){
             oncomplete: function(data) {
                 $('.zipcode').val(data.zonecode);
                 $('.city').val(data.address);
-                
             }
         }).open();
         $('.zipcode').parent().addClass($('.zipcode').val()==""?'':'passed');
@@ -211,7 +265,11 @@ $('.street').on('keyup focus', function(){
 });
 
 
+
+
 });
+
+
 
 
 

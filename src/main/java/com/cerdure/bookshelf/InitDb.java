@@ -10,6 +10,7 @@ import com.cerdure.bookshelf.domain.board.Review;
 import com.cerdure.bookshelf.domain.book.Category;
 import com.cerdure.bookshelf.domain.enums.MemberRole;
 import com.cerdure.bookshelf.domain.member.Address;
+import com.cerdure.bookshelf.domain.member.Coupon;
 import com.cerdure.bookshelf.domain.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +21,8 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -30,6 +33,7 @@ public class InitDb {
     @PostConstruct
     public void init() {
 //        initService.dbInitBooks();
+//        initService.initCoupon();
     }
 
     @Component
@@ -39,6 +43,14 @@ public class InitDb {
 
         private final EntityManager em;
         private final BCryptPasswordEncoder passwordEncoder;
+
+        public void initCoupon() {
+            List<Coupon> coupons = new ArrayList<>();
+            coupons.add(Coupon.builder().price(5000).min(70000).build());
+            coupons.add(Coupon.builder().price(3000).min(50000).build());
+            coupons.add(Coupon.builder().price(2000).min(30000).build());
+            coupons.forEach(coupon -> em.persist(coupon));
+        }
 
         public void dbInitBooks() {
             Category[] categories = new Category[21];
@@ -840,6 +852,7 @@ public class InitDb {
                     .name("테스터")
                     .nickname("테스터")
                     .phone("01011112222")
+                    .email("test12@bookshelf.com")
                     .pw(passwordEncoder.encode("1234"))
                     .address(new Address("서울 당산동","145가","K013"))
                     .role(MemberRole.USER)
@@ -849,6 +862,7 @@ public class InitDb {
                     .name("테스터1")
                     .nickname("유저11")
                     .phone("01012345678")
+                    .email("test1234@bookshelf.com")
                     .pw(passwordEncoder.encode("1234"))
                     .address(new Address("서울 당산동","145가","K013"))
                     .role(MemberRole.USER)
@@ -859,6 +873,7 @@ public class InitDb {
                     .name("테스터2")
                     .nickname("유저22")
                     .phone("01022222222")
+                    .email("test22@bookshelf.com")
                     .pw(passwordEncoder.encode("1234"))
                     .address(new Address("서울 당산동","145가","K013"))
                     .role(MemberRole.USER)
@@ -869,6 +884,7 @@ public class InitDb {
                     .name("테스터3")
                     .nickname("유저33")
                     .phone("01033333333")
+                    .email("test33@bookshelf.com")
                     .pw(passwordEncoder.encode("1234"))
                     .address(new Address("서울 당산동","145가","K013"))
                     .role(MemberRole.USER)

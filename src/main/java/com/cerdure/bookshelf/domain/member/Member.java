@@ -1,8 +1,11 @@
 package com.cerdure.bookshelf.domain.member;
 
+import com.cerdure.bookshelf.domain.enums.MemberJoinType;
 import com.cerdure.bookshelf.domain.order.Cart;
 import com.cerdure.bookshelf.domain.enums.MemberGrade;
 import com.cerdure.bookshelf.domain.enums.MemberRole;
+import com.cerdure.bookshelf.domain.order.Orders;
+import com.cerdure.bookshelf.dto.member.NewAddressDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,11 +18,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static javax.persistence.FetchType.LAZY;
-
 @Entity @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
 public class Member implements UserDetails {
 
     @Id @GeneratedValue
@@ -33,6 +33,8 @@ public class Member implements UserDetails {
     private String nickname;
 
     private String phone;
+
+    private String email;
 
     @Embedded
     private Address address;
@@ -48,12 +50,30 @@ public class Member implements UserDetails {
 
     private LocalDate delDate;
 
-    @OneToMany(mappedBy = "member")
+    @OneToOne(fetch = LAZY, orphanRemoval = true)
+    private MemberProfile memberProfile;
+    
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
     @JsonIgnore
     private List<Cart> carts;
 
+    @OneToMany(mappedBy = "orderer", orphanRemoval = true)
+    @JsonIgnore
+    private List<Orders> ordersList;
+
     @Enumerated(EnumType.STRING)
     private MemberRole role;
+
+    @Enumerated(EnumType.STRING)
+    private MemberJoinType memberJoinType;
+
+    @OneToOne(mappedBy = "member", orphanRemoval = true)
+    @JsonIgnore
+    private EventState eventState;
+
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
+    @JsonIgnore
+    private List<MemberCoupon> memberCoupons;
 
     @PrePersist
     public void prePersist() {
@@ -63,21 +83,13 @@ public class Member implements UserDetails {
         this.regDate = this.regDate == null ? LocalDate.now() : this.regDate;
     }
 
-    @Builder
-    public Member(Long id, String pw, String name, String nickname, String phone, Address address, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, List<Cart> carts, MemberRole role) {
-        this.id = id;
-        this.pw = pw;
-        this.name = name;
-        this.nickname = nickname;
-        this.phone = phone;
-        this.address = address;
-        this.grade = grade;
+
+    public void changePoint(int point){
         this.point = point;
-        this.regDate = regDate;
-        this.delflag = delflag;
-        this.delDate = delDate;
-        this.carts = carts;
-        this.role = role;
+    }
+
+    public void changeGrade(MemberGrade grade){
+        this.grade = grade;
     }
 
     @Override
@@ -87,6 +99,13 @@ public class Member implements UserDetails {
         return authorities;
     }
 
+    public Member apiJoin(String phone,Address address,String pw,String name){
+        this.phone=phone;
+        this.address=address;
+        this.pw=pw;
+        this.name=name;
+        return this;
+    }
     @Override
     public String getPassword() {
         return null;
@@ -115,5 +134,30 @@ public class Member implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
+    }
+
+    public Member changePhoneNumber(String phone) {
+        this.phone=phone;
+        return this;
+    }
+    public Member changeEmail(String email) {
+        this.email=email;
+        return this;
+    }
+    public Member changeNames(String newName, String newNickName) {
+        this.name=newName;
+        this.nickname=newNickName;
+        return this;
+    }
+
+    public Address changeAddress(Address address) {
+        this.address=address;
+
+        return this.address;
+    }
+
+    public String changePassword(String newPassword) {
+        this.pw=newPassword;
+        return  this.pw;
     }
 }

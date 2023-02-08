@@ -1,4 +1,9 @@
 $(function () {
+  $(document).ready(function(){
+    if(mark==1){
+      document.querySelector('.memberBookMark').setAttribute("style","filter: invert(16%) sepia(89%) saturate(6054%) hue-rotate(358deg) brightness(97%) contrast(113%);");
+       }
+  });
 
   $(".side-wrapper").css('transform', 'translateY(' + $(window).scrollTop() + 'px)');
 
@@ -193,23 +198,24 @@ $(function () {
 
   $(".cart-btn").click(function () {
     (async () => {
-      const result = await fetch("/cart/add?bookId=" + $("#book-id").data("value")).then(res => res.text());
+      const result = await fetch("/cart/modify?bookId=" + $("#book-id").data("value") + "&amount=1").then(res => res.text());
+      const alert = dom(".alert-btn-1");
+      const alertText = alert.querySelector(".text");
       if(result == 'ok') {
-        $(".alert-btn-1 .text").text("장바구니에 담겼습니다.");
-        $(".modal-background").fadeIn(100);
-        modalFadeIn(".alert-btn-1");
+        alertText.innerHTML = "장바구니에 담겼습니다.";
       } else if(result == 'sold'){
-        $(".alert-btn-1 .text").text("재고가 부족합니다.");
-        $(".modal-background").fadeIn(100);
-        modalFadeIn(".alert-btn-1");
+        alertText.innerHTML = "재고가 부족합니다.";
       } else {
-        $(".alert-btn-1 .text").text("요청이 실패하였습니다.");
-        $(".modal-background").fadeIn(100);
-        modalFadeIn(".alert-btn-1");
+        alertText.innerHTML = "요청이 실패하였습니다.";
       }
+      alert.querySelector(".ok").addEventListener("click", () => {
+        hideModal();
+        $(".modal-background").fadeOut(100);
+      });
+      $(".modal-background").fadeIn(100);
+      flexFadeIn(".alert-btn-1");
     })();
   });
-
 
   $(document).ready(function () {
 
@@ -258,14 +264,22 @@ $(function () {
       }
       registCheck(tagPassed, reviewPassed, bookPassed);
     });
+
     $(document).on("click", ".review-write-top-icon", function () {
-      $("form").css('filter', 'brightness(0.5)');
-      $(".close-alert").show();
+      $(".review-write-wrapper").css('filter', 'brightness(0.8)');
+      const alert = dom(".alert-btn-2");
+      alert.querySelector(".text").innerHTML = "작성한 내용은 저장되지 않습니다.<br>취소하겠습니까?";
+      alert.querySelector(".no").addEventListener("click", () => {
+        $(".review-write-wrapper").css('filter', 'brightness(1)');
+      });
+      alert.querySelector(".ok").addEventListener("click", formClose);
+      flexFadeIn(".alert-btn-2");
     });
+
     $(document).on("change", "#modify-wrapper .review-write-photo-input", function (event) {
       if (event.target.files.length > 0 && event.target.files.length < 6) {
         imgCount = 0;
-        let imgs = document.querySelectorAll(".review-write-photo-wrapper");
+        let imgs = domAll(".review-write-photo-wrapper");
         if (imgs != null) { imgs.forEach(e => e.remove()); }
 
         for (var image of event.target.files) {
@@ -280,7 +294,7 @@ $(function () {
             img.setAttribute("type", "file");
             img.setAttribute("class", "review-write-photo");
             img.setAttribute("disabled", true);
-            document.querySelector("#modify-wrapper .review-write-attach-photo").appendChild(div).appendChild(img);
+            dom("#modify-wrapper .review-write-attach-photo").appendChild(div).appendChild(img);
           }
           reader.readAsDataURL(image);
           imgChange();
@@ -351,7 +365,7 @@ function imgChange() {
 function setThumbnail(event) {
   if (event.target.files.length > 0 && event.target.files.length < 6) {
     imgCount = 0;
-    let imgs = document.querySelectorAll(".review-write-photo-wrapper");
+    let imgs = domAll(".review-write-photo-wrapper");
     if (imgs != null) { imgs.forEach(e => e.remove()); }
 
     for (var image of event.target.files) {
@@ -366,7 +380,7 @@ function setThumbnail(event) {
         img.setAttribute("type", "file");
         img.setAttribute("class", "review-write-photo");
         img.setAttribute("disabled", true);
-        document.querySelector(".review-write-attach-photo").appendChild(div).appendChild(img);
+        dom(".review-write-attach-photo").appendChild(div).appendChild(img);
       }
       reader.readAsDataURL(image);
       imgChange();
@@ -379,11 +393,11 @@ function setThumbnail(event) {
 
 function attchReset() {
   imgCount = 0;
-  let imgs = document.querySelectorAll(".review-write-photo-wrapper");
+  let imgs = domAll(".review-write-photo-wrapper");
   if (imgs != null) { imgs.forEach(e => e.remove()); }
 
-  let parent = document.querySelector(".review-write-attach-photo-button");
-  document.querySelector(".review-write-photo-input").remove();
+  let parent = dom(".review-write-attach-photo-button");
+  dom(".review-write-photo-input").remove();
 
   parent.innerHTML = '<input name="imageFiles" class="review-write-photo-input" type="file" multiple="multiple" accept=".jpg, .jpeg, .png, .gif" onchange="setThumbnail(event, this)"></input>';
 }
@@ -395,8 +409,7 @@ function deleteImg(_this) {
 }
 
 function formClose(_this) {
-  $(".write-wrapper-back").removeClass("modal-background");
-  $(".modal-background").hide();
+  $(".modal-background").fadeOut(100);
   $("form").hide();
   $("body").css('overflow-y', 'scroll');
   $("form").css('filter', 'brightness(100%)');
@@ -419,13 +432,7 @@ function formClose(_this) {
   rwOpened = false;
   imgCount = 0;
   starClickIndex = -1;
-  hideCloseAlert(_this)
-}
-
-
-function hideCloseAlert(_this) {
-  $("form").css('filter', 'brightness(100%)');
-  $(_this).parent().hide();
+  hideModal();
 }
 
 function hideDeleteAlert(_this) {
@@ -459,6 +466,22 @@ function reviewDelete(bookId) {
     document.location.replace("/book?id=" + bookId);
   });
 }
+
+async function bookMark(){
+  var totalBookMark=document.querySelector('.totalBookmark');
+  var currentMark=document.querySelector('.currnentBookmark');
+  var color=document.querySelector('.memberBookMark');
+  var mark=await fetch('/marking/?bookName='+bookName).then(re=>re.json()).catch(er=>console.log(er));
+  if(mark.memberBookmark==1){
+      totalBookMark.innerHTML=mark.totalMark;
+      color.setAttribute("style","filter: invert(16%) sepia(89%) saturate(6054%) hue-rotate(358deg) brightness(97%) contrast(113%);");
+      currentMark.val(mark.memberBookmark);
+    }else{
+      totalBookMark.innerHTML=mark.totalMark;
+      color.setAttribute("style","filter: none");
+      currentMark.val(mark.memberBookmark);
+    }
+  }
 
 
 $(function () {
@@ -494,8 +517,7 @@ $(function () {
     }
   });
 
-
-});
+})
 
 
 

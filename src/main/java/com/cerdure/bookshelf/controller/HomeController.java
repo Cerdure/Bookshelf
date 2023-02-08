@@ -46,7 +46,7 @@ public class HomeController {
                 r = (int)(Math.random()*books.size());
             }
             randomNum.add(r);
-            todayBooks[i] = books.get((int)(Math.random()*books.size()));
+            todayBooks[i] = books.get(r);
         }
         model.addAttribute("bannerBooks", bannerBooks);
         model.addAttribute("todayBooks", todayBooks);
@@ -66,7 +66,7 @@ public class HomeController {
                 r = (int)(Math.random()*books.size());
             }
             randomNum.add(r);
-            todayBooks[i] = books.get((int)(Math.random()*books.size()));
+            todayBooks[i] = books.get(r);
         }
         model.addAttribute("todayBooks", todayBooks);
         return "home :: .today-book-wrapper";

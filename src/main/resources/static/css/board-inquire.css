@@ -95,7 +95,7 @@
   opacity: 0.5;
 }
 
-.pagenation-wrapper {
+.pagination-wrapper {
   position: relative;
   height: 40px;
   margin: auto;
@@ -324,7 +324,7 @@
   padding: 30px;
   border: 1px solid silver;
   display: none;
-  z-index: 12;
+  z-index: 100;
 }
 .inquire-write-contents {
   width: 566px;
@@ -463,10 +463,6 @@
   border-radius: 10px;
   border: none;
   outline: none;
-}
-
-.modal-background {
-  display: block !important;
 }
 
 
