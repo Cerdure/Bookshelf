@@ -50,7 +50,9 @@ public class Member implements UserDetails {
 
     private LocalDate delDate;
 
-    @OneToOne(fetch = LAZY, orphanRemoval = true)
+    private Integer atdCount;
+
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     private MemberProfile memberProfile;
     
     @OneToMany(mappedBy = "member", orphanRemoval = true)
@@ -81,8 +83,36 @@ public class Member implements UserDetails {
         this.delflag = this.delflag == null ? 0 : this.delflag;
         this.point = this.point == null ? 0 : this.point;
         this.regDate = this.regDate == null ? LocalDate.now() : this.regDate;
+        this.atdCount = this.atdCount == null ? 0 : this.atdCount;
     }
 
+    @Builder
+    public Member(Long id, String pw, String name, String nickname, String phone, String email, Address address, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, Integer atdCount, MemberProfile memberProfile, List<Cart> carts, List<Orders> ordersList, MemberRole role, MemberJoinType memberJoinType, EventState eventState, List<MemberCoupon> memberCoupons) {
+        this.id = id;
+        this.pw = pw;
+        this.name = name;
+        this.nickname = nickname;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.grade = grade;
+        this.point = point;
+        this.regDate = regDate;
+        this.delflag = delflag;
+        this.delDate = delDate;
+        this.atdCount = atdCount;
+        this.memberProfile = memberProfile;
+        this.carts = carts;
+        this.ordersList = ordersList;
+        this.role = role;
+        this.memberJoinType = memberJoinType;
+        this.eventState = eventState;
+        this.memberCoupons = memberCoupons;
+    }
+
+    public void changeAtdCount(int atdCount){
+        this.atdCount = atdCount;
+    }
 
     public void changePoint(int point){
         this.point = point;
