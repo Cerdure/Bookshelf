@@ -25,15 +25,21 @@ public class Attendance {
 
     private LocalDate regDate = LocalDate.now();
 
+    private Boolean pointed;
+
     @PrePersist
     public void prePersist() {
+
         this.regDate = this.regDate == null ? LocalDate.now() : this.regDate;
+        this.pointed = this.pointed == null ? false : this.pointed;
     }
 
     @Builder
-    public Attendance(Long id, Member member, LocalDate regDate) {
+
+    public Attendance(Long id, Member member, LocalDate regDate, Boolean pointed) {
         this.id = id;
         this.member = member;
         this.regDate = regDate;
+        this.pointed = pointed;
     }
 }

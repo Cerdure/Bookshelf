@@ -1299,22 +1299,13 @@ z-index: 2;
   overflow: hidden;
 }
 .check-fill {
-  position: absolute;
-  left: -99%;
+  position: relative;
+  left: -100%;
   width: 100%;
   height: 100%;
   background-color: rgb(255, 174, 0);
 }
-.check-fill-end {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 147.5px;
-  width: 10px;
-  height: 20px;
-  border: 5px solid rgba(255, 187, 0, 0.6);
-  border-radius: 10px;
-}
+
 .check-box-bottom {
   height: 600px;
   padding: 40px;
@@ -1360,6 +1351,19 @@ z-index: 2;
   color: rgb(255, 142, 142);
 }
 
+.checked-day {
+  top: 30px;
+  background-image: url(/img/icon/patch-check-fill.svg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  transform: translateY(-50%);
+  opacity: 0.4;
+}
+
+.checked-day div {
+  display: none;
+}
 
 .notice-wrapper {
   position: relative;
