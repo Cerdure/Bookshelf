@@ -12,12 +12,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberProfile {
-    @GeneratedValue @Id
-    @Column(name = "memberProfile_id")
+
+    @Id @GeneratedValue
+    @Column(name = "member_profile_id")
     private Long id;
+
     private String profileDir;
+
     private String originalProfileName;
+
     private String storeProfileName;
+
     private String profileFullPath;
 
     @PrePersist

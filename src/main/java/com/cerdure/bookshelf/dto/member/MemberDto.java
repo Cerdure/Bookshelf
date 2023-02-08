@@ -32,6 +32,7 @@ public class MemberDto {
     private String city;
     private Address address;
     private String street;
+    private String email;
     private MemberProfile memberProfile;
     @Enumerated(EnumType.STRING)
     private MemberGrade grade;
@@ -43,7 +44,8 @@ public class MemberDto {
     private LocalDate delDate;
     private List<Orders> orders = new ArrayList<>();
 
-    public MemberDto(Long id, String pw, String name, String nickname, String phone, String zipcode, String city, Address address, String street, MemberProfile memberProfile, MemberGrade grade, MemberJoinType memberJoinType, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, List<Orders> orders) {
+    @Builder
+    public MemberDto(Long id, String pw, String name, String nickname, String phone, String zipcode, String city, Address address, String street, String email, MemberProfile memberProfile, MemberGrade grade, MemberJoinType memberJoinType, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, List<Orders> orders) {
         this.id = id;
         this.pw = pw;
         this.name = name;
@@ -53,6 +55,7 @@ public class MemberDto {
         this.city = city;
         this.address = address;
         this.street = street;
+        this.email = email;
         this.memberProfile = memberProfile;
         this.grade = grade;
         this.memberJoinType = memberJoinType;
@@ -63,7 +66,6 @@ public class MemberDto {
         this.orders = orders;
     }
 
-    @Builder
     public Member createMember(PasswordEncoder passwordEncoder,MemberProfile memberProfile){
         return Member.builder()
                 .pw(passwordEncoder.encode(this.pw))
@@ -71,6 +73,7 @@ public class MemberDto {
                 .nickname(this.nickname)
                 .phone(this.phone)
                 .address(new Address(this.city, this.street, this.zipcode))
+                .email(this.email)
                 .grade(this.grade)
                 .point(this.point)
                 .regDate(this.regDate)

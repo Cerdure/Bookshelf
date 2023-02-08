@@ -53,6 +53,7 @@ public class Member implements UserDetails {
     private Integer atdCount;
 
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "member_profile_id")
     private MemberProfile memberProfile;
     
     @OneToMany(mappedBy = "member", orphanRemoval = true)

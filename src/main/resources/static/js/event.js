@@ -454,6 +454,8 @@ $(function () {
 
   const checkImg = "/img/icon/patch-check-fill.svg";
 
+
+
   $(window).scroll(function () {
     (async () => {
       if (checked) return;

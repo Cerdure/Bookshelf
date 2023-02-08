@@ -110,7 +110,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public InfoUpdateDto showInfo(Authentication authentication) {
-        Member member = this.findMember(authentication);
+        Member member = findMember(authentication);
         String profile = member.getMemberProfile().getProfileDir() + member.getMemberProfile().getStoreProfileName();
         return InfoUpdateDto.builder()
                 .city(member.getAddress().getCity())
