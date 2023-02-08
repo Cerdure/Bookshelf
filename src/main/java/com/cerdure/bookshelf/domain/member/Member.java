@@ -50,7 +50,8 @@ public class Member implements UserDetails {
 
     private LocalDate delDate;
 
-    @OneToOne(fetch = LAZY, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "member_profile_id")
     private MemberProfile memberProfile;
     
     @OneToMany(mappedBy = "member", orphanRemoval = true)
@@ -83,6 +84,28 @@ public class Member implements UserDetails {
         this.regDate = this.regDate == null ? LocalDate.now() : this.regDate;
     }
 
+    @Builder
+    public Member(Long id, String pw, String name, String nickname, String phone, String email, Address address, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, MemberProfile memberProfile, List<Cart> carts, List<Orders> ordersList, MemberRole role, MemberJoinType memberJoinType, EventState eventState, List<MemberCoupon> memberCoupons) {
+        this.id = id;
+        this.pw = pw;
+        this.name = name;
+        this.nickname = nickname;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.grade = grade;
+        this.point = point;
+        this.regDate = regDate;
+        this.delflag = delflag;
+        this.delDate = delDate;
+        this.memberProfile = memberProfile;
+        this.carts = carts;
+        this.ordersList = ordersList;
+        this.role = role;
+        this.memberJoinType = memberJoinType;
+        this.eventState = eventState;
+        this.memberCoupons = memberCoupons;
+    }
 
     public void changePoint(int point){
         this.point = point;

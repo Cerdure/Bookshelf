@@ -10,7 +10,7 @@ import java.time.LocalDate;
 
 @Entity @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PhoneVerifyNumber {
+public class VerifyNumber {
 
     @Id @GeneratedValue
     @Column(name = "phone_verify_number_id")
@@ -30,7 +30,7 @@ public class PhoneVerifyNumber {
     }
 
     @Builder
-    public PhoneVerifyNumber(Long id, Member member, String number, LocalDate regDate) {
+    public VerifyNumber(Long id, Member member, String number, LocalDate regDate) {
         this.id = id;
         this.member = member;
         this.number = number;
