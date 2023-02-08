@@ -50,6 +50,8 @@ public class Member implements UserDetails {
 
     private LocalDate delDate;
 
+    private Integer atdCount;
+
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     @JoinColumn(name = "member_profile_id")
     private MemberProfile memberProfile;
@@ -82,10 +84,11 @@ public class Member implements UserDetails {
         this.delflag = this.delflag == null ? 0 : this.delflag;
         this.point = this.point == null ? 0 : this.point;
         this.regDate = this.regDate == null ? LocalDate.now() : this.regDate;
+        this.atdCount = this.atdCount == null ? 0 : this.atdCount;
     }
 
     @Builder
-    public Member(Long id, String pw, String name, String nickname, String phone, String email, Address address, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, MemberProfile memberProfile, List<Cart> carts, List<Orders> ordersList, MemberRole role, MemberJoinType memberJoinType, EventState eventState, List<MemberCoupon> memberCoupons) {
+    public Member(Long id, String pw, String name, String nickname, String phone, String email, Address address, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, Integer atdCount, MemberProfile memberProfile, List<Cart> carts, List<Orders> ordersList, MemberRole role, MemberJoinType memberJoinType, EventState eventState, List<MemberCoupon> memberCoupons) {
         this.id = id;
         this.pw = pw;
         this.name = name;
@@ -98,6 +101,7 @@ public class Member implements UserDetails {
         this.regDate = regDate;
         this.delflag = delflag;
         this.delDate = delDate;
+        this.atdCount = atdCount;
         this.memberProfile = memberProfile;
         this.carts = carts;
         this.ordersList = ordersList;
@@ -105,6 +109,10 @@ public class Member implements UserDetails {
         this.memberJoinType = memberJoinType;
         this.eventState = eventState;
         this.memberCoupons = memberCoupons;
+    }
+
+    public void changeAtdCount(int atdCount){
+        this.atdCount = atdCount;
     }
 
     public void changePoint(int point){

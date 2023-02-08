@@ -3,6 +3,8 @@ package com.cerdure.bookshelf.controller;
 import com.cerdure.bookshelf.domain.book.Book;
 import com.cerdure.bookshelf.domain.member.Member;
 import com.cerdure.bookshelf.dto.book.BookDto;
+import com.cerdure.bookshelf.dto.utils.DayUtils;
+import com.cerdure.bookshelf.service.interfaces.AttendanceService;
 import com.cerdure.bookshelf.service.interfaces.BookService;
 import com.cerdure.bookshelf.service.interfaces.EventService;
 import com.cerdure.bookshelf.service.interfaces.MemberService;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.EmptyStackException;
 import java.util.List;
 
 @Controller
@@ -23,13 +26,18 @@ public class EventController {
     private final MemberService memberService;
     private final BookService bookService;
     private final EventService eventService;
+    private final AttendanceService attendanceService;
+
 
     @GetMapping("/event")
     public String event(Authentication authentication, Model model){
         List<Book> bannerBooks = bookService.findDiscountTop16();
         List<Book> saleBooks = bookService.findDiscountTop18();
+        List<DayUtils> dayUtils = attendanceService.findAttendanceOfMonth(authentication);
         model.addAttribute("bannerBooks", bannerBooks);
         model.addAttribute("saleBooks", saleBooks);
+        model.addAttribute("dayUtils", dayUtils);
+        model.addAttribute("atdCount", dayUtils.stream().filter(dayUtil -> dayUtil.isChecked()).count());
         if(authentication != null){
             Member member = memberService.findMember(authentication);
             eventService.syncEventState(member);
@@ -75,6 +83,34 @@ public class EventController {
         } catch (IllegalStateException e) {
             return e.getMessage();
         } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+        return "ok";
+    }
+
+    @GetMapping("/event/attendance")
+    @ResponseBody
+    public String attendance(Authentication authentication){
+        try {
+            attendanceService.saveAttendance(authentication);
+        } catch (EmptyStackException e) {
+            return "point";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "error";
+        }
+        return "ok";
+    }
+
+    @GetMapping("/event/attendance/check")
+    @ResponseBody
+    public String attendanceCheck(Authentication authentication){
+        try {
+            attendanceService.checkAttendance(authentication);
+        } catch (IllegalStateException e) {
+            return "no";
+        } catch (Exception e){
             e.printStackTrace();
             return "error";
         }

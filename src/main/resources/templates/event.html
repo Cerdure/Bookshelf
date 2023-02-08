@@ -516,132 +516,56 @@
             <div class="check-fill">
             </div>
           </div>
-          <div class="check-fill-end"></div>
-          <div class="check-box-top-current">0일</div>
+          <div class="check-box-top-current atdCount" th:text="${atdCount} + '일'" th:data-value="${atdCount}"></div>
         </div>
         <div class="check-box-top-text">
           7일 연속 출석하면 <h2>1000포인트!</h2>
         </div>
       </div>
       <div class="check-box-bottom">
-        <div class="check-row">
-          <div class="check-day-wrapper" id="check-day1-wrapper">
-            <div class="check-day1">1</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day2-wrapper">
-            <div class="check-day2">2</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day3-wrapper">
-            <div class="check-day3">3</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day4-wrapper">
-            <div class="check-day4">4</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day5-wrapper">
-            <div class="check-day5">5</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day6-wrapper">
-            <div class="check-day6">6</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day7-wrapper">
-            <div class="check-day7">7</div>
+        <div class="check-row" >
+          <div class="check-day-wrapper" th:each="dayUtil : ${dayUtils}" th:with="day = ${dayUtil.day}"
+               th:if="${day < 8}"
+               th:id="'check-day'+${day}+'-wrapper'"
+               th:classappend="${dayUtil.checked} ? 'checked-day' : ''">
+            <div th:class="'check-day'+${day}" th:text="${day}"></div>
           </div>
         </div>
-        <div class="check-row">
-          <div class="check-day-wrapper" id="check-day8-wrapper">
-            <div class="check-day8">8</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day9-wrapper">
-            <div class="check-day9">9</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day10-wrapper">
-            <div class="check-day10">10</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day11-wrapper">
-            <div class="check-day11">11</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day12-wrapper">
-            <div class="check-day12">12</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day13-wrapper">
-            <div class="check-day13">13</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day14-wrapper">
-            <div class="check-day14">14</div>
+        <div class="check-row" >
+          <div class="check-day-wrapper" th:each="dayUtil : ${dayUtils}" th:with="day = ${dayUtil.day}"
+               th:if="${day < 15 && day > 7}"
+               th:id="'check-day'+${day}+'-wrapper'"
+               th:classappend="${dayUtil.checked} ? 'checked-day' : ''">
+            <div th:class="'check-day'+${day}" th:text="${day}"></div>
           </div>
         </div>
-        <div class="check-row">
-          <div class="check-day-wrapper" id="check-day15-wrapper">
-            <div class="check-day15">15</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day16-wrapper">
-            <div class="check-day16">16</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day17-wrapper">
-            <div class="check-day17">17</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day18-wrapper">
-            <div class="check-day18">18</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day19-wrapper">
-            <div class="check-day19">19</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day20-wrapper">
-            <div class="check-day20">20</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day21-wrapper">
-            <div class="check-day21">21</div>
+        <div class="check-row" >
+          <div class="check-day-wrapper" th:each="dayUtil : ${dayUtils}" th:with="day = ${dayUtil.day}"
+               th:if="${day < 22 && day > 14}"
+               th:id="'check-day'+${day}+'-wrapper'"
+               th:classappend="${dayUtil.checked} ? 'checked-day' : ''">
+            <div th:class="'check-day'+${day}" th:text="${day}"></div>
           </div>
         </div>
-        <div class="check-row">
-          <div class="check-day-wrapper" id="check-day22-wrapper">
-            <div class="check-day22">22</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day23-wrapper">
-            <div class="check-day23">23</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day24-wrapper">
-            <div class="check-day24">24</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day25-wrapper">
-            <div class="check-day25">25</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day26-wrapper">
-            <div class="check-day26">26</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day27-wrapper">
-            <div class="check-day27">27</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day28-wrapper">
-            <div class="check-day28">28</div>
+        <div class="check-row" >
+          <div class="check-day-wrapper" th:each="dayUtil : ${dayUtils}" th:with="day = ${dayUtil.day}"
+               th:if="${day < 29 && day > 21}"
+               th:id="'check-day'+${day}+'-wrapper'"
+               th:classappend="${dayUtil.checked} ? 'checked-day' : ''">
+            <div th:class="'check-day'+${day}" th:text="${day}"></div>
           </div>
         </div>
-        <div class="check-row">
-          <div class="check-day-wrapper" id="check-day29-wrapper">
-            <div class="check-day29">29</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day30-wrapper">
-            <div class="check-day30">30</div>
-          </div>
-          <div class="check-day-wrapper" id="check-day31-wrapper">
-            <div class="check-day31">31</div>
-          </div>
-          <div class="check-day-wrapper">
-            <div class="check-day32"></div>
-          </div>
-          <div class="check-day-wrapper">
-            <div class="check-day33"></div>
-          </div>
-          <div class="check-day-wrapper">
-            <div class="check-day34"></div>
-          </div>
-          <div class="check-day-wrapper">
-            <div class="check-day35"></div>
+        <div class="check-row" >
+          <div class="check-day-wrapper" th:each="dayUtil : ${dayUtils}" th:with="day = ${dayUtil.day}"
+               th:if="${day > 28}"
+               th:id="'check-day'+${day}+'-wrapper'"
+               th:classappend="${dayUtil.checked} ? 'checked-day' : ''">
+            <div th:class="'check-day'+${day}" th:text="${day}"></div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+</div>
 
   <div class="top-move-button">
     <div>∧</div>
