@@ -40,3 +40,26 @@ server:
   servlet:
     session:
       tracking-modes: cookie
+
+social:
+  client:
+    kakao:
+      rest-api-key: 71f9ffc4fdde0af1bb644b5621d1f045
+      secret-key: iM9KTaRdZp88PbaXY6PSUnFqCulL3T1K
+      grant_type: authorization_code
+      redirect-uri: http://localhost:8080/login/api/kakao
+      admin-key: 4e20c2bfb12465ca5e81c238388ddaf8
+      logout-redirect-uri: http://localhost:8080/logout/api/kakao
+
+
+    naver:
+      rest-api-key: r5UySheAPrPbFPYnqJCq
+      secret-key: Nbg6wfyk4J
+      redirect-uri: http://localhost:8080/api/login/naver
+      grant_type: authorization_code
+
+    google:
+      rest-api-key: 216152233037-ll5ocvvp8d3mn367k7s0kmsb1r09v02d.apps.googleusercontent.com
+      secret-key: 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
+      redirect-uri: http://localhost:8080/login/api/google
+      grant_type: authorization_code

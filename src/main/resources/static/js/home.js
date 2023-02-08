@@ -171,7 +171,9 @@ $(function () {
         $(".slides").hide();
         $('.today-book-wrapper').replaceWith(result);
         $(".slides").hide();
+        $(".slides ul").css('left','0px');
         $(".slides").fadeIn(300);
+        tbIndex = 1;
       });
     });
 

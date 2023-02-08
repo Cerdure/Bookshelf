@@ -91,6 +91,23 @@ h4 {
   margin-right: 5px;
 }
 
+.point-box {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.point-box img {
+  width: 20px;
+  filter: invert(76%) sepia(39%) saturate(3938%) hue-rotate(359deg) brightness(104%) contrast(107%);
+}
+
+.point-box .point {
+  color: #e5a300;
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
 .btn {
   width: 400px;
   padding: 10px;

@@ -62,15 +62,12 @@ $(function () {
   let width = $(".top-back-wrapper").width();
   $(".top-background").css('background-size', width + 'px');
 
-
   $(window).resize(function () {
     let width = $(".top-back-wrapper").width();
     $(".top-background").css('background-size', width + 'px');
   });
 
   $(".top-back-title").show();
-
-
 
   $(document).ready(function () {
     $(document).on("click", ".inquire-write", function () {
@@ -93,17 +90,15 @@ $(function () {
     });
 
     $(document).on("click", ".inquire-write-top-icon", function () {
-      $(".inquire-write-wrapper").css('filter','brightness(0.8)');
-      const alert = document.querySelector(".alert-btn-2");
+      $(".inquire-write-wrapper").css('filter', 'brightness(0.8)');
+      const alert = dom(".alert-btn-2");
       alert.querySelector(".text").innerHTML = "작성한 내용은 저장되지 않습니다.<br>취소하겠습니까?";
       alert.querySelector(".no").addEventListener("click", () => {
-        $(".inquire-write-wrapper").css('filter','brightness(1)');
+        $(".inquire-write-wrapper").css('filter', 'brightness(1)');
       });
       alert.querySelector(".ok").addEventListener("click", formClose);
-      modalFadeIn(".alert-btn-2");
+      flexFadeIn(".alert-btn-2");
     });
-
-
 
     $(document).on("click", ".private-check", function () {
       if ($(this).is(':checked')) {
@@ -171,25 +166,18 @@ function registCheck(...passed) {
   }
 }
 
-function inquireDetail(_this) {
+async function inquireDetail(_this) {
   inquireId = $(_this).parent().find("#inquireId").val();
-  $.ajax({
-    url: "/inquire-closedCheck/" + inquireId,
-    type: "get",
-    data_type: "text",
-    error: function (xhr, status, error) {
-      console.log(error);
-    }
-  }).done(function (result) {
-    if (result == null || result == '') {
-      document.location.replace("/inquire-detail/" + inquireId);
-    } else {
-      inquirePw = result;
-      $(".write-wrapper-back").addClass("modal-background");
-      $(".pw-input").fadeIn(300);
-      $(".pw-input input").focus();
-    }
-  });
+  const result = await fetch("/inquire/closedCheck/" + inquireId)
+    .then(res => res.text()).catch(alert);
+  if (result == null || result == '') {
+    document.location.replace("/inquire-detail/" + inquireId);
+  } else {
+    inquirePw = result;
+    $(".write-wrapper-back").addClass("modal-background");
+    $(".pw-input").fadeIn(300);
+    $(".pw-input input").focus();
+  }
 }
 
 let inquireId;

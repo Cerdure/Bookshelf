@@ -457,7 +457,6 @@
   left: 20px;
   width: 30px;
   opacity: 0.4;
-  z-index: 5;
  }
 .search-input .reset {
   position: absolute;
@@ -660,7 +659,7 @@
 .coupon-wrapper{
   position: relative;
   width: 1280px;
-  height: 720px;
+  height: 360px;
   margin: auto;
   margin-bottom: 60px;
   padding: 40px;
@@ -689,11 +688,7 @@
   border-radius: 20px;
   cursor: pointer;
 }
-.coupon-li:hover {
-  box-shadow: 3px 3px 10px 1px rgb(233, 233, 233);
-  transform: scale(1.01);
-  transition: 0.5s;
-}
+
 .coupon-box {
   position: relative;
   width: 300px;
@@ -763,7 +758,7 @@
 }
 .coupon-left-box-logo img {
   position: relative;
-  top: 0px;
+  top: 1px;
   left: 0px;
   width: 16px;
   height: 16px;
@@ -779,9 +774,11 @@
 }
 .coupon-info-wrapper {
   width: 360px;
-  height: 110px;
   padding: 0 30px;
-  padding-top: 10px;
+  padding-top: 20px;
+}
+.coupon-info-wrapper .column-box {
+  width: 100%;
 }
 .coupon-info-title {
   font-size: 14px;
@@ -790,7 +787,6 @@
 }
 .coupon-info {
   position: relative;
-  width: 300px;
   top: 5px;
   left: 0px;
   font-size: 11px;
@@ -798,19 +794,11 @@
   padding-left: 5px;
   color: #848484;
 }
-.coupon-info-button {
-  position: relative;
-  left: 35px;
-  bottom: 30px;
-  width: 80px;
-  height: 28px;
-  background-color: #9b9b9b;
-  color: white;
+.coupon-info-wrapper button {
+  white-space: nowrap;
+  padding: 5px 10px;
   border-radius: 5px;
-  text-align: center;
-  padding-top: 6px;
-  font-size: 12px;
-  font-weight: 600;
+  font-weight: bold;
 }
 
 .grade-wrapper {
@@ -831,7 +819,7 @@
 .grade {
   position: relative;
   width: 23%;
-  height: 800px;
+  height: 840px;
   background-color:white;
   border-radius: 20px;
   border: 1px solid lightgray;
@@ -841,14 +829,16 @@
 .grade:last-child {
   background-color:rgb(248, 248, 248);
 }
+.active-grade {
+  border: 3px solid #ffcc00;
+}
 .grade-top {
   position: relative;
   width: 100%;
-  height: 27%;
+  height: 24%;
   border-bottom: 1px solid lightgray;
   text-align: center;
   padding: 20px;
-  padding-top: 30px;
 }
 .vip-logo {
   position: relative;
@@ -864,12 +854,12 @@
   padding-top: 7px;
   border-radius: 30px;
   margin: auto;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 .multi {
   position: absolute;
   bottom: 115px;
-  right: 24px;
+  right: 4px;
   width: 40px;
   height: 40px;
   border-radius: 20px;
@@ -893,7 +883,7 @@
   padding-top: 7px;
   border-radius: 30px;
   margin: auto;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 .silver-logo {
   position: relative;
@@ -909,7 +899,7 @@
   padding-top: 7px;
   border-radius: 30px;
   margin: auto;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 .new-logo {
   position: relative;
@@ -925,7 +915,7 @@
   padding-top: 7px;
   border-radius: 30px;
   margin: auto;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   opacity: 0.7;
 }
 .new-top-text {
@@ -951,7 +941,7 @@
 .grade-middle {
   position: relative;
   width: 100%;
-  height: 13%;
+  height: 10%;
   border-bottom: 1px solid lightgray;
   text-align: center;
 }
@@ -981,8 +971,10 @@
 .grade-bottom {
   position: relative;
   width: 100%;
-  height: 60%;
+  height: 66%;
   padding: 20px;
+  display: grid;
+  grid-template-rows: 1fr 8fr 8fr 8fr 2fr;
 }
 .grade-bottom-title {
   position: relative;
@@ -993,9 +985,14 @@
   margin-bottom: 15px;
 }
 .grade-bottom-li {
+  position: relative;
   width: 100%;
   height: 140px;
   margin: auto;
+  margin-top: 0;
+}
+.grade-bottom-li:last-child {
+  height: 100%;
 }
 .grade-bottom-box-5000 {
   position: relative;
@@ -1107,9 +1104,10 @@ z-index: 2;
 }
 .grade-bottom-left-box-logo img{
   position: relative;
-  left: 5px;
-  width: 15px;
-  height: 15px;
+  bottom: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
 }
 .grade-bottom-left-box-logo-text {
   position: relative;
@@ -1137,7 +1135,30 @@ z-index: 2;
   margin-top: 6px;
   font-size: 12px;
 }
-
+.month-coupon-btn {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  width: 200px;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 5px;
+}
+.month-coupon-btn text {
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 5px;
+}
+.month-coupon-btn img {
+  width: 20px;
+  margin-top: 2px;
+  filter: contrast(0) brightness(3);
+}
+.month-coupon-btn:hover img {
+  filter: invert(90%) sepia(25%) saturate(3473%) hue-rotate(325deg) brightness(107%) contrast(92%);
+  transition: 0.3s;
+}
 .check-wrapper{
   position: relative;
   width: 100%;

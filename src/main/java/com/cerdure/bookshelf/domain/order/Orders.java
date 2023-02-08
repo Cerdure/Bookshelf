@@ -1,5 +1,6 @@
 package com.cerdure.bookshelf.domain.order;
 
+import com.cerdure.bookshelf.domain.enums.OrderState;
 import com.cerdure.bookshelf.domain.member.Address;
 import com.cerdure.bookshelf.domain.member.Member;
 import lombok.AccessLevel;
@@ -45,6 +46,9 @@ public class Orders {
 
     private String payType;
 
+    @Enumerated(EnumType.STRING)
+    private OrderState orderState;
+
     private LocalDateTime regDate;
 
     @OneToMany(mappedBy = "orders")
@@ -52,11 +56,12 @@ public class Orders {
 
     @PrePersist
     public void prePersist() {
+        this.orderState = this.orderState == null ? OrderState.ORDER : this.orderState;
         this.regDate = this.regDate == null ? LocalDateTime.now() : this.regDate;
     }
 
     @Builder
-    public Orders(String id, Member orderer, String receiver, String phone, String tel, Address address, String deliveryPlace, Integer originSum, Integer deliveryCharge, Integer point, Integer orderPrice, String payType, LocalDateTime regDate) {
+    public Orders(String id, Member orderer, String receiver, String phone, String tel, Address address, String deliveryPlace, Integer originSum, Integer deliveryCharge, Integer point, Integer orderPrice, String payType, OrderState orderState, LocalDateTime regDate, List<OrderItem> orderItems) {
         this.id = id;
         this.orderer = orderer;
         this.receiver = receiver;
@@ -69,7 +74,9 @@ public class Orders {
         this.point = point;
         this.orderPrice = orderPrice;
         this.payType = payType;
+        this.orderState = orderState;
         this.regDate = regDate;
+        this.orderItems = orderItems;
     }
 
     public void changeId(String id){
@@ -80,4 +87,11 @@ public class Orders {
         this.orderer = orderer;
     }
 
+    public void changeState(OrderState orderState){
+        this.orderState = orderState;
+    }
+
+    public void changeOrderItems(List<OrderItem> orderItems){
+        this.orderItems = orderItems;
+    }
 }

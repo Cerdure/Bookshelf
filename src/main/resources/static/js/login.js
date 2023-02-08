@@ -1,14 +1,4 @@
 $(function () {
- 
-  $(window).resize(function(){
-    let mh = $('.meta-wrapper').height();
-    if(mh<800){
-      $(".meta-wrapper").css('height','800px');
-      $(".inner-wrapper").css('height','100%');
-    } else {
-      $(".meta-wrapper").css('height','100%');
-    }
-  });
 
   $(".form-group").on({
     keyup: function () {
@@ -78,7 +68,29 @@ $(function () {
         .removeClass('clicked');
     }
   });
+  $('.kakaoLogin').click(function () {
+    Kakao.Auth.authorize({
+      redirectUri:'http://localhost:8080/login/api/kakao',
+    })
+  });
 
+  $('.naverLogin').click(function () {
+    const url = 'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=r5UySheAPrPbFPYnqJCq'+
+        '&redirect_uri=' +
+        'http://localhost:8080/login/api/naver' +
+        '&state=1234';
+    window.location.href=url;
+  });
+
+  $('.googleLogin').click(function () {
+    const url = 'https://accounts.google.com/o/oauth2/v2/auth?client_id=' +
+        "216152233037-ll5ocvvp8d3mn367k7s0kmsb1r09v02d.apps.googleusercontent.com" +
+        '&redirect_uri=' +
+        "http://localhost:8080/login/api/google" +
+        '&response_type=code' +
+        '&scope=email profile';
+    window.location.href=url;
+  });
 
 
 

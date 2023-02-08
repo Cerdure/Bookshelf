@@ -299,12 +299,12 @@ $(function () {
         .animate({ 'color': 'rgb(255, 190, 0)' }, 200);
       $(".category-title span:not(.category-title span:nth-child(1))").stop()
         .animate({ 'color': '#696969' }, 200);
-    } else if (st < 1750) {
+    } else if (st < 1500) {
       $(".category-title span:nth-child(2)").stop()
         .animate({ 'color': 'rgb(255, 190, 0)' }, 200);
       $(".category-title span:not(.category-title span:nth-child(2))").stop()
         .animate({ 'color': '#696969' }, 200);
-    } else if (st < 2700) {
+    } else if (st < 2500) {
       $(".category-title span:nth-child(3)").stop()
         .animate({ 'color': 'rgb(255, 190, 0)' }, 200);
       $(".category-title span:not(.category-title span:nth-child(3))").stop()
@@ -484,6 +484,29 @@ $(function () {
 
       checked = true;
     }
+  });
+
+  dom(".month-point-btn").addEventListener("click", () => {
+    (async () => {
+      anonymousBlock(); 
+      const result = await fetch("/event/point").then(res => res.text());
+      switch(result) {
+        case "ok": alert("포인트가 지급되었습니다."); break;
+        case "error": alert("요청이 실패하였습니다."); break;
+        default : alert(result);
+      }
+    })();
+  });
+
+  dom(".month-coupon-btn")?.addEventListener("click", () => {
+    (async () => {
+      const result = await fetch("/event/coupon").then(res => res.text());
+      switch(result) {
+        case "ok": alert("쿠폰이 지급되었습니다."); break;
+        case "error": alert("요청이 실패하였습니다."); break;
+        default : alert(result);
+      }
+    })();
   });
 
 });

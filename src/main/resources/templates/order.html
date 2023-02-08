@@ -13,6 +13,41 @@
 
 <div layout:fragment="content" id="page-content" data-index="">
 
+  <modal class="coupon-modal column-box">
+    <div class="top row-box">
+      <div class="text">보유 쿠폰</div>
+      <div class="data" th:text="${member.memberCoupons.size()}"></div>
+      <div class="unit">장</div>
+      <img src="/img/icon/btn_dialog_close@2x.png">
+    </div>
+    <div class="middle column-box">
+      <item class="coupon row-box" th:each="memberCoupon : ${member.memberCoupons}"
+            th:with="coupon = ${memberCoupon.coupon}" th:data-id="${memberCoupon.id}"
+            th:classappend="${#aggregates.sum(orders.![discountPrice * amount]) < coupon.min} ?
+            'disable coupon-' + ${coupon.id} : 'coupon-' + ${coupon.id}">
+        <img class="select-icon" src="/img/icon/ico_checkbox_active@2x.png">
+        <div class="left-side column-box">
+          <div class="logo-box row-box">
+            <img src="/img/icon/logo.png">
+            <div class="text">BookShelf</div>
+          </div>
+          <div class="coupon-price row-box" th:data-value="${coupon.price}">
+            <div class="data" th:text="${#numbers.formatInteger(coupon.price, 3, 'COMMA')}">2,000</div>
+            <div class="unit">원</div>
+          </div>
+          <div class="coupon-min row-box">
+            <div class="data" th:text="${#numbers.formatInteger(coupon.min, 3, 'COMMA')}"></div>
+            <div class="text">원 이상 구매 시</div>
+          </div>
+        </div>
+        <div class="right-side">
+          <div class="back-circle-1"></div>
+          <div class="back-circle-2"></div>
+        </div>
+      </item>
+    </div>
+  </modal>
+
   <div class="meta-wrapper">
 
     <div class="title">주문하기</div>
@@ -123,11 +158,20 @@
           <div class="data">3,000</div>
           <div class="unit">원</div>
         </div>
+        <div class="coupon-box row-box">
+          <div class="text">쿠폰</div>
+          <input class="coupon-value data" type="text" value="0">
+          <button class="coupon-cancel btn btn-gray">취소</button>
+          <button class="all-coupon btn btn-blue"
+            th:utext="'보유 쿠폰&nbsp;<strong>' + ${member.memberCoupons.size()} + '</strong>장&nbsp;&nbsp;&gt;'"></button>
+        </div>
+
         <div class="point-box row-box">
-          <div class="text">포인트 사용</div>
+          <div class="text">포인트</div>
           <input class="point-value data" type="number" value="0">
-          <button class="all-point btn btn-gray" type="button">전액 사용</button>
-          <div class="rest" th:text="'잔여 포인트 : ' + ${#numbers.formatInteger(member.point, 3, 'COMMA')}"
+          <button class="all-point btn btn-gray">전액 사용</button>
+          <div class="rest"
+            th:text="'잔여 포인트 : ' + ${member.point == 0 ? 0 : #numbers.formatInteger(member.point, 3, 'COMMA')}"
             th:data-value="${member.point}"></div>
         </div>
         <div class="payment-sum-box row-box">
@@ -137,15 +181,27 @@
             th:data-value="${#aggregates.sum(orders.![discountPrice * amount])}"></div>
           <div class="plus">+</div>
           <div class="delivery-charge" data-value="3000">3,000 원</div>
-          <div class="minus">-</div>
-          <div class="point">0 포인트</div>
+          <div class="minus coupon-data">-</div>
+          <div class="coupon coupon-data">0 쿠폰</div>
+          <div class="minus point-data">-</div>
+          <div class="point point-data">0 포인트</div>
           <div class="equal">=</div>
           <div class="data"
             th:text="${#numbers.formatInteger(#aggregates.sum(orders.![discountPrice * amount]) + 3000, 3, 'COMMA')}">
           </div>
+          <div class="unit">원</div>
           <input class="order-price" type="hidden"
             th:value="${#aggregates.sum(orders.![discountPrice * amount]) + 3000}">
-          <div class="unit">원</div>
+          <div class="get-point">
+            <img class="plus-circle" src="/img/icon/plus-circle-bold.png">
+            <th:block th:switch="${member.grade}"
+              th:with="grade = ${T(com.cerdure.bookshelf.domain.enums.MemberGrade)}">
+              <div class="point-rate" th:case="${grade.NEW}" data-value="1">1% 적립</div>
+              <div class="point-rate" th:case="${grade.SILVER}" data-value="2">2% 적립</div>
+              <div class="point-rate" th:case="${grade.GOLD}" data-value="3">3% 적립</div>
+              <div class="point-rate" th:case="${grade.VIP}" data-value="4">4% 적립</div>
+            </th:block>
+          </div>
         </div>
       </div>
     </div>
@@ -155,38 +211,19 @@
       <div class="core-box column-box">
         <div class="btn-box row-box">
           <div class="img-box">
-            <input class="hidden pay-type" name="payType" value="toss" type="radio">
+            <input class="hidden pay-type" name="payType" value="html5_inicis" type="radio" checked>
+            <img class="select-icon" src="/img/icon/ico_checkbox_active@2x.png">
+            <div class="text">카드 결제</div>
+          </div>
+          <div class="img-box">
+            <input class="hidden pay-type" name="payType" value="tosspay" type="radio">
             <img class="select-icon" src="/img/icon/ico_checkbox_active@2x.png">
             <img id="toss-pay" src="/img/icon/toss-pay.png">
           </div>
           <div class="img-box">
-            <input class="hidden pay-type" name="payType" value="naver" type="radio">
-            <img class="select-icon" src="/img/icon/ico_checkbox_active@2x.png">
-            <img id="naver-pay" src="/img/icon/naver-pay.png">
-          </div>
-          <div class="img-box">
-            <input class="hidden pay-type" name="payType" value="kakao" type="radio">
+            <input class="hidden pay-type" name="payType" value="kakaopay" type="radio">
             <img class="select-icon" src="/img/icon/ico_checkbox_active@2x.png">
             <img id="kakao-pay" src="/img/icon/kakao-pay.png">
-          </div>
-          <div class="img-box">
-            <input class="hidden pay-type" name="payType" value="samsung" type="radio">
-            <img class="select-icon" src="/img/icon/ico_checkbox_active@2x.png">
-            <img id="samsung-pay" src="/img/icon/samsung-pay.png">
-          </div>
-        </div>
-        <div class="radio-box row-box">
-          <div class="input-box">
-            <input class="pay-type" name="payType" value="card" type="radio">신용카드
-          </div>
-          <div class="input-box">
-            <input class="pay-type" name="payType" value="account" type="radio">계좌이체
-          </div>
-          <div class="input-box">
-            <input class="pay-type" name="payType" value="phone" type="radio">휴대폰 결제
-          </div>
-          <div class="input-box">
-            <input class="pay-type" name="payType" value="deposit" type="radio">무통장입금
           </div>
         </div>
       </div>

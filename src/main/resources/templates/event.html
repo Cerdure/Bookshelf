@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorate="~{layout/default}">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+  layout:decorate="~{layout/default}">
 
 <th:block layout:fragment="css">
   <link rel="stylesheet" th:href="@{/css/event.css}">
@@ -16,44 +14,44 @@
 
 <div layout:fragment="content" id="page-content" data-index="2">
 
-<div class="banner-wrapper">
-  <div class="banner">
-    <div class="banner-title">
-      <div class="banner-title-1">북셸프 0주년 기념!</div>
-      <div class="banner-title-2">특가 기획전</div>
-    </div>
-    <div class="banner-before"></div>
-    <div class="banner-img-wrapper">
-      <ul>
-        <a th:each="book,i : ${bannerBooks}" th:if="${i.count > 7}" th:class="'bi-'+(${i.count}-1)"
-           th:href="@{/book(id=${book.id})}">
-          <input class="book-name" th:value="${book.name}" type="hidden">
-          <input class="book-origin-price" th:value="${book.originPrice}" type="hidden">
-          <input class="book-discount-rate" th:value="${book.discountRate}" type="hidden">
-          <input class="book-discount-price" th:value="${book.discountPrice}" type="hidden">
-          <img th:src="${book.imgPath}">
-        </a>
+  <div class="banner-wrapper">
+    <div class="banner">
+      <div class="banner-title">
+        <div class="banner-title-1">북셸프 0주년 기념!</div>
+        <div class="banner-title-2">특가 기획전</div>
+      </div>
+      <div class="banner-before"></div>
+      <div class="banner-img-wrapper">
+        <ul>
+          <a th:each="book,i : ${bannerBooks}" th:if="${i.count > 7}" th:class="'bi-'+(${i.count}-1)"
+            th:href="@{/book(id=${book.id})}">
+            <input class="book-name" th:value="${book.name}" type="hidden">
+            <input class="book-origin-price" th:value="${book.originPrice}" type="hidden">
+            <input class="book-discount-rate" th:value="${book.discountRate}" type="hidden">
+            <input class="book-discount-price" th:value="${book.discountPrice}" type="hidden">
+            <img th:src="${book.imgPath}">
+          </a>
 
-        <a th:each="book,i : ${bannerBooks}" th:href="@{/book(id=${book.id})}" th:class="'bi-'+(${i.count}-1)">
-          <input class="book-name" th:value="${book.name}" type="hidden">
-          <input class="book-origin-price" th:value="${book.originPrice}" type="hidden">
-          <input class="book-discount-rate" th:value="${book.discountRate}" type="hidden">
-          <input class="book-discount-price" th:value="${book.discountPrice}" type="hidden">
-          <img th:src="${book.imgPath}">
-        </a>
+          <a th:each="book,i : ${bannerBooks}" th:href="@{/book(id=${book.id})}" th:class="'bi-'+(${i.count}-1)">
+            <input class="book-name" th:value="${book.name}" type="hidden">
+            <input class="book-origin-price" th:value="${book.originPrice}" type="hidden">
+            <input class="book-discount-rate" th:value="${book.discountRate}" type="hidden">
+            <input class="book-discount-price" th:value="${book.discountPrice}" type="hidden">
+            <img th:src="${book.imgPath}">
+          </a>
 
-        <a th:each="book,i : ${bannerBooks}" th:if="${i.count < 10}" th:class="'bi-'+(${i.count}-1)"
-           th:href="@{/book(id=${book.id})}">
-          <input class="book-name" th:value="${book.name}" type="hidden">
-          <input class="book-origin-price" th:value="${book.originPrice}" type="hidden">
-          <input class="book-discount-rate" th:value="${book.discountRate}" type="hidden">
-          <input class="book-discount-price" th:value="${book.discountPrice}" type="hidden">
-          <img th:src="${book.imgPath}">
-        </a>
-      </ul>
-    </div>
+          <a th:each="book,i : ${bannerBooks}" th:if="${i.count < 10}" th:class="'bi-'+(${i.count}-1)"
+            th:href="@{/book(id=${book.id})}">
+            <input class="book-name" th:value="${book.name}" type="hidden">
+            <input class="book-origin-price" th:value="${book.originPrice}" type="hidden">
+            <input class="book-discount-rate" th:value="${book.discountRate}" type="hidden">
+            <input class="book-discount-price" th:value="${book.discountPrice}" type="hidden">
+            <img th:src="${book.imgPath}">
+          </a>
+        </ul>
+      </div>
 
-    <div class="banner-font-wrapper">
+      <div class="banner-font-wrapper">
         <div class="banner-font-big"></div>
         <div class="banner-font-small">
           <span class="active-origin-price"></span>
@@ -61,452 +59,403 @@
           <span class="active-arrow">→</span>
           <span class="active-discount-price"></span>
         </div>
-    </div>
-
-    <button class="btn-left"><</button>
-    <button class="btn-right">></button>
-
-    <div class="banner-index-wrapper">
-      <div class="banner-current-index">01</div>
-      <div class="banner-index-fill-box">
-        <div class="banner-index-fill"></div>
       </div>
-      <div class="banner-last-index">16</div>
-      <div class="banner-stop"></div>
-      <div class="banner-play"></div>
-    </div>
-  </div>
-</div>
 
-<div class="category-wrapper">
-  <div class="category-img-wrapper">
-    <div><img src="/img/icon/sale.png"></div>
-    <div><img src="/img/icon/coupon.png"></div>
-    <div><img src="/img/icon/grade.png"></div>
-    <div><img src="/img/icon/check.png"></div>
-  </div>
+      <button class="btn-left">
+        << /button>
+          <button class="btn-right">></button>
 
-  <div class="category-title-wrapper">
-    <div class="category-title">
-      <span>특가 도서</span>
-      <span>포인트</span>
-      <span>회원혜택</span>
-      <span>출석체크</span>
-    </div>
-  </div>
-</div>
-
-<div class="sale-wrapper">
-  <div class="sale-title-wrapper">
-    <span id="title">| 특가 도서 검색</span>
-
-    <div class="simple-search-wrapper">
-      <div class="simple-search">
-        <form class="simple-search-input search-input" action="/search-result" method="get" id="search-form">
-          <input id="search-input" name="name" type="text" autocomplete="off" placeholder="찾으시는 책이 있나요?">
-          <img class="icon" onclick="document.getElementById('search-form').submit();" src="/img/icon/search.svg">
-          <input id="category-id-input" name="categoryIds" type="hidden">
-          <img class="reset" src="/img/icon/x-circle-fill.svg">
-        </form>
-      </div>
-    </div>
-
-    <div class="search-result-outer-wrapper">
-      <div class="search-result-wrapper" id="search-input-results">
-        <div class="search-result-book" th:each="book : ${ipBooks}">
-          <img src="/img/icon/sale-icon.png">
-          <a th:href="'/book?id=' + ${book.id}">
-            <span class="data" th:utext="${book.name}"></span>
-          </a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-  <div class="sale-contents">
-    <ul class="sale-row-0">
-      <a th:each="book,i : ${saleBooks}" th:if="${i.count < 10}" th:href="@{/book(id=${book.id})}">
-        <img th:src="${book.imgPath}">
-        <span id="sale-book-name" th:text="${book.name}"></span>
-        <span id="sale-discount-rate" th:text="${book.discountRate} + '%'"></span>
-        <span id="sale-text" th:text="' 할인'"></span>
-      </a>
-      <a th:each="book,i : ${saleBooks}" th:if="${i.count == 1}" th:href="@{/book(id=${book.id})}">
-        <img th:src="${book.imgPath}">
-        <span id="sale-book-name" th:text="${book.name}"></span>
-        <span id="sale-discount-rate" th:text="${book.discountRate} + '%'"></span>
-        <span id="sale-text" th:text="' 할인'"></span>
-      </a>
-    </ul>
-    <ul class="sale-row-1">
-      <a th:each="book,i : ${saleBooks}" th:if="${i.count > 9}" th:href="@{/book(id=${book.id})}">
-        <img th:src="${book.imgPath}">
-        <span id="sale-book-name" th:text="${book.name}"></span>
-        <span id="sale-discount-rate" th:text="${book.discountRate} + '%'"></span>
-        <span id="sale-text" th:text="' 할인'"></span>
-      </a>
-      <a th:each="book,i : ${saleBooks}" th:if="${i.count == 10}" th:href="@{/book(id=${book.id})}">
-        <img th:src="${book.imgPath}">
-        <span id="sale-book-name" th:text="${book.name}"></span>
-        <span id="sale-discount-rate" th:text="${book.discountRate} + '%'"></span>
-        <span id="sale-text" th:text="' 할인'"></span>
-      </a>
-    </ul>
-  </div>
-</div>
-
-
-<div class="coupon-wrapper">
-  <div class="coupon-title">| 포인트 지급 이벤트</div>
-
-  <div class="coupon-row-1">
-
-    <div class="coupon-li">
-      <div class="coupon-box">
-        <div class="coupon-box-back1"></div>
-        <div class="coupon-box-back2"></div>
-        <div class="coupon-left-box">
-          <span class="coupon-left-box-text">Point</span>
-          <div class="coupon-left-box-logo">
-            <img src="/img/icon/logo.png">
-            <span>BookShelf</span>
-          </div>
-          <span class="coupon-left-box-point">1,000</span>
-        </div>
-      </div>
-      <div class="coupon-info-wrapper">
-        <span class="coupon-info-title">출석체크</span>
-        <p class="coupon-info">| 한달 최대 4,000포인트 혜택</p>
-        <p class="coupon-info">| 1,000포인트 x 4회, 당일 사용</p>
-      </div>
-      <div class="coupon-info-button">자세히 보기</div>
-    </div>
-
-    <div class="coupon-li">
-      <div class="coupon-box">
-        <div class="coupon-box-back1"></div>
-        <div class="coupon-box-back2"></div>
-        <div class="coupon-left-box">
-          <span class="coupon-left-box-text">Point</span>
-          <div class="coupon-left-box-logo">
-            <img src="/img/icon/logo.png">
-            <span>BookShelf</span>
-          </div>
-          <span class="coupon-left-box-point">500</span>
-        </div>
-      </div>
-      <div class="coupon-info-wrapper">
-        <span class="coupon-info-title">함께 읽는 이달의 책</span>
-        <p class="coupon-info">| 북셸프 메이트 참여 시</p>
-        <p class="coupon-info">| ID당 1회, 발급 당일 사용</p>
-      </div>
-      <div class="coupon-info-button">자세히 보기</div>
-    </div>
-    
-    <div class="coupon-li">
-      <div class="coupon-box">
-        <div class="coupon-box-back1"></div>
-        <div class="coupon-box-back2"></div>
-        <div class="coupon-left-box">
-          <span class="coupon-left-box-text">Point</span>
-          <div class="coupon-left-box-logo">
-            <img src="/img/icon/logo.png">
-            <span>BookShelf</span>
-          </div>
-          <span class="coupon-left-box-point">500</span>
-        </div>
-      </div>
-      <div class="coupon-info-wrapper">
-        <span class="coupon-info-title">정기 연재 구독 시</span>
-        <p class="coupon-info">| 연재 작품 구독 신청하면</p>
-        <p class="coupon-info">| 매주 포인트 500포인트 지급</p>
-      </div>
-      <div class="coupon-info-button">자세히 보기</div>
-    </div>
-
-  </div>
-
-
-  <div class="coupon-row-2">
-
-    <div class="coupon-li">
-      <div class="coupon-box">
-        <div class="coupon-box-back1"></div>
-        <div class="coupon-box-back2"></div>
-        <div class="coupon-left-box">
-          <span class="coupon-left-box-text">Point</span>
-          <div class="coupon-left-box-logo">
-            <img src="/img/icon/logo.png">
-            <span>BookShelf</span>
-          </div>
-          <span class="coupon-left-box-point">200</span>
-        </div>
-      </div>
-      <div class="coupon-info-wrapper">
-        <span class="coupon-info-title">우리가 만드는 책</span>
-        <p class="coupon-info">| 선착순 이내 투표 참여 시</p>
-        <p class="coupon-info">| 200포인트 지급</p>
-      </div>
-      <div class="coupon-info-button">자세히 보기</div>
-    </div>
-
-    <div class="coupon-li">
-      <div class="coupon-box">
-        <div class="coupon-box-back1"></div>
-        <div class="coupon-box-back2"></div>
-        <div class="coupon-left-box">
-          <span class="coupon-left-box-text">Point</span>
-          <div class="coupon-left-box-logo">
-            <img src="/img/icon/logo.png">
-            <span>BookShelf</span>
-          </div>
-          <span class="coupon-left-box-point">200</span>
-        </div>
-      </div>
-      <div class="coupon-info-wrapper">
-        <span class="coupon-info-title">구매 후 리뷰 작성 시</span>
-        <p class="coupon-info">| 책 리뷰 200포인트</p>
-        <p class="coupon-info">| 도서 문장 수집 100포인트</p>
-      </div>
-      <div class="coupon-info-button">자세히 보기</div>
-    </div>
-    
-    <div class="coupon-li">
-      <div class="coupon-box">
-        <div class="coupon-box-back1"></div>
-        <div class="coupon-box-back2"></div>
-        <div class="coupon-left-box">
-          <span class="coupon-left-box-text">Point</span>
-          <div class="coupon-left-box-logo">
-            <img src="/img/icon/logo.png">
-            <span>BookShelf</span>
-          </div>
-          <span class="coupon-left-box-point">1,000</span>
-        </div>
-      </div>
-      <div class="coupon-info-wrapper">
-        <span class="coupon-info-title">이달의 포인트</span>
-        <p class="coupon-info">| ID당 월 1회 지급</p>
-        <p class="coupon-info">| 발급 당일 사용 가능</p>
-      </div>
-      <div class="coupon-info-button">자세히 보기</div>
-    </div>
-
-  </div>
-
-</div>
-
-<div class="grade-wrapper">
-  <div class="grade-title">| 회원 등급 혜택</div>
-
-  <div class="grade">
-    <div class="grade-top">
-      <div class="vip-logo">V</div>
-      <div class="grade-top-title">VIP</div>
-      <p>최근 3개월 순수 구매액<br>30만원 이상</p>
-    </div>
-    <div class="grade-middle">
-      <p>매장 포인트 3% 셸프트랙스 2%</p>
-      <p>온라인 상품별 추가 적립률</p>
-      <img class="plus" src="/img/icon/plus.svg">
-      <p>추가 4%</p>
-    </div>
-    <div class="grade-bottom">
-      <div class="grade-bottom-title">북셸프 통합 포인트</div>
-      <div class="grade-bottom-li">
-        <div class="grade-bottom-box-5000">
-          <div class="grade-bottom-box-5000-back1"></div>
-          <div class="grade-bottom-box-5000-back2"></div>
-          <div class="grade-bottom-left-box">
-            <div class="grade-bottom-left-box-logo">
-              <img src="/img/icon/logo.png">
-              <span class="grade-bottom-left-box-logo-text">BookShelf</span>
+          <div class="banner-index-wrapper">
+            <div class="banner-current-index">01</div>
+            <div class="banner-index-fill-box">
+              <div class="banner-index-fill"></div>
             </div>
-            <span class="grade-bottom-left-box-point">5,000</span>
-            <span class="grade-bottom-left-box-point-text">P</span>
+            <div class="banner-last-index">16</div>
+            <div class="banner-stop"></div>
+            <div class="banner-play"></div>
           </div>
-        </div>
-        <div class="grade-bottom-info">7만원 이상 구매 시</div>
+    </div>
+  </div>
+
+  <div class="category-wrapper">
+    <div class="category-img-wrapper">
+      <div><img src="/img/icon/sale.png"></div>
+      <div><img src="/img/icon/coupon.png"></div>
+      <div><img src="/img/icon/grade.png"></div>
+      <div><img src="/img/icon/check.png"></div>
+    </div>
+
+    <div class="category-title-wrapper">
+      <div class="category-title">
+        <span>특가 도서</span>
+        <span>포인트</span>
+        <span>회원혜택</span>
+        <span>출석체크</span>
       </div>
-      <div class="grade-bottom-li">
-        <div class="grade-bottom-box-3000">
-          <div class="grade-bottom-box-3000-back1"></div>
-          <div class="grade-bottom-box-3000-back2"></div>
-          <div class="grade-bottom-left-box">
-            <div class="grade-bottom-left-box-logo">
-              <img src="/img/icon/logo.png">
-              <span class="grade-bottom-left-box-logo-text">BookShelf</span>
-            </div>
-            <span class="grade-bottom-left-box-point">3,000</span>
-            <span class="grade-bottom-left-box-point-text">P</span>
-          </div>
+    </div>
+  </div>
+
+  <div class="sale-wrapper">
+    <div class="sale-title-wrapper">
+      <span id="title">| 특가 도서 검색</span>
+
+      <div class="simple-search-wrapper">
+        <div class="simple-search">
+          <form class="simple-search-input search-input" action="/search-result" method="get" id="search-form">
+            <input id="search-input" name="name" type="text" autocomplete="off" placeholder="찾으시는 책이 있나요?">
+            <img class="icon" onclick="document.getElementById('search-form').submit();" src="/img/icon/search.svg">
+            <input id="category-id-input" name="categoryIds" type="hidden">
+            <img class="reset" src="/img/icon/x-circle-fill.svg">
+          </form>
         </div>
-          <div class="grade-bottom-info">5만원 이상 구매 시</div>
       </div>
-      <div class="grade-bottom-li">
-        <div class="grade-bottom-box-2000">
-          <div class="grade-bottom-box-2000-back1"></div>
-          <div class="grade-bottom-box-2000-back2"></div>
-          <div class="grade-bottom-left-box">
-            <div class="grade-bottom-left-box-logo">
-              <img src="/img/icon/logo.png">
-              <span class="grade-bottom-left-box-logo-text">BookShelf</span>
-            </div>
-            <span class="grade-bottom-left-box-point">2,000</span>
-            <span class="grade-bottom-left-box-point-text">P</span>
+
+      <div class="search-result-outer-wrapper">
+        <div class="search-result-wrapper" id="search-input-results">
+          <div class="search-result-book" th:each="book : ${ipBooks}">
+            <img src="/img/icon/sale-icon.png">
+            <a th:href="'/book?id=' + ${book.id}">
+              <span class="data" th:utext="${book.name}"></span>
+            </a>
           </div>
         </div>
-          <div class="grade-bottom-info">3만원 이상 구매 시</div>
+      </div>
+
+    </div>
+    <div class="sale-contents">
+      <ul class="sale-row-0">
+        <a th:each="book,i : ${saleBooks}" th:if="${i.count < 10}" th:href="@{/book(id=${book.id})}">
+          <img th:src="${book.imgPath}">
+          <span id="sale-book-name" th:text="${book.name}"></span>
+          <span id="sale-discount-rate" th:text="${book.discountRate} + '%'"></span>
+          <span id="sale-text" th:text="' 할인'"></span>
+        </a>
+        <a th:each="book,i : ${saleBooks}" th:if="${i.count == 1}" th:href="@{/book(id=${book.id})}">
+          <img th:src="${book.imgPath}">
+          <span id="sale-book-name" th:text="${book.name}"></span>
+          <span id="sale-discount-rate" th:text="${book.discountRate} + '%'"></span>
+          <span id="sale-text" th:text="' 할인'"></span>
+        </a>
+      </ul>
+      <ul class="sale-row-1">
+        <a th:each="book,i : ${saleBooks}" th:if="${i.count > 9}" th:href="@{/book(id=${book.id})}">
+          <img th:src="${book.imgPath}">
+          <span id="sale-book-name" th:text="${book.name}"></span>
+          <span id="sale-discount-rate" th:text="${book.discountRate} + '%'"></span>
+          <span id="sale-text" th:text="' 할인'"></span>
+        </a>
+        <a th:each="book,i : ${saleBooks}" th:if="${i.count == 10}" th:href="@{/book(id=${book.id})}">
+          <img th:src="${book.imgPath}">
+          <span id="sale-book-name" th:text="${book.name}"></span>
+          <span id="sale-discount-rate" th:text="${book.discountRate} + '%'"></span>
+          <span id="sale-text" th:text="' 할인'"></span>
+        </a>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="coupon-wrapper">
+    <div class="coupon-title">| 포인트 지급 이벤트</div>
+
+    <div class="coupon-row-1">
+
+      <div class="coupon-li">
+        <div class="coupon-box">
+          <div class="coupon-box-back1"></div>
+          <div class="coupon-box-back2"></div>
+          <div class="coupon-left-box">
+            <span class="coupon-left-box-text">Point</span>
+            <div class="coupon-left-box-logo">
+              <img src="/img/icon/logo.png">
+              <span>BookShelf</span>
+            </div>
+            <span class="coupon-left-box-point">1,000</span>
+          </div>
+        </div>
+        <div class="coupon-info-wrapper row-box">
+          <div class="column-box">
+            <span class="coupon-info-title">출석체크</span>
+            <p class="coupon-info">| 한달 최대 4,000포인트 혜택</p>
+            <p class="coupon-info">| 1,000포인트 x 4회, 당일 사용</p>
+          </div>
+          <button class="btn-gray-fill">바로가기</button>
+        </div>
+      </div>
+
+      <div class="coupon-li">
+        <div class="coupon-box">
+          <div class="coupon-box-back1"></div>
+          <div class="coupon-box-back2"></div>
+          <div class="coupon-left-box">
+            <span class="coupon-left-box-text">Point</span>
+            <div class="coupon-left-box-logo">
+              <img src="/img/icon/logo.png">
+              <span>BookShelf</span>
+            </div>
+            <span class="coupon-left-box-point">200</span>
+          </div>
+        </div>
+        <div class="coupon-info-wrapper row-box">
+          <div class="column-box">
+            <span class="coupon-info-title">구매 후 리뷰 작성 시</span>
+            <p class="coupon-info">| 책 리뷰 200포인트</p>
+            <p class="coupon-info">| 발급 당일 사용 가능</p>
+          </div>
+          <button class="btn-gray-fill">바로가기</button>
+        </div>
+      </div>
+
+      <div class="coupon-li">
+        <div class="coupon-box">
+          <div class="coupon-box-back1"></div>
+          <div class="coupon-box-back2"></div>
+          <div class="coupon-left-box">
+            <span class="coupon-left-box-text">Point</span>
+            <div class="coupon-left-box-logo">
+              <img src="/img/icon/logo.png">
+              <span>BookShelf</span>
+            </div>
+            <span class="coupon-left-box-point">1,000</span>
+          </div>
+        </div>
+        <div class="coupon-info-wrapper row-box">
+          <div class="column-box">
+            <span class="coupon-info-title">이달의 포인트</span>
+            <p class="coupon-info">| ID당 월 1회 지급</p>
+            <p class="coupon-info">| 발급 당일 사용 가능</p>
+          </div>
+          <button class="month-point-btn btn-yellow-fill">포인트 받기</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="grade-wrapper" th:with="grade = ${T(com.cerdure.bookshelf.domain.enums.MemberGrade)}">
+    <div class="grade-title">| 회원 등급 혜택</div>
+
+    <div class="grade column-box" th:classappend="${member?.grade?.equals(grade.VIP)} ? 'active-grade' : ''">
+      <div class="grade-top">
+        <div class="vip-logo">V</div>
+        <div class="grade-top-title">VIP</div>
+        <p>최근 3개월 순수 구매액<br>30만원 이상</p>
+      </div>
+      <div class="grade-middle">
+        <p>상품 구매 시 포인트 적립률</p>
+        <img class="plus" src="/img/icon/plus.svg">
+        <p>추가 4%</p>
+      </div>
+      <div class="grade-bottom">
+        <div class="grade-bottom-title">매달 북셸프 쿠폰 지급</div>
+        <div class="grade-bottom-li">
+          <div class="grade-bottom-box-5000">
+            <div class="grade-bottom-box-5000-back1"></div>
+            <div class="grade-bottom-box-5000-back2"></div>
+            <div class="grade-bottom-left-box">
+              <div class="grade-bottom-left-box-logo">
+                <img src="/img/icon/logo.png">
+                <span class="grade-bottom-left-box-logo-text">BookShelf</span>
+              </div>
+              <span class="grade-bottom-left-box-point">5,000</span>
+              <span class="grade-bottom-left-box-point-text">P</span>
+            </div>
+          </div>
+          <div class="grade-bottom-info">7만원 이상 구매 시 사용가능</div>
+        </div>
+        <div class="grade-bottom-li">
+          <div class="grade-bottom-box-3000">
+            <div class="grade-bottom-box-3000-back1"></div>
+            <div class="grade-bottom-box-3000-back2"></div>
+            <div class="grade-bottom-left-box">
+              <div class="grade-bottom-left-box-logo">
+                <img src="/img/icon/logo.png">
+                <span class="grade-bottom-left-box-logo-text">BookShelf</span>
+              </div>
+              <span class="grade-bottom-left-box-point">3,000</span>
+              <span class="grade-bottom-left-box-point-text">P</span>
+            </div>
+          </div>
+          <div class="grade-bottom-info">5만원 이상 구매 시 사용가능</div>
+        </div>
+        <div class="grade-bottom-li">
+          <div class="grade-bottom-box-2000">
+            <div class="grade-bottom-box-2000-back1"></div>
+            <div class="grade-bottom-box-2000-back2"></div>
+            <div class="grade-bottom-left-box">
+              <div class="grade-bottom-left-box-logo">
+                <img src="/img/icon/logo.png">
+                <span class="grade-bottom-left-box-logo-text">BookShelf</span>
+              </div>
+              <span class="grade-bottom-left-box-point">2,000</span>
+              <span class="grade-bottom-left-box-point-text">P</span>
+            </div>
+          </div>
+          <div class="grade-bottom-info">3만원 이상 구매 시 사용가능</div>
           <div class="multi">X2</div>
+        </div>
+        <button class="month-coupon-btn btn-yellow-fill row-box" th:if="${member?.grade?.equals(grade.VIP)}">
+          <text>쿠폰 받기</text>
+          <img src="/img/icon/download.svg">
+        </button>
+      </div>
+    </div>
+
+    <div class="grade column-box" th:classappend="${member?.grade?.equals(grade.GOLD)} ? 'active-grade' : ''">
+      <div class="grade-top">
+        <div class="gold-logo">G</div>
+        <div class="grade-top-title">GOLD</div>
+        <p>최근 3개월 순수 구매액<br>20~30만원</p>
+      </div>
+      <div class="grade-middle">
+        <p>상품 구매 시 포인트 적립률</p>
+        <img class="plus" src="/img/icon/plus.svg">
+        <p>추가 3%</p>
+      </div>
+      <div class="grade-bottom">
+        <div class="grade-bottom-title">매달 북셸프 쿠폰 지급</div>
+        <div class="grade-bottom-li">
+          <div class="grade-bottom-box-5000">
+            <div class="grade-bottom-box-5000-back1"></div>
+            <div class="grade-bottom-box-5000-back2"></div>
+            <div class="grade-bottom-left-box">
+              <div class="grade-bottom-left-box-logo">
+                <img src="/img/icon/logo.png">
+                <span class="grade-bottom-left-box-logo-text">BookShelf</span>
+              </div>
+              <span class="grade-bottom-left-box-point">5,000</span>
+              <span class="grade-bottom-left-box-point-text">P</span>
+            </div>
+          </div>
+          <div class="grade-bottom-info">7만원 이상 구매 시 사용가능</div>
+        </div>
+        <div class="grade-bottom-li">
+          <div class="grade-bottom-box-3000">
+            <div class="grade-bottom-box-3000-back1"></div>
+            <div class="grade-bottom-box-3000-back2"></div>
+            <div class="grade-bottom-left-box">
+              <div class="grade-bottom-left-box-logo">
+                <img src="/img/icon/logo.png">
+                <span class="grade-bottom-left-box-logo-text">BookShelf</span>
+              </div>
+              <span class="grade-bottom-left-box-point">3,000</span>
+              <span class="grade-bottom-left-box-point-text">P</span>
+            </div>
+          </div>
+          <div class="grade-bottom-info">5만원 이상 구매 시 사용가능</div>
+        </div>
+        <div class="grade-bottom-li">
+          <div class="grade-bottom-box-2000">
+            <div class="grade-bottom-box-2000-back1"></div>
+            <div class="grade-bottom-box-2000-back2"></div>
+            <div class="grade-bottom-left-box">
+              <div class="grade-bottom-left-box-logo">
+                <img src="/img/icon/logo.png">
+                <span class="grade-bottom-left-box-logo-text">BookShelf</span>
+              </div>
+              <span class="grade-bottom-left-box-point">2,000</span>
+              <span class="grade-bottom-left-box-point-text">P</span>
+            </div>
+          </div>
+          <div class="grade-bottom-info">3만원 이상 구매 시 사용가능</div>
+        </div>
+        <button class="month-coupon-btn btn-yellow-fill row-box" th:if="${member?.grade?.equals(grade.GOLD)}">
+          <text>쿠폰 받기</text>
+          <img src="/img/icon/download.svg">
+        </button>
+      </div>
+    </div>
+
+    <div class="grade column-box" th:classappend="${member?.grade?.equals(grade.SILVER)} ? 'active-grade' : ''">
+      <div class="grade-top">
+        <div class="silver-logo">S</div>
+        <div class="grade-top-title">SILVER</div>
+        <p>최근 3개월 순수 구매액<br>10~20만원</p>
+      </div>
+      <div class="grade-middle">
+        <p>상품 구매 시 포인트 적립률</p>
+        <img class="plus" src="/img/icon/plus.svg">
+        <p>추가 2%</p>
+      </div>
+      <div class="grade-bottom">
+        <div class="grade-bottom-title">매달 북셸프 쿠폰 지급</div>
+        <div class="grade-bottom-li">
+          <div class="grade-bottom-box-3000">
+            <div class="grade-bottom-box-3000-back1"></div>
+            <div class="grade-bottom-box-3000-back2"></div>
+            <div class="grade-bottom-left-box">
+              <div class="grade-bottom-left-box-logo">
+                <img src="/img/icon/logo.png">
+                <span class="grade-bottom-left-box-logo-text">BookShelf</span>
+              </div>
+              <span class="grade-bottom-left-box-point">3,000</span>
+              <span class="grade-bottom-left-box-point-text">P</span>
+            </div>
+          </div>
+          <div class="grade-bottom-info">5만원 이상 구매 시 사용가능</div>
+        </div>
+        <div class="grade-bottom-li">
+          <div class="grade-bottom-box-2000">
+            <div class="grade-bottom-box-2000-back1"></div>
+            <div class="grade-bottom-box-2000-back2"></div>
+            <div class="grade-bottom-left-box">
+              <div class="grade-bottom-left-box-logo">
+                <img src="/img/icon/logo.png">
+                <span class="grade-bottom-left-box-logo-text">BookShelf</span>
+              </div>
+              <span class="grade-bottom-left-box-point">2,000</span>
+              <span class="grade-bottom-left-box-point-text">P</span>
+            </div>
+          </div>
+          <div class="grade-bottom-info">3만원 이상 구매 시 사용가능</div>
+        </div>
+        <button class="month-coupon-btn btn-yellow-fill row-box" th:if="${member?.grade?.equals(grade.SILVER)}">
+          <text>쿠폰 받기</text>
+          <img src="/img/icon/download.svg">
+        </button>
+      </div>
+    </div>
+
+    <div class="grade column-box" th:classappend="${member?.grade?.equals(grade.NEW)} ? 'active-grade' : ''">
+      <div class="grade-top">
+        <div class="new-logo">N</div>
+        <div class="grade-top-title">NEW</div>
+        <p>최근 3개월 순수 구매액<br>10만원 미만</p>
+      </div>
+      <div class="grade-middle">
+        <p>상품 구매 시 포인트 적립률</p>
+        <img class="plus" src="/img/icon/plus.svg">
+        <p>추가 1%</p>
+      </div>
+      <div class="grade-bottom">
+        <div class="grade-bottom-title">매달 북셸프 쿠폰 지급</div>
+        <div class="grade-bottom-li">
+          <div class="grade-bottom-box-2000">
+            <div class="grade-bottom-box-2000-back1"></div>
+            <div class="grade-bottom-box-2000-back2"></div>
+            <div class="grade-bottom-left-box">
+              <div class="grade-bottom-left-box-logo">
+                <img src="/img/icon/logo.png">
+                <span class="grade-bottom-left-box-logo-text">BookShelf</span>
+              </div>
+              <span class="grade-bottom-left-box-point">2,000</span>
+              <span class="grade-bottom-left-box-point-text">P</span>
+            </div>
+          </div>
+          <div class="grade-bottom-info">3만원 이상 구매 시 사용가능</div>
+        </div>
+        <button class="month-coupon-btn btn-yellow-fill row-box" th:if="${member?.grade?.equals(grade.NEW)}">
+          <text>쿠폰 받기</text>
+          <img src="/img/icon/download.svg">
+        </button>
       </div>
     </div>
   </div>
 
-  <div class="grade">
-    <div class="grade-top">
-      <div class="gold-logo">G</div>
-      <div class="grade-top-title">GOLD</div>
-      <p>최근 3개월 순수 구매액<br>20~30만원</p>
-    </div>
-    <div class="grade-middle">
-      <p>매장 포인트 3% 셸프트랙스 1%</p>
-      <p>온라인 상품별 추가 적립률</p>
-      <img class="plus" src="/img/icon/plus.svg">
-      <p>추가 3%</p>
-    </div>
-    <div class="grade-bottom">
-      <div class="grade-bottom-title">북셸프 통합 포인트</div>
-      <div class="grade-bottom-li">
-        <div class="grade-bottom-box-5000">
-          <div class="grade-bottom-box-5000-back1"></div>
-          <div class="grade-bottom-box-5000-back2"></div>
-          <div class="grade-bottom-left-box">
-            <div class="grade-bottom-left-box-logo">
-              <img src="/img/icon/logo.png">
-              <span class="grade-bottom-left-box-logo-text">BookShelf</span>
-            </div>
-            <span class="grade-bottom-left-box-point">5,000</span>
-            <span class="grade-bottom-left-box-point-text">P</span>
-          </div>
-        </div>
-        <div class="grade-bottom-info">7만원 이상 구매 시</div>
-      </div>
-      <div class="grade-bottom-li">
-        <div class="grade-bottom-box-3000">
-          <div class="grade-bottom-box-3000-back1"></div>
-          <div class="grade-bottom-box-3000-back2"></div>
-          <div class="grade-bottom-left-box">
-            <div class="grade-bottom-left-box-logo">
-              <img src="/img/icon/logo.png">
-              <span class="grade-bottom-left-box-logo-text">BookShelf</span>
-            </div>
-            <span class="grade-bottom-left-box-point">3,000</span>
-            <span class="grade-bottom-left-box-point-text">P</span>
-          </div>
-        </div>
-          <div class="grade-bottom-info">5만원 이상 구매 시</div>
-      </div>
-      <div class="grade-bottom-li">
-        <div class="grade-bottom-box-2000">
-          <div class="grade-bottom-box-2000-back1"></div>
-          <div class="grade-bottom-box-2000-back2"></div>
-          <div class="grade-bottom-left-box">
-            <div class="grade-bottom-left-box-logo">
-              <img src="/img/icon/logo.png">
-              <span class="grade-bottom-left-box-logo-text">BookShelf</span>
-            </div>
-            <span class="grade-bottom-left-box-point">2,000</span>
-            <span class="grade-bottom-left-box-point-text">P</span>
-          </div>
-        </div>
-          <div class="grade-bottom-info">3만원 이상 구매 시</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="grade">
-    <div class="grade-top">
-      <div class="silver-logo">S</div>
-      <div class="grade-top-title">SILVER</div>
-      <p>최근 3개월 순수 구매액<br>10~20만원</p>
-    </div>
-    <div class="grade-middle">
-      <p>매장 포인트 3% 셸프트랙스 1%</p>
-      <p>온라인 상품별 추가 적립률</p>
-      <img class="plus" src="/img/icon/plus.svg">
-      <p>추가 2%</p>
-    </div>
-    <div class="grade-bottom">
-      <div class="grade-bottom-title">북셸프 통합 포인트</div>
-     
-      <div class="grade-bottom-li">
-        <div class="grade-bottom-box-3000">
-          <div class="grade-bottom-box-3000-back1"></div>
-          <div class="grade-bottom-box-3000-back2"></div>
-          <div class="grade-bottom-left-box">
-            <div class="grade-bottom-left-box-logo">
-              <img src="/img/icon/logo.png">
-              <span class="grade-bottom-left-box-logo-text">BookShelf</span>
-            </div>
-            <span class="grade-bottom-left-box-point">3,000</span>
-            <span class="grade-bottom-left-box-point-text">P</span>
-          </div>
-        </div>
-          <div class="grade-bottom-info">5만원 이상 구매 시</div>
-      </div>
-      <div class="grade-bottom-li">
-        <div class="grade-bottom-box-2000">
-          <div class="grade-bottom-box-2000-back1"></div>
-          <div class="grade-bottom-box-2000-back2"></div>
-          <div class="grade-bottom-left-box">
-            <div class="grade-bottom-left-box-logo">
-              <img src="/img/icon/logo.png">
-              <span class="grade-bottom-left-box-logo-text">BookShelf</span>
-            </div>
-            <span class="grade-bottom-left-box-point">2,000</span>
-            <span class="grade-bottom-left-box-point-text">P</span>
-          </div>
-        </div>
-          <div class="grade-bottom-info">3만원 이상 구매 시</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="grade">
-    <div class="grade-top">
-      <div class="new-logo">N</div>
-      <div class="grade-top-title">NEW</div>
-      <p >최근 3개월 순수 구매액<br>10만원 미만</p>
-    </div>
-    <div class="grade-middle">
-      <p class="new-top-text">매장 포인트 2% 셸프트랙스 1%</p>
-    </div>
-    <div class="grade-bottom">
-      <div class="grade-bottom-title">북셸프 통합 포인트</div>
-      
-      <div class="grade-bottom-li">
-        <div class="grade-bottom-box-2000">
-          <div class="grade-bottom-box-2000-back1"></div>
-          <div class="grade-bottom-box-2000-back2"></div>
-          <div class="grade-bottom-left-box">
-            <div class="grade-bottom-left-box-logo">
-              <img src="/img/icon/logo.png">
-              <span class="grade-bottom-left-box-logo-text">BookShelf</span>
-            </div>
-            <span class="grade-bottom-left-box-point">2,000</span>
-            <span class="grade-bottom-left-box-point-text">P</span>
-          </div>
-        </div>
-          <div class="grade-bottom-info">3만원 이상 구매 시</div>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 
-
-<div class="check-wrapper">
+  <div class="check-wrapper">
     <div class="check-title-wrapper">
       <div class="check-title-sub">한달 최대 4000포인트 증정!</div>
       <div class="check-title">
@@ -576,53 +525,123 @@
       </div>
       <div class="check-box-bottom">
         <div class="check-row">
-          <div class="check-day-wrapper" id="check-day1-wrapper"><div class="check-day1">1</div></div>
-          <div class="check-day-wrapper" id="check-day2-wrapper"><div class="check-day2">2</div></div>
-          <div class="check-day-wrapper" id="check-day3-wrapper"><div class="check-day3">3</div></div>
-          <div class="check-day-wrapper" id="check-day4-wrapper"><div class="check-day4">4</div></div>
-          <div class="check-day-wrapper" id="check-day5-wrapper"><div class="check-day5">5</div></div>
-          <div class="check-day-wrapper" id="check-day6-wrapper"><div class="check-day6">6</div></div>
-          <div class="check-day-wrapper" id="check-day7-wrapper"><div class="check-day7">7</div></div>
+          <div class="check-day-wrapper" id="check-day1-wrapper">
+            <div class="check-day1">1</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day2-wrapper">
+            <div class="check-day2">2</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day3-wrapper">
+            <div class="check-day3">3</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day4-wrapper">
+            <div class="check-day4">4</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day5-wrapper">
+            <div class="check-day5">5</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day6-wrapper">
+            <div class="check-day6">6</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day7-wrapper">
+            <div class="check-day7">7</div>
+          </div>
         </div>
         <div class="check-row">
-          <div class="check-day-wrapper" id="check-day8-wrapper"><div class="check-day8">8</div></div>
-          <div class="check-day-wrapper" id="check-day9-wrapper"><div class="check-day9">9</div></div>
-          <div class="check-day-wrapper" id="check-day10-wrapper"><div class="check-day10">10</div></div>
-          <div class="check-day-wrapper" id="check-day11-wrapper"><div class="check-day11">11</div></div>
-          <div class="check-day-wrapper" id="check-day12-wrapper"><div class="check-day12">12</div></div>
-          <div class="check-day-wrapper" id="check-day13-wrapper"><div class="check-day13">13</div></div>
-          <div class="check-day-wrapper" id="check-day14-wrapper"><div class="check-day14">14</div></div>
+          <div class="check-day-wrapper" id="check-day8-wrapper">
+            <div class="check-day8">8</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day9-wrapper">
+            <div class="check-day9">9</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day10-wrapper">
+            <div class="check-day10">10</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day11-wrapper">
+            <div class="check-day11">11</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day12-wrapper">
+            <div class="check-day12">12</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day13-wrapper">
+            <div class="check-day13">13</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day14-wrapper">
+            <div class="check-day14">14</div>
+          </div>
         </div>
         <div class="check-row">
-          <div class="check-day-wrapper" id="check-day15-wrapper"><div class="check-day15">15</div></div>
-          <div class="check-day-wrapper" id="check-day16-wrapper"><div class="check-day16">16</div></div>
-          <div class="check-day-wrapper" id="check-day17-wrapper"><div class="check-day17">17</div></div>
-          <div class="check-day-wrapper" id="check-day18-wrapper"><div class="check-day18">18</div></div>
-          <div class="check-day-wrapper" id="check-day19-wrapper"><div class="check-day19">19</div></div>
-          <div class="check-day-wrapper" id="check-day20-wrapper"><div class="check-day20">20</div></div>
-          <div class="check-day-wrapper" id="check-day21-wrapper"><div class="check-day21">21</div></div>
+          <div class="check-day-wrapper" id="check-day15-wrapper">
+            <div class="check-day15">15</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day16-wrapper">
+            <div class="check-day16">16</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day17-wrapper">
+            <div class="check-day17">17</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day18-wrapper">
+            <div class="check-day18">18</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day19-wrapper">
+            <div class="check-day19">19</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day20-wrapper">
+            <div class="check-day20">20</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day21-wrapper">
+            <div class="check-day21">21</div>
+          </div>
         </div>
         <div class="check-row">
-          <div class="check-day-wrapper" id="check-day22-wrapper"><div class="check-day22">22</div></div>
-          <div class="check-day-wrapper" id="check-day23-wrapper"><div class="check-day23">23</div></div>
-          <div class="check-day-wrapper" id="check-day24-wrapper"><div class="check-day24">24</div></div>
-          <div class="check-day-wrapper" id="check-day25-wrapper"><div class="check-day25">25</div></div>
-          <div class="check-day-wrapper" id="check-day26-wrapper"><div class="check-day26">26</div></div>
-          <div class="check-day-wrapper" id="check-day27-wrapper"><div class="check-day27">27</div></div>
-          <div class="check-day-wrapper" id="check-day28-wrapper"><div class="check-day28">28</div></div>
+          <div class="check-day-wrapper" id="check-day22-wrapper">
+            <div class="check-day22">22</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day23-wrapper">
+            <div class="check-day23">23</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day24-wrapper">
+            <div class="check-day24">24</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day25-wrapper">
+            <div class="check-day25">25</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day26-wrapper">
+            <div class="check-day26">26</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day27-wrapper">
+            <div class="check-day27">27</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day28-wrapper">
+            <div class="check-day28">28</div>
+          </div>
         </div>
         <div class="check-row">
-          <div class="check-day-wrapper" id="check-day29-wrapper"><div class="check-day29">29</div></div>
-          <div class="check-day-wrapper" id="check-day30-wrapper"><div class="check-day30">30</div></div>
-          <div class="check-day-wrapper" id="check-day31-wrapper"><div class="check-day31">31</div></div>
-          <div class="check-day-wrapper"><div class="check-day32"></div></div>
-          <div class="check-day-wrapper"><div class="check-day33"></div></div>
-          <div class="check-day-wrapper"><div class="check-day34"></div></div>
-          <div class="check-day-wrapper"><div class="check-day35"></div></div>
+          <div class="check-day-wrapper" id="check-day29-wrapper">
+            <div class="check-day29">29</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day30-wrapper">
+            <div class="check-day30">30</div>
+          </div>
+          <div class="check-day-wrapper" id="check-day31-wrapper">
+            <div class="check-day31">31</div>
+          </div>
+          <div class="check-day-wrapper">
+            <div class="check-day32"></div>
+          </div>
+          <div class="check-day-wrapper">
+            <div class="check-day33"></div>
+          </div>
+          <div class="check-day-wrapper">
+            <div class="check-day34"></div>
+          </div>
+          <div class="check-day-wrapper">
+            <div class="check-day35"></div>
+          </div>
         </div>
       </div>
     </div>
-</div>
+  </div>
 
   <div class="top-move-button">
     <div>∧</div>
@@ -630,4 +649,5 @@
   </div>
 
 </div>
+
 </html>
