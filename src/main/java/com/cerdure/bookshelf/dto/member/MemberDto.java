@@ -2,6 +2,7 @@ package com.cerdure.bookshelf.dto.member;
 
 
 import com.cerdure.bookshelf.domain.enums.MemberJoinType;
+import com.cerdure.bookshelf.domain.member.MemberProfile;
 import com.cerdure.bookshelf.domain.order.Cart;
 import com.cerdure.bookshelf.domain.enums.MemberGrade;
 import com.cerdure.bookshelf.domain.enums.MemberRole;
@@ -31,6 +32,7 @@ public class MemberDto {
     private String city;
     private Address address;
     private String street;
+    private MemberProfile memberProfile;
     @Enumerated(EnumType.STRING)
     private MemberGrade grade;
     @Enumerated(EnumType.STRING)
@@ -41,8 +43,7 @@ public class MemberDto {
     private LocalDate delDate;
     private List<Orders> orders = new ArrayList<>();
 
-    @Builder
-    public MemberDto(Long id, String pw, String name, String nickname, String phone, String zipcode, String city, Address address, String street, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, List<Orders> orders, MemberJoinType memberJoinType) {
+    public MemberDto(Long id, String pw, String name, String nickname, String phone, String zipcode, String city, Address address, String street, MemberProfile memberProfile, MemberGrade grade, MemberJoinType memberJoinType, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, List<Orders> orders) {
         this.id = id;
         this.pw = pw;
         this.name = name;
@@ -52,16 +53,18 @@ public class MemberDto {
         this.city = city;
         this.address = address;
         this.street = street;
+        this.memberProfile = memberProfile;
         this.grade = grade;
+        this.memberJoinType = memberJoinType;
         this.point = point;
         this.regDate = regDate;
         this.delflag = delflag;
         this.delDate = delDate;
         this.orders = orders;
-        this.memberJoinType=memberJoinType;
     }
 
-    public Member createMember(PasswordEncoder passwordEncoder){
+    @Builder
+    public Member createMember(PasswordEncoder passwordEncoder,MemberProfile memberProfile){
         return Member.builder()
                 .pw(passwordEncoder.encode(this.pw))
                 .name(this.name)
@@ -74,7 +77,10 @@ public class MemberDto {
                 .delflag(this.delflag)
                 .delDate(this.delDate)
                 .role(MemberRole.USER)
+                .memberProfile(memberProfile)
                 .memberJoinType(MemberJoinType.BOOKSHELF)
                 .build();
     }
+
+
 }

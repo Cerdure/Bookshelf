@@ -5,6 +5,7 @@ import com.cerdure.bookshelf.domain.order.Cart;
 import com.cerdure.bookshelf.domain.enums.MemberGrade;
 import com.cerdure.bookshelf.domain.enums.MemberRole;
 import com.cerdure.bookshelf.domain.order.Orders;
+import com.cerdure.bookshelf.dto.member.NewAddressDto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -49,12 +50,13 @@ public class Member implements UserDetails {
     private Integer delflag;
 
     private LocalDate delDate;
-
-    @OneToMany(mappedBy = "member")
+    @OneToOne(fetch = LAZY, orphanRemoval = true)
+    private MemberProfile memberProfile;
+    @OneToMany(mappedBy = "member", orphanRemoval = true)
     @JsonIgnore
     private List<Cart> carts;
 
-    @OneToMany(mappedBy = "orderer")
+    @OneToMany(mappedBy = "orderer", orphanRemoval = true)
     @JsonIgnore
     private List<Orders> ordersList;
 
@@ -70,24 +72,25 @@ public class Member implements UserDetails {
         this.point = this.point == null ? 0 : this.point;
         this.regDate = this.regDate == null ? LocalDate.now() : this.regDate;
     }
-
     @Builder
-    public Member(Long id, String pw, String name, String nickname, String phone, String email, Address address, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, List<Cart> carts, MemberRole role, MemberJoinType memberJoinType) {
+    public Member(Long id, String pw, String name, String nickname, String phone, String email, Address address, MemberGrade grade, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, MemberProfile memberProfile, List<Cart> carts, List<Orders> ordersList, MemberRole role, MemberJoinType memberJoinType) {
         this.id = id;
         this.pw = pw;
         this.name = name;
         this.nickname = nickname;
         this.phone = phone;
-        this.email=email;
+        this.email = email;
         this.address = address;
         this.grade = grade;
         this.point = point;
         this.regDate = regDate;
         this.delflag = delflag;
         this.delDate = delDate;
+        this.memberProfile = memberProfile;
         this.carts = carts;
+        this.ordersList = ordersList;
         this.role = role;
-        this.memberJoinType=memberJoinType;
+        this.memberJoinType = memberJoinType;
     }
 
     public void changePoint(int point){
@@ -136,5 +139,30 @@ public class Member implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
+    }
+
+    public Member changePhoneNumber(String phone) {
+        this.phone=phone;
+        return this;
+    }
+    public Member changeEmail(String email) {
+        this.email=email;
+        return this;
+    }
+    public Member changeNames(String newName, String newNickName) {
+        this.name=newName;
+        this.nickname=newNickName;
+        return this;
+    }
+
+    public Address changeAddress(Address address) {
+        this.address=address;
+
+        return this.address;
+    }
+
+    public String changePassword(String newPassword) {
+        this.pw=newPassword;
+        return  this.pw;
     }
 }

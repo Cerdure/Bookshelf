@@ -13,13 +13,16 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class ApiJoinDto {
     @NotNull
-    private String name;
+    private String email;
     @NotNull
-    private String phone;
+    private String memberName;
     @NotNull
-    private String city;
+    private String phoneNumber;
+    @NotNull
+    private String zipcode;
     @NotNull
     private String street;
     @NotNull
-    private String zipcode;
+    private String city;
+
 }

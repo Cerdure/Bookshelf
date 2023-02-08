@@ -8,7 +8,7 @@ spring:
   jpa:
     hibernate:
 #      ddl-auto: create
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         show_sql: true
@@ -63,3 +63,8 @@ social:
       secret-key: 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
       redirect-uri: http://localhost:8080/login/api/google
       grant_type: authorization_code
+
+    message:
+      api-key: NCSOTHPPYKFF0STE
+      secret-key: W9D6CUGQAPNXNDN4CMBF9SCEXIFZN1EZ
+
