@@ -110,8 +110,8 @@ header {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: 0;
-  width: 30px;
+  left: 4px;
+  width: 22px;
   cursor: pointer;
 }
 
@@ -119,7 +119,7 @@ header {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: 36px;
+  left: 33px;
   font-family: 'Oswald', sans-serif;
   font-size: 20px;
   cursor: pointer;
@@ -309,7 +309,7 @@ footer {
 .footer-title {
   position: relative;
   bottom: 40px;
-  left: 30px;
+  left: 28px;
 }
 
 .footer-infor-title {
@@ -322,8 +322,8 @@ footer {
 
 footer img {
   position: relative;
-  width: 25px;
-  bottom: 10px;
+  width: 22px;
+  bottom: 11px;
 }
 
 footer p {
@@ -431,40 +431,31 @@ footer ul li {
 
 /*********** pagination START ***********/
 
-.pagenation {
-  position: relative;
-  top: 20px;
-  display: inline-block;
+pagination {
   width: 228px;
+  margin: 40px auto;
 }
 
-.pagenation .btn-left {
-  position: absolute;
-  top: 2px;
-  left: 0px;
-  display: inline-block;
+pagination .btn-left {
   width: 20px;
   cursor: pointer;
 }
 
-.pagenation .btn-right {
-  position: absolute;
-  top: 2px;
-  right: 0px;
-  display: inline-block;
+pagination .btn-right {
   width: 20px;
   cursor: pointer;
 }
 
-.pagenation a{
-  display: inline-block;
+pagination .row-box {
+  width: 100%;
+  justify-content: center;
+}
+
+pagination a{
   width: 19px;
   margin: 0 2px;
-  border-radius: 50%;
-  line-height: 19px;
-  cursor: pointer;
-  text-decoration: none;
   font-weight: 900;
+  cursor: pointer;
 }
 
 /*********** pagination END ***********/
@@ -475,6 +466,17 @@ footer ul li {
 
 
 /*********** modules START ***********/
+.row-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.column-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 .btn-yellow {
   border: 1px solid #f5b94a !important;
@@ -645,7 +647,7 @@ footer ul li {
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  width: 360px;
+  min-width: 360px;
   height: 200px;
   padding: 40px;
   background-color: white;
@@ -654,7 +656,6 @@ footer ul li {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-family: 'Noto Sans KR', sans-serif;
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.3);
   z-index: 101;
   opacity: 0;

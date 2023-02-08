@@ -243,21 +243,6 @@ $(function () {
       bookSearch();
     });
 
-    $(document).on("click", ".search-controller .controller-btn-left", function () {
-      let page = Number($(".search-controller .index-active").text()) - 1;
-      bookSearch(page);
-    });
-
-    $(document).on("click", ".search-controller .controller-btn-right", function () {
-      let page = Number($(".search-controller .index-active").text()) + 1;
-      bookSearch(page);
-    });
-
-    $(document).on("click", ".search-controller #idx", function () {
-      let page = $(this).text();
-      bookSearch(page);
-    });
-
     $(document).on("click", ".review-title-write", function () {
       $(".modal-background").fadeIn(100);
       $(".review-write-wrapper").fadeIn(200);
@@ -318,19 +303,19 @@ $(function () {
 
     $(document).on("click", ".review-write-top-icon", function () {
       $(".review-write-wrapper").css('filter', 'brightness(0.8)');
-      const alert = document.querySelector(".alert-btn-2");
+      const alert = dom(".alert-btn-2");
       alert.querySelector(".text").innerHTML = "작성한 내용은 저장되지 않습니다.<br>취소하겠습니까?";
       alert.querySelector(".no").addEventListener("click", () => {
         $(".review-write-wrapper").css('filter', 'brightness(1)');
       });
       alert.querySelector(".ok").addEventListener("click", formClose);
-      modalFadeIn(".alert-btn-2");
+      flexFadeIn(".alert-btn-2");
     });
 
     $(document).on("change", "#modify-wrapper .review-write-photo-input", function (event) {
       if (event.target.files.length > 0 && event.target.files.length < 6) {
         imgCount = 0;
-        let imgs = document.querySelectorAll(".review-write-photo-wrapper");
+        let imgs = domAll(".review-write-photo-wrapper");
         if (imgs != null) { imgs.forEach(e => e.remove()); }
 
         for (var image of event.target.files) {
@@ -345,7 +330,7 @@ $(function () {
             img.setAttribute("type", "file");
             img.setAttribute("class", "review-write-photo");
             img.setAttribute("disabled", true);
-            document.querySelector("#modify-wrapper .review-write-attach-photo").appendChild(div).appendChild(img);
+            dom("#modify-wrapper .review-write-attach-photo").appendChild(div).appendChild(img);
           }
           reader.readAsDataURL(image);
           imgChange();
@@ -360,30 +345,6 @@ $(function () {
       document.location.replace("/review-my");
     });
   });       // doc---------------------------------------------------
-
-
-
-
-  function bookSearch(_page) {
-    let data = {
-      name: $("#search-input").val(),
-      sortOrder: $('#sortOrder option:selected').val()
-    };
-    $.ajax({
-      url: "/review/book-search?page=" + _page,
-      type: "get",
-      data: data,
-      dataType: "html",
-      async: true,
-      error: function (xhr, status, error) {
-        console.log(error);
-      }
-    }).done(function (books) {
-      $('#search-results').replaceWith(books);
-      $('.search-result-info .input-value').text("'" + data.name + "'");
-      $("#sortOrder").val(data.sortOrder).prop("selected", true);
-    });
-  }
 
   $(".review-write-find").click(function () {
     $(".review-write-search-wrapper").fadeIn(200);
@@ -411,13 +372,13 @@ $(function () {
       swOpened = false;
     } else if (rwOpened && key == 27) {
       $(".review-write-wrapper").css('filter', 'brightness(0.8)');
-      const alert = document.querySelector(".alert-btn-2");
+      const alert = dom(".alert-btn-2");
       alert.querySelector(".text").innerHTML = "작성한 내용은 저장되지 않습니다.<br>취소하겠습니까?";
       alert.querySelector(".no").addEventListener("click", () => {
         $(".review-write-wrapper").css('filter', 'brightness(1)');
       });
       alert.querySelector(".ok").addEventListener("click", formClose);
-      modalFadeIn(".alert-btn-2");
+      flexFadeIn(".alert-btn-2");
     }
   }
 
@@ -459,6 +420,16 @@ let swOpened = false;
 let rwOpened = false;
 let imgCount = 0;
 
+async function bookSearch(_page) { console.log(_page)
+  const name = $("#search-input").val();
+  const sortOrder = $('#sortOrder option:selected').val();
+  const result = await fetch("/review/book-search?page=" + _page + "&name=" + name + "&sortOrder=" + sortOrder)
+    .then(res => res.text()).catch(alert);
+  $('#search-results').replaceWith(result);
+  $('.search-result-info .input-value').text("'" + name + "'");
+  $("#sortOrder").val(sortOrder).prop("selected", true);
+}
+
 function imgChange() {
   if (imgCount == 5) {
     $(".review-write-attach-photo-button").hide();
@@ -471,7 +442,7 @@ function imgChange() {
 function setThumbnail(event) {
   if (event.target.files.length > 0 && event.target.files.length < 6) {
     imgCount = 0;
-    let imgs = document.querySelectorAll(".review-write-photo-wrapper");
+    let imgs = domAll(".review-write-photo-wrapper");
     if (imgs != null) { imgs.forEach(e => e.remove()); }
 
     for (var image of event.target.files) {
@@ -486,7 +457,7 @@ function setThumbnail(event) {
         img.setAttribute("type", "file");
         img.setAttribute("class", "review-write-photo");
         img.setAttribute("disabled", true);
-        document.querySelector(".review-write-attach-photo").appendChild(div).appendChild(img);
+        dom(".review-write-attach-photo").appendChild(div).appendChild(img);
       }
       reader.readAsDataURL(image);
       imgChange();
@@ -499,13 +470,15 @@ function setThumbnail(event) {
 
 function attchReset() {
   imgCount = 0;
-  let imgs = document.querySelectorAll(".review-write-photo-wrapper");
+  let imgs = domAll(".review-write-photo-wrapper");
   if (imgs != null) { imgs.forEach(e => e.remove()); }
 
-  let parent = document.querySelector(".review-write-attach-photo-button");
-  document.querySelector(".review-write-photo-input").remove();
-
-  parent.innerHTML = '<input name="imageFiles" class="review-write-photo-input" type="file" multiple="multiple" accept=".jpg, .jpeg, .png, .gif" onchange="setThumbnail(event, this)"></input>';
+  let parent = dom(".review-write-attach-photo-button");
+  dom(".review-write-photo-input").remove();
+  parent.innerHTML =
+    '<input name="imageFiles" class="review-write-photo-input" '
+    + 'type="file" multiple="multiple" accept=".jpg, .jpeg, .png, .gif" '
+    + 'onchange="setThumbnail(event, this)"></input>';
 }
 
 function deleteImg(_this) {

@@ -20,15 +20,12 @@ $(function (){
             error_txt_address.innerHTML = null;
         }
     });
-
-
-
 })
+
 async function submitButton(){
 
     var nameValue = $("input#memberName").val();
     var regExp1 = /^[가-힣]{2,10}$/;
-
     var formdata = new FormData();
     var email=$('#email').val();
     var memberName=$('#memberName');
@@ -44,6 +41,7 @@ async function submitButton(){
         phoneNumber.focus();
         return false;
     }
+    
     var zipcode=document.querySelector('.zipcode');
     var city=document.querySelector('.city');
     var street=document.querySelector('.street');
@@ -52,8 +50,6 @@ async function submitButton(){
         zipcode.focus();
         return false;
     }
-
-
 
     formdata.append('email',email);
     formdata.append('memberName',memberName.val());

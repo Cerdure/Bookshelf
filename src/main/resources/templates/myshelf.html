@@ -14,6 +14,39 @@
 
 <div layout:fragment="content" id="page-content" data-index="3">
 
+  <modal class="coupon-modal column-box">
+    <div class="top row-box">
+      <div class="text">보유 쿠폰</div>
+      <div class="data" th:text="${member.memberCoupons.size()}"></div>
+      <div class="unit">장</div>
+      <img src="/img/icon/btn_dialog_close@2x.png">
+    </div>
+    <div class="middle column-box">
+      <item class="coupon row-box" th:each="memberCoupon : ${member.memberCoupons}"
+            th:with="coupon = ${memberCoupon.coupon}" th:data-id="${memberCoupon.id}"
+            th:classappend="'coupon-' + ${coupon.id}">
+        <div class="left-side column-box">
+          <div class="logo-box row-box">
+            <img src="/img/icon/logo.png">
+            <div class="text">BookShelf</div>
+          </div>
+          <div class="coupon-price row-box" th:data-value="${coupon.price}">
+            <div class="data" th:text="${#numbers.formatInteger(coupon.price, 3, 'COMMA')}">2,000</div>
+            <div class="unit">원</div>
+          </div>
+          <div class="coupon-min row-box">
+            <div class="data" th:text="${#numbers.formatInteger(coupon.min, 3, 'COMMA')}"></div>
+            <div class="text">원 이상 구매 시</div>
+          </div>
+        </div>
+        <div class="right-side">
+          <div class="back-circle-1"></div>
+          <div class="back-circle-2"></div>
+        </div>
+      </item>
+    </div>
+  </modal>
+
   <div class="top-back-wrapper">
     <div class="top-background-frame">
       <div class="top-background"></div>
@@ -25,9 +58,13 @@
         <div class="top-back-title-text">의 책장</div>
       </div>
       <img class="top-back-setting" src="/img/icon/setting-list.svg">
-      <div class="top-back-point-wrapper">
+      <div class="top-back-point-wrapper row-box">
         <img class="top-back-point-icon" src="/img/icon/bootstrap-fill.svg">
         <div class="top-back-point-text" th:text="${member.point} + ' 포인트'"></div>
+        <div class="coupon-box row-box">
+          <img class="coupon-icon" src="/img/icon/coupon-mono.png">
+          <div class="coupon-text" th:text="'쿠폰 ' + ${member.memberCoupons.size()} + '장'"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -37,11 +74,9 @@
   <div class="middle-nav-wrapper">
     <div class="middle-nav-container">
       <div class="middle-nav">
-        <div>책선반</div>
-        <div>포인트</div>
+        <div class="active-index">책선반</div>
         <div>구매내역</div>
         <div>회원 정보</div>
-        <div class="middle-nav-underbar"></div>
       </div>
     </div>
   </div>
@@ -49,48 +84,7 @@
 
   <div class="meta-wrapper">
 
-    <!-- <div class="entire-book-wrapper">
-      <div class="entire-book-title-background"></div>
-      <div class="entire-book-title">
-        <div class="entire-book-number">
-          <div class="entire-book-number-text">전체 0권</div>
-          <img src="/img/icon/down-arr.png">
-          <div class="entire-book-number-list">
-            <li>전체</li>
-            <li>읽은 책</li>
-            <li>읽지 않은 책</li>
-            <li>다 읽은 책</li>
-          </div>
-        </div>
-        <div class="entire-book-search">
-          <img src="/img/icon/search.svg">
-          <input type="text">
-          <img src="/img/icon/three-dots-vertical.svg">
-          <div class="entire-book-search-text">닫기</div>
-        </div>
-        <div class="entire-book-order">
-          <img src="/img/icon/down-arr.png">
-          <span>최근 담은 순</span>
-          <div class="entire-book-order-list">
-            <li>최근 담은 순</li>
-            <li>최근 읽은 순</li>
-            <li>책 제목 순</li>
-            <li>저자명 순</li>
-            <li>출판사 순</li>
-            <li>최근 발행 순</li>
-          </div>
-        </div>
-      </div>
-      <div class="entire-book">
-        <li>
-          <div class="entire-book-img-1"><img src="/img/book-cover/1.jpg"></div>
-          <div class="entire-book-name-1"><span>책이름 1</span><img src="/img/icon/three-dots-vertical.svg"></div>
-          <div class="entire-book-author-1"><span>작가 1</span></div>
-        </li>
-      </div>
-    </div> -->
-
-    <div class="shelf-wrapper">
+    <div class="shelf-wrapper content-box">
       <div class="favorite-wrapper">
         <div class="favorite-contents-wrapper">
           <div class="favorite-title-wrapper">
@@ -133,251 +127,189 @@
     </div>
 
 
-    <div class="record-wrapper">
+    <div class="order-info-wrapper content-box">
 
-      <div class="record-top">
-        <div class="record-sort">
-          <span class="record-sort-month">월간</span>
-          <span class="record-sort-year">연간</span>
-          <span class="record-sort-sum">누적</span>
-          <div class="record-sort-button"></div>
-        </div>
-        <img class="record-question" src="/img/icon/question-circle.svg">
-
-        <div class="record-question-box">
-          <div class="record-question-info">
-            <span>구독기간 동안의 독서활동으로 분석합니다.</span>
-            <img src="/img/icon/btn_dialog_close@2x.png">
-          </div>
-          <div class="record-question-book-wrapper">
-            <img src="/img/icon/book.svg">
-            <div class="record-question-book-right">
-              <div class="record-question-book-title">책</div>
-              <div class="record-question-book-info">기간 동안 한 번 이상 열어본 책의 수</div>
-            </div>
-          </div>
-          <div class="record-question-time-wrapper">
-            <img src="/img/icon/clock.svg">
-            <div class="record-question-time-right">
-              <div class="record-question-time-title">독서 시간</div>
-              <div class="record-question-time-info">기간 동안 책을 본 누적 시간</div>
-            </div>
-          </div>
-          <div class="record-question-routine-wrapper">
-            <img src="/img/icon/hourglass.svg">
-            <div class="record-question-routine-right">
-              <div class="record-question-routine-title">독서 루틴</div>
-              <div class="record-question-routine-info">기간 동안 서비스에 로그인한 날짜 및 횟수</div>
-            </div>
-          </div>
-          <li>내 서재에서 삭제한 책은 통계에 포함되지 않습니다.</li>
-          <li>연간/누적 요약 정보에 있는 도서 권수가 그래프에 있는 도서 권수의 합보다 작을 수 있습니다.</li>
-        </div>
-      </div>
-
-      <div class="record-contents-wrapper">
-
-        <div class="record-contents">
-          <div class="record-book">
-            <div class="record-book-left">
-              <img class="record-book-icon" src="/img/icon/book.svg">
-              <div class="record-book-title">책</div>
-            </div>
-            <div class="record-book-right">
-              <span class="record-book-number">39</span>
-              <span class="record-book-text">권</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="record-contents">
-          <div class="record-time">
-            <div class="record-time-left">
-              <img class="record-time-icon" src="/img/icon/clock.svg">
-              <div class="record-time-title">독서시간</div>
-            </div>
-            <div class="record-time-right">
-              <div class="record-time-hour">11</div>
-              <div class="record-time-hour-text">시간</div>
-              <div class="record-time-minute">5</div>
-              <div class="record-time-minute-text">분</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="record-contents">
-          <div class="record-routine">
-            <div class="record-routine-left">
-              <img class="record-routine-icon" src="/img/icon/hourglass.svg">
-              <div class="record-routine-title">독서루틴</div>
-            </div>
-            <div class="record-routine-right">
-              <span class="record-routine-day">42</span>
-              <span class="record-routine-day-text">일</span>
-              <span class="record-routine-count">63</span>
-              <span class="record-routine-count-text">회</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="record-graph-wrapper">
-          <div class="record-graph-container">
-            <div class="record-graph-1">
-              <div class="record-graph-stick-wrapper-1">
-                <div class="record-graph-data-label-1">32권</div>
-                <div class="record-graph-stick-1"></div>
-              </div>
-              <span class="record-graph-name-1">2020</span>
-            </div>
-            <div class="record-graph-2">
-              <div class="record-graph-stick-wrapper-2">
-                <div class="record-graph-data-label-2">27권</div>
-                <div class="record-graph-stick-2"></div>
-              </div>
-              <span class="record-graph-name-2">2021</span>
-            </div>
-            <div class="record-graph-3">
-              <div class="record-graph-stick-wrapper-3">
-                <div class="record-graph-data-label-3">39권</div>
-                <div class="record-graph-stick-3"></div>
-              </div>
-              <span class="record-graph-name-3">2022</span>
-            </div>
-            <div class="record-graph-x-axis"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="order-list-title-wrapper">
-      <div class="order-list-title-inner-wrapper">
-        <span class="order-list-title">구매 목록</span>
-        <div class="order-list-title-button">
-          <img src="/img/icon/calendar.svg">
+      <form class="order-list-title-detail-wrapper">
+        <div class="detail-title">
           <span>상세조회</span>
+          <img src="/img/icon/btn_dialog_close@2x.png">
         </div>
-        <span class="order-list-title-info">최근 1개월 구매 내역입니다.</span>
+        <div class="order-list-title-detail-info">
+          <li>조회기간 설정은 6개월 단위이며, 주문정보 조회는 최대 5년까지 가능합니다.</li>
+          <li>필터 이용 시 선택한 주문정보만 조회 가능합니다.</li>
+        </div>
+        <div class="order-list-title-detail-range">
+          <span class="detail-range-title">조회기간</span>
+          <select id="detail-range-select">
+            <option value="month-1" selected="selected">최근 1개월</option>
+            <option value="month-2">최근 2개월</option>
+            <option value="month-3">최근 3개월</option>
+            <option value="month-6">최근 6개월</option>
+            <option value="direct">직접입력</option>
+          </select>
+          <div class="detail-range-start-wrapper">
+            <input class="detail-range-start detail-range-disable" name="startDate" type="text">
+            <img class="detail-range-start-icon" src="/img/icon/calendar.svg">
+          </div>
+          <div class="detail-range-between">~</div>
+          <div class="detail-range-end-wrapper">
+            <input class="detail-range-end detail-range-disable" name="endDate" type="text">
+            <img class="detail-range-end-icon" src="/img/icon/calendar.svg">
+          </div>
+        </div>
+        <div class="order-list-detail-state">
+          <span class="detail-state-title">주문상태</span>
+          <select name="orderState" id="detail-state-select">
+            <option value="ALL" selected="selected">전체</option>
+            <option value="ORDER">결제완료</option>
+            <option value="CANCEL">취소</option>
+            <option value="SOLD">품절</option>
+          </select>
+        </div>
+        <div class="order-list-detail-search">
+          <span class="detail-search-title">검색</span>
+          <input name="name" type="text" placeholder="상품명을 입력해주세요.">
+        </div>
+        <div class="order-list-detail-bottom">
+          <div class="detail-bottom-reset">
+            <img class="detail-bottom-reset-icon" src="/img/icon/arrow-clockwise.svg">
+            <span>초기화</span>
+          </div>
+          <div class="detail-bottom-apply">
+            <input id="page" name="page" type="hidden" value="1">
+            <span>적용</span>
+          </div>
+        </div>
+      </form>
 
-
-        <div class="order-list-title-detail-wrapper">
-          <div class="detail-title">
+      <div class="order-list-title-wrapper">
+        <div class="order-list-title-inner-wrapper">
+          <span class="order-list-title">주문 목록</span>
+          <div class="order-list-title-button">
+            <img src="/img/icon/calendar.svg">
             <span>상세조회</span>
-            <img src="/img/icon/btn_dialog_close@2x.png">
           </div>
-          <div class="order-list-title-detail-info">
-            <li>조회기간 설정은 6개월 단위이며, 주문정보 조회는 최대 5년까지 가능합니다.</li>
-            <li>필터 이용 시 선택한 주문정보만 조회 가능합니다.</li>
-          </div>
-          <div class="order-list-title-detail-range">
-            <span class="detail-range-title">기간조회</span>
-            <select name="detail-range" id="detail-range-select">
-              <option value="month-1" selected="selected">최근 1개월</option>
-              <option value="month-2">최근 2개월</option>
-              <option value="month-3">최근 3개월</option>
-              <option value="month-6">최근 6개월</option>
-              <option value="direct">직접입력</option>
-            </select>
-            <div class="detail-range-start-wrapper">
-              <input type="text" class="detail-range-start">
-              <img class="detail-range-start-icon" src="/img/icon/calendar.svg">
+          <span class="order-list-title-info">최근 1개월 주문내역입니다.</span>
+        </div>
+      </div>
+
+      <div class="order-list-wrapper" id="order-box">
+        <div class="search-info-box row-box" th:if="${orderSearchDto}">
+          <div class="data-box row-box">
+            <div class="search-keyword row-box">
+              <img src="/img/icon/search.svg">
+              <div class="keyword" th:text="${orderSearchDto.name}"></div>
             </div>
-            <div class="detail-range-between">~</div>
-            <div class="detail-range-end-wrapper">
-              <input type="text" class="detail-range-end">
-              <img class="detail-range-end-icon" src="/img/icon/calendar.svg">
+            <div class="row-box">
+              <div class="search-period row-box">
+                <div class="label">조회기간</div>
+                <div class="date-box row-box">
+                  <div class="start" th:text="${#temporals.format(orderSearchDto.startDate, 'yyyy년 M월 d일')}"></div>
+                  <div class="split">~</div>
+                  <div class="end" th:text="${#temporals.format(orderSearchDto.endDate, 'yyyy년 M월 d일')}"></div>
+                </div>
+              </div>
+              <div class="search-state row-box">
+                <div class="label">주문상태</div>
+                <th:block th:switch="${orderSearchDto.orderState}" th:with="state = ${T(com.cerdure.bookshelf.domain.enums.OrderState)}">
+                  <div class="state" th:case="${state.ALL}">전체</div>
+                  <div class="state" th:case="${state.ORDER}">결제완료</div>
+                  <div class="state" th:case="${state.CANCEL}">취소</div>
+                  <div class="state" th:case="${state.SOLD}">품절</div>
+                </th:block>
+              </div>
             </div>
           </div>
-          <div class="order-list-detail-state">
-            <span class="detail-state-title">구매 상태</span>
-            <select name="detail-state" id="detail-state-select">
-              <option value="entire" selected="selected">전체</option>
-              <option value="complete">구매 완료</option>
-              <option value="cancel">취소</option>
-              <option value="soldout">품절</option>
-            </select>
+          <div class="btn btn-gray">변경</div>
+        </div>
+
+        <div class="order-list-middle-box">
+          <div class="order-list-middle-box-title">
+            카드결제(간편결제,법인카드 포함) 취소 안내
           </div>
-          <div class="order-list-detail-search">
-            <span class="detail-search-title">검색</span>
-            <input type="text" placeholder="상품명을 입력해주세요.">
-          </div>
-          <div class="order-list-detail-bottom">
-            <div class="detail-bottom-reset">
-              <img class="detail-bottom-reset-icon" src="/img/icon/arrow-clockwise.svg">
-              <span>초기화</span>
-            </div>
-            <div class="detail-bottom-apply">
-              <span>적용</span>
-            </div>
+          <div class="order-list-middle-box-detail">
+            <li>
+              카드결제 취소 기간 안내<br>
+              &nbsp;- 전체취소 : 당일 취소/환불 처리<br>
+              &nbsp;- 부분취소 : 영업일 기준 3~5일 소요(당일 취소 포함)
+            </li>
+            <li>
+              카드사 정책에 따라 주문당일 부분취소한 경우 당일 취소 및 환불 불가합니다.
+            </li>
+            <li>
+              부분취소한 경우 카드사 승인 취소는 약 3~5일 소요됩니다.
+            </li>
+            <li>
+              카드사에서 부분취소를 지원하지 않는 카드의 경우 승인취소가 아닌 예치금으로 환불됩니다.
+            </li>
           </div>
         </div>
+
+        <div class="order-list-contents-wrapper column-box">
+          <div class="row-head">
+            <div class="text text-1">주문일/주문번호</div>
+            <div class="text-group">
+              <div class="text">상품정보</div>
+              <div class="text">상태</div>
+              <div class="text">확인/신청</div>
+            </div>
+          </div>
+          <div class="order-list-contents-null" th:if="${orders.numberOfElements == 0}">
+            <img src="/img/icon/exclamation-circle-fill.svg">
+            <span>조회된 주문 정보가 없습니다.</span>
+          </div>
+          <div class="column-box" id="page-box" th:data-last="${orders.last}">
+          <div class="row" th:each="order : ${orders}" th:data-price="${order.orderPrice}"
+               th:with="state = ${T(com.cerdure.bookshelf.domain.enums.OrderState)},
+                        isORDER = ${order.orderState.equals(state.ORDER)}">
+            <div class="date-code-box column-box">
+              <div class="text">주문일자</div>
+              <div class="date" th:text="${#temporals.format(order.regDate, 'yyyy-MM-dd')}"></div>
+              <div class="text">주문번호</div>
+              <div class="order-id" th:text="${order.id}"></div>
+              <button class="order-detail-btn btn-gray">주문상세보기</button>
+              <button th:classappend="${isORDER} ? 'order-cancel-btn btn-red' : 'disable btn-gray'"
+                      th:text="${isORDER} ? '전체주문취소' : '취소된 주문'"></button>
+            </div>
+            <div class="item-box column-box">
+              <div class="item row-box" th:each="item : ${order.orderItems}" th:data-id="${item.id}"
+                   th:with="book = ${item.book}, itemState = ${item.orderState}">
+                <div class="item-info row-box">
+                  <img th:src="${book.imgPath}">
+                  <div class="info column-box">
+                    <div class="name" th:utext="${book.name}"></div>
+                    <div class="row-box">
+                      <div class="amount" th:text="${item.amount} + '권'"></div>
+                      <div class="split">ㅣ</div>
+                      <div class="price"
+                        th:text="${#numbers.formatInteger(item.amount * book.discountPrice, 3, 'COMMA')} + '원'"></div>
+                    </div>
+                  </div>
+                </div>
+                <th:block th:switch="${itemState}">
+                  <div class="state" th:case="${state.ORDER}">결제완료</div>
+                  <div class="state" th:case="${state.CANCEL}">주문취소</div>
+                  <div class="state" th:case="${state.SOLD}">품절</div>
+                </th:block>
+                <div class="btn-box">
+                  <button th:classappend="${itemState == state.ORDER} ? 'item-cancel-btn btn-red' : 'disable btn-gray'"
+                          th:text="${itemState == state.ORDER} ? '주문취소' : '취소된 주문'"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <div class="next-btn btn-gray row-box" th:if="${!orders.last}">
+          <div class="text">더보기</div>
+          <img src="/img/icon/down-arr.png">
+        </div>
+
       </div>
     </div>
 
-    <div class="order-list-wrapper">
-      <div class="order-list-top-box">
-        <li class="order-list-top-box-title">
-          <div>
-            <span>구매 내역</span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <span>0</span>
-            <span>구매 완료</span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <span>0</span>
-            <span>취소</span>
-          </div>
-        </li>
-        <li>
-          <div>
-            <span>0</span>
-            <span>품절</span>
-          </div>
-        </li>
-      </div>
-
-      <div class="order-list-middle-box">
-        <div class="order-list-middle-box-title">
-          카드결제(간편결제,법인카드 포함) 취소 안내
-        </div>
-        <div class="order-list-middle-box-detail">
-          <li>
-            카드결제 취소 기간 안내<br>
-            &nbsp;- 전체취소 : 당일 취소/환불 처리<br>
-            &nbsp;- 부분취소 : 영업일 기준 3~5일 소요(당일 취소 포함)
-          </li>
-          <li>
-            카드사 정책에 따라 주문당일 부분취소한 경우 당일 취소 및 환불 불가합니다.
-          </li>
-          <li>
-            부분취소한 경우 카드사 승인 취소는 약 3~5일 소요됩니다.
-          </li>
-          <li>
-            카드사에서 부분취소를 지원하지 않는 카드의 경우 승인취소가 아닌 예치금으로 환불됩니다.
-          </li>
-          <li>
-            주문취소시 오류가 발생하거나 환불이 정상 처리되지 않을 경우 1:1로 문의 주시기 바랍니다.
-          </li>
-        </div>
-      </div>
-
-      <div class="order-list-middle-line"></div>
-
-      <div class="order-list-contents-wrapper">
-        <div class="order-list-contents-null">
-          <img src="/img/icon/exclamation-circle-fill.svg">
-          <span>해당 기간에 구매한 상품이 없습니다.</span>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="member-info-wrapper">
+    <div class="member-info-wrapper content-box">
 
     </div>
 

@@ -379,9 +379,12 @@
   position: relative;
   width: 100%;
   height: auto;
-  border-top: 1px solid lightgray;
   padding: 10px;
+  border-bottom: 1px solid whitesmoke;
   display: table;
+}
+.search-result:first-child {
+  border-top: 1px solid whitesmoke;
 }
 .search-result-text {
   width: 420px;
@@ -390,12 +393,8 @@
 }
 .search-result img {
   width: 60px;
-}
-.search-result .name {
-}
-.search-result .author {
-}
-.search-result .date {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
 }
 .search-result .select {
   position: absolute;
@@ -413,22 +412,6 @@
 .search-result .select:hover {
   background-color: rgb(241, 241, 241);
   transition: 0.3s;
-}
-
-.search-controller {
-  position: relative;
-  width: 100%;
-  height: 40px;
-  text-align: center;
-  border-top: 1px solid lightgray;
-  padding-top: 10px;
-}
-
-.search-controller .controller {
-  position: relative;
-  top: 10px;
-  display: inline-block;
-  width: 228px;
 }
 
 .review-write-book-wrapper {
@@ -679,8 +662,6 @@
   pointer-events: none;
 }
 
-
-
 .reviews-wrapper {
   position: relative;
   width: 100%;
@@ -691,12 +672,15 @@
   width: 100%;
   height: auto;
 }
+.my-review:last-child {
+  border-bottom: 1px solid silver;
+}
 .my-review .book-name {
   position: relative;
   width: 100%;
   height: 70px;
   border-top: 1px solid silver;
-  border-bottom: 1px solid lightgray;
+  border-bottom: 1px solid #ebebeb; 
   line-height: 70px;
   font-family: 'Noto Sans KR', sans-serif;
   color:rgba(0, 0, 0, 0.7);
@@ -928,52 +912,6 @@
   transition: 0.5s;
 }
 
-
-.review-controller {
-  position: relative;
-  height: 40px;
-  text-align: center;
-  border-top: 1px solid lightgray;
-}
-
-.review-controller .controller {
-  position: relative;
-  top: 20px;
-  display: inline-block;
-  width: 228px;
-}
-
-.controller-btn-left {
-  position: absolute;
-  top: 2px;
-  left: 0px;
-  display: inline-block;
-  width: 20px;
-  cursor: pointer;
-}
-.controller-btn-right {
-  position: absolute;
-  top: 2px;
-  right: 0px;
-  display: inline-block;
-  width: 20px;
-  cursor: pointer;
-}
-.controller a{
-  display: inline-block;
-  width: 19px;
-  margin: 0 2px;
-  border-radius: 50%;
-  line-height: 19px;
-  cursor: pointer;
-  text-decoration: none;
-  font-weight: 900;
-}
-.index-active {
- background-color: cornflowerblue;
- color: white;
-}
-
 .regist-button {
   position: relative;
   left: 50%;
@@ -988,7 +926,6 @@
   border: none;
   outline: none;
 }
-
 
 .alert-window {
   position: fixed;

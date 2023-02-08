@@ -2,11 +2,13 @@ package com.cerdure.bookshelf.service;
 
 import com.cerdure.bookshelf.domain.member.Address;
 import com.cerdure.bookshelf.domain.member.Member;
+import com.cerdure.bookshelf.domain.member.MemberCoupon;
 import com.cerdure.bookshelf.domain.member.MemberProfile;
 import com.cerdure.bookshelf.dto.loginApi.ApiJoinDto;
 import com.cerdure.bookshelf.dto.loginApi.MemberApiLoginInfoDto;
 import com.cerdure.bookshelf.dto.member.InfoUpdateDto;
 import com.cerdure.bookshelf.dto.member.MemberDto;
+import com.cerdure.bookshelf.repository.MemberCouponRepository;
 import com.cerdure.bookshelf.repository.MemberProfileRepository;
 import com.cerdure.bookshelf.repository.MemberRepository;
 import com.cerdure.bookshelf.service.interfaces.MemberInfoUpdateService;
@@ -18,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,8 +32,16 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final MemberCouponRepository memberCouponRepository;
     private final MemberProfileRepository memberProfileRepository;
-    private final MemberInfoUpdateImpl memberInfoUpdate;
+    private final MemberInfoUpdateService memberInfoUpdate;
+
+    @Override
+    @Transactional
+    public void save(Member member) {
+        memberRepository.save(member);
+    }
+
     @Transactional
     public Long join(MemberDto memberDto) {
         validateDuplicateMember(memberDto);
@@ -39,6 +50,7 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
         return member.getId();
     }
+    
     public MemberProfile getBasicProfile() {
         String fullPath = System.getProperty("user.dir") + "/src/main/resources/static/upload-img/"+"basic.jpeg";
         MemberProfile basicProfile = MemberProfile.builder()
@@ -129,20 +141,28 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Transactional
-    public void delete(Long id){
+    public void delete(Long id) {
     }
 
     @Override
-    public void changePoint(Authentication authentication, int point) {
+    public void useCoupon(Long couponId) {
+        MemberCoupon memberCoupon = memberCouponRepository.findById(couponId).get();
+        memberCoupon.changeUseDate(LocalDateTime.now());
+        memberCouponRepository.save(memberCoupon);
+    }
+
+    @Override
+    @Transactional
+    public void changePoint(Authentication authentication, int minusPoint) {
         Member member = findMember(authentication);
-        member.changePoint(member.getPoint() - point);
+        member.changePoint(member.getPoint() - minusPoint);
         memberRepository.save(member);
     }
 
     @Override
-    public void changePoint(Member member, int point) {
-        member.changePoint(member.getPoint() - point);
+    @Transactional
+    public void changePoint(Member member, int minusPoint) {
+        member.changePoint(member.getPoint() - minusPoint);
         memberRepository.save(member);
     }
-
 }
