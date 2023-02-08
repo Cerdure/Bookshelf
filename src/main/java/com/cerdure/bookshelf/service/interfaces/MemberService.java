@@ -12,7 +12,7 @@ import java.util.List;
 public interface MemberService {
     public Long join(MemberDto memberDto);
     void validateDuplicateMember(MemberDto memberDto);
-    MemberApiLoginInfoDto apiJoin(ApiJoinDto apiJoinDto, String email);
+    MemberApiLoginInfoDto apiJoin(ApiJoinDto apiJoinDto);
     public List<Member> findMembers();
     public Member findMember(Authentication authentication);
     InfoUpdateDto showInfo(Authentication authentication);

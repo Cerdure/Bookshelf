@@ -29,7 +29,7 @@ public class InitDb {
 
     @PostConstruct
     public void init() {
-        initService.dbInitBooks();
+        //initService.dbInitBooks();
     }
 
     @Component

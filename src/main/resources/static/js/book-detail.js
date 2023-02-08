@@ -1,4 +1,9 @@
 $(function () {
+  $(document).ready(function(){
+    if(mark==1){
+      document.querySelector('.memberBookMark').setAttribute("style","filter: invert(16%) sepia(89%) saturate(6054%) hue-rotate(358deg) brightness(97%) contrast(113%);");
+       }
+  });
 
   $(".side-wrapper").css('transform', 'translateY(' + $(window).scrollTop() + 'px)');
 
@@ -462,6 +467,22 @@ function reviewDelete(bookId) {
   });
 }
 
+async function bookMark(){
+  var totalBookMark=document.querySelector('.totalBookmark');
+  var currentMark=document.querySelector('.currnentBookmark');
+  var color=document.querySelector('.memberBookMark');
+  var mark=await fetch('/marking/?bookName='+bookName).then(re=>re.json()).catch(er=>console.log(er));
+  if(mark.memberBookmark==1){
+      totalBookMark.innerHTML=mark.totalMark;
+      color.setAttribute("style","filter: invert(16%) sepia(89%) saturate(6054%) hue-rotate(358deg) brightness(97%) contrast(113%);");
+      currentMark.val(mark.memberBookmark);
+    }else{
+      totalBookMark.innerHTML=mark.totalMark;
+      color.setAttribute("style","filter: none");
+      currentMark.val(mark.memberBookmark);
+    }
+  }
+
 
 $(function () {
   let width = $(window).width();
@@ -496,8 +517,7 @@ $(function () {
     }
   });
 
-
-});
+})
 
 
 

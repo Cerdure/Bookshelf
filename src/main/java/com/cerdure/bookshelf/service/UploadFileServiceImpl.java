@@ -57,7 +57,6 @@ public class UploadFileServiceImpl implements UploadFileService {
             String uuid = UUID.randomUUID().toString();
             return uuid + "." + ext;
         }
-
     }
 
     private String extractExt(String originalFilename) {

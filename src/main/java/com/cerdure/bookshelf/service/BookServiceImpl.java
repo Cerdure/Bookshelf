@@ -1,8 +1,11 @@
 package com.cerdure.bookshelf.service;
 
 import com.cerdure.bookshelf.domain.book.Book;
+import com.cerdure.bookshelf.domain.book.Bookmark;
+import com.cerdure.bookshelf.domain.member.Member;
 import com.cerdure.bookshelf.dto.book.BookDto;
 import com.cerdure.bookshelf.repository.BookRepository;
+import com.cerdure.bookshelf.repository.BookmarkRepository;
 import com.cerdure.bookshelf.service.interfaces.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -19,7 +22,7 @@ import java.util.Map;
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
-
+    private final BookmarkRepository bookmarkRepository;
     @Override
     public List<Book> findAll() {
         return bookRepository.findAll();
@@ -123,6 +126,15 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findByNameContainingIgnoreCaseAndDiscountRateAfterOrderByDiscountRateDesc(name, discountRate);
     }
 
+    @Override
+    public boolean bookMark(Book book, Member member) {
+        Bookmark bookmark = bookmarkRepository.findByMemberAndBook(member, book);
+        if(bookmark==null){
+            return false;
+        }else{
+            return true;
+        }
+    }
 
     @Override
     public void insert(BookDto bookDto) {
