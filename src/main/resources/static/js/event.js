@@ -1,5 +1,5 @@
 $(function () {
-  
+
   const arr = [];
   let count = 0;
   let check = false;
@@ -52,7 +52,7 @@ $(function () {
     $(".active-discount-rate").text('-' + $(".bi-active").find(".book-discount-rate").val() + '%');
     $(".active-discount-price").text(Number($(".bi-active").find(".book-discount-price").val()).toLocaleString('ko-KR') + '원');
     $(".banner-before").css('backgroundImage', 'url(' + $(".bi-" + (count + 4) % 16 + " img").attr('src') + ')');
-   
+
   }
 
   function bannerSlideReverse(speed) {
@@ -194,7 +194,7 @@ $(function () {
       'z-index': '5'
     });
     $(".sale-wrapper").css({
-      'margin-top':'230px'
+      'margin-top': '230px'
     });
     $(".category-title-wrapper").css({
       'position': 'fixed',
@@ -219,7 +219,7 @@ $(function () {
       'z-index': '0'
     });
     $(".sale-wrapper").css({
-      'margin-top':'auto'
+      'margin-top': 'auto'
     });
     $(".category-title-wrapper").css({
       'position': 'relative',
@@ -236,7 +236,7 @@ $(function () {
     });
   }
 
-  $(window).scroll(function () { 
+  $(window).scroll(function () {
     st = $(this).scrollTop();
     width = $(this).width();
 
@@ -249,7 +249,7 @@ $(function () {
         'z-index': '5'
       });
       $(".sale-wrapper").css({
-        'margin-top':'230px'
+        'margin-top': '230px'
       });
       $(".category-title-wrapper").css({
         'position': 'fixed',
@@ -275,7 +275,7 @@ $(function () {
         'z-index': '0'
       });
       $(".sale-wrapper").css({
-        'margin-top':'auto'
+        'margin-top': 'auto'
       });
       $(".category-title-wrapper").css({
         'position': 'relative',
@@ -356,10 +356,10 @@ $(function () {
       let nextImgs = [];
       let nextNames = [];
       let nextAuthors = [];
-      for (var i=1; i<10; i++){
-        nextImgs[i] =  $(".sale-row-0 a:nth-child(" + (i % 9 + 1) + ") img").attr('src');
-        nextNames[i] =  $(".sale-row-0 a:nth-child(" + (i % 9 + 1) + ") #sale-book-name").text();
-        nextAuthors[i] =  $(".sale-row-0 a:nth-child(" + (i % 9 + 1) + ") #sale-discount-rate").text();
+      for (var i = 1; i < 10; i++) {
+        nextImgs[i] = $(".sale-row-0 a:nth-child(" + (i % 9 + 1) + ") img").attr('src');
+        nextNames[i] = $(".sale-row-0 a:nth-child(" + (i % 9 + 1) + ") #sale-book-name").text();
+        nextAuthors[i] = $(".sale-row-0 a:nth-child(" + (i % 9 + 1) + ") #sale-discount-rate").text();
       }
       for (var k = 1; k < 10; k++) {
         $(".sale-row-0 a:nth-child(" + k + ") img").attr('src', nextImgs[k]);
@@ -378,10 +378,10 @@ $(function () {
       let prevImgs = [];
       let prevNames = [];
       let prevAuthors = [];
-      for (var i=1; i<10; i++){
-        prevImgs[i] =  $(".sale-row-1 a:nth-child(" + ((i + 7) % 9 + 1) + ") img").attr('src');
-        prevNames[i] =  $(".sale-row-1 a:nth-child(" + ((i + 7) % 9 + 1) + ") #sale-book-name").text();
-        prevAuthors[i] =  $(".sale-row-1 a:nth-child(" + ((i + 7) % 9 + 1) + ") #sale-discount-rate").text();
+      for (var i = 1; i < 10; i++) {
+        prevImgs[i] = $(".sale-row-1 a:nth-child(" + ((i + 7) % 9 + 1) + ") img").attr('src');
+        prevNames[i] = $(".sale-row-1 a:nth-child(" + ((i + 7) % 9 + 1) + ") #sale-book-name").text();
+        prevAuthors[i] = $(".sale-row-1 a:nth-child(" + ((i + 7) % 9 + 1) + ") #sale-discount-rate").text();
       }
       for (var k = 1; k < 10; k++) {
         $(".sale-row-1 a:nth-child(" + k + ") img").attr('src', prevImgs[k]);
@@ -399,7 +399,7 @@ $(function () {
   let saleInterval = [setInterval(slide, 5000), setInterval(reversSlide, 5000)];
 
 
-  $("#search-input").keyup(function(key){
+  $("#search-input").keyup(function (key) {
     if (key.keyCode == 13) {
       $("#search-form").submit();
     } else {
@@ -415,7 +415,7 @@ $(function () {
   });
 
   function bookSearch() {
-    $.ajax({                                                    
+    $.ajax({
       url: "/event-sale",
       type: "get",
       data: $("#search-form").serialize(),
@@ -423,7 +423,7 @@ $(function () {
       async: true,
     }).done(function (data) {
       $('#search-input-results').replaceWith(data);
-      if(data.length < 100) {
+      if (data.length < 100) {
         $(".search-result-outer-wrapper").hide();
       } else {
         $(".search-result-outer-wrapper").show();
@@ -441,7 +441,8 @@ $(function () {
   let currentDay = date.getDate();
   let lastDay = new Date(y, m + 1, 0).getDate();
   let checked = false;
-  let count = 0;
+  let atdCount = Number($(".atdCount").data("value"));
+  $(".check-fill").css('left', (100 * (atdCount / lastDay) - 100) + '%');
 
   for (var i = 28; i < 36; i++) {
     if (i <= lastDay) {
@@ -454,46 +455,55 @@ $(function () {
   const checkImg = "/img/icon/patch-check-fill.svg";
 
   $(window).scroll(function () {
-    if (!checked && $(this).scrollTop() > 2900) {
-      $(".check-day" + currentDay).css({
-        'height': '100%',
-        'position': 'absolute',
-        'color': 'rgba(0,0,0,0)'
-      });
-      $("#check-day" + currentDay + "-wrapper").css({
-        'top': '30px',
-        'backgroundImage': 'url(' + checkImg + ')',
-        'backgroundPosition': 'center',
-        'backgroundRepeat': 'no-repeat',
-        'backgroundSize': 'contain',
-        'animation': 'jello-horizontal 0.9s both',
-        'opacity': '0.4'
-      });
-      count++;
-      setTimeout(function () {
-        $(".check-fill-end").animate({
-          'left': 147.5 + 494.5 / lastDay * count + 'px'
-        }, 500).css('animation', 'border-color-change 1s');
-        $(".check-fill").animate({
-          'left': -100 + 100 / lastDay * count + '%'
-        }, 500).css('animation', 'background-color-change linear 1s');
-        $(".check-box-top-current").text(count + '일').css(
-          'animation', 'jello-horizontal 0.9s both'
-        );
-      }, 500);
-
-      checked = true;
-    }
+    (async () => {
+      if (checked) return;
+      if ($(this).scrollTop() > 2700) {
+        const atdResult = await fetch("/event/attendance").then(res => res.text());
+        switch (atdResult) {
+          case 'error': break;
+          case 'point': alert("1000포인트가 지급되었습니다.");
+          default:
+            $(".check-day" + currentDay).css({
+              'height': '100%',
+              'position': 'absolute',
+              'color': 'rgba(0,0,0,0)'
+            });
+            $("#check-day" + currentDay + "-wrapper").css({
+              'top': '30px',
+              'backgroundImage': 'url(' + checkImg + ')',
+              'backgroundPosition': 'center',
+              'backgroundRepeat': 'no-repeat',
+              'backgroundSize': 'contain',
+              'animation': 'jello-horizontal 0.9s both',
+              'opacity': '0.4'
+            });
+            atdCount++;
+            checkFill(atdCount);
+            setTimeout(() => {
+              $(".check-box-top-current").text(atdCount + '일').css(
+                'animation', 'jello-horizontal 0.9s both'
+              );
+            }, 500);
+        }
+        checked = true;
+      }
+    })();
   });
+
+  function checkFill(atdCount) {
+    $(".check-fill").animate({
+      'left': (100 * (atdCount / lastDay) - 100) + '%'
+    }, 500).css('animation', 'background-color-change linear 1s');
+  }
 
   dom(".month-point-btn").addEventListener("click", () => {
     (async () => {
-      anonymousBlock(); 
+      anonymousBlock();
       const result = await fetch("/event/point").then(res => res.text());
-      switch(result) {
+      switch (result) {
         case "ok": alert("포인트가 지급되었습니다."); break;
         case "error": alert("요청이 실패하였습니다."); break;
-        default : alert(result);
+        default: alert(result);
       }
     })();
   });
@@ -501,10 +511,10 @@ $(function () {
   dom(".month-coupon-btn")?.addEventListener("click", () => {
     (async () => {
       const result = await fetch("/event/coupon").then(res => res.text());
-      switch(result) {
+      switch (result) {
         case "ok": alert("쿠폰이 지급되었습니다."); break;
         case "error": alert("요청이 실패하였습니다."); break;
-        default : alert(result);
+        default: alert(result);
       }
     })();
   });

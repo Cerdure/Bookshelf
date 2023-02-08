@@ -10,6 +10,7 @@ import com.cerdure.bookshelf.domain.board.Review;
 import com.cerdure.bookshelf.domain.book.Category;
 import com.cerdure.bookshelf.domain.enums.MemberRole;
 import com.cerdure.bookshelf.domain.member.Address;
+import com.cerdure.bookshelf.domain.member.Attendance;
 import com.cerdure.bookshelf.domain.member.Coupon;
 import com.cerdure.bookshelf.domain.member.Member;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ public class InitDb {
     public void init() {
 //        initService.dbInitBooks();
 //        initService.initCoupon();
+//        initService.initAttendance();
     }
 
     @Component
@@ -50,6 +53,36 @@ public class InitDb {
             coupons.add(Coupon.builder().price(3000).min(50000).build());
             coupons.add(Coupon.builder().price(2000).min(30000).build());
             coupons.forEach(coupon -> em.persist(coupon));
+        }
+        public void initAttendance(){
+            Member test = Member.builder()
+                    .name("www")
+                    .nickname("www")
+                    .phone("01077777777")
+                    .email("test12@bookshelf.com")
+                    .pw(passwordEncoder.encode("1234"))
+                    .address(new Address("서울 당산동","145가","K013"))
+                    .role(MemberRole.USER)
+                    .build();
+            em.persist(test);
+
+            Attendance[] attendances = new Attendance[7];
+
+            for (int i=0; i<7; i++){
+                if(i == 0) {
+                    attendances[i] = Attendance.builder()
+                            .regDate(LocalDate.now().minusDays((i+1)))
+                            .member(test)
+                            .pointed(true)
+                            .build();
+                } else {
+                    attendances[i] = Attendance.builder()
+                            .regDate(LocalDate.now().minusDays((i+1)))
+                            .member(test)
+                            .build();
+                }
+                em.persist(attendances[i]);
+            }
         }
 
         public void dbInitBooks() {
