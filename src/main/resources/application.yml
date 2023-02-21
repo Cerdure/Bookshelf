@@ -51,7 +51,6 @@ social:
       admin-key: 4e20c2bfb12465ca5e81c238388ddaf8
       logout-redirect-uri: http://localhost:8080/logout/api/kakao
 
-
     naver:
       rest-api-key: r5UySheAPrPbFPYnqJCq
       secret-key: Nbg6wfyk4J
@@ -64,7 +63,7 @@ social:
       redirect-uri: http://localhost:8080/login/api/google
       grant_type: authorization_code
 
-    message:
-      api-key: NCSOTHPPYKFF0STE
-      secret-key: W9D6CUGQAPNXNDN4CMBF9SCEXIFZN1EZ
+message:
+  api-key: NCSMF5NUHFHPFBLR
+  secret-key: PFUW1ADBITXS50C7TB9NOVCMMDTX9TXE
 

@@ -101,6 +101,7 @@ header {
   margin: auto;
   bottom: 60px;
 }
+
 .top-logo-wrapper {
   position: absolute;
   left: 20px;
@@ -155,9 +156,11 @@ header {
   padding-right: 1px;
   padding-bottom: 2px;
 }
+
 .news-wrapper:hover {
   transform: translateY(-50%) scale(1.05);
 }
+
 .news-wrapper:active {
   transform: translateY(-50%) scale(0.95);
   transition: 0.3s;
@@ -187,6 +190,7 @@ header {
   top: 0;
   left: 0;
 }
+
 .svg-wrapper {
   position: absolute;
   top: 50%;
@@ -226,6 +230,7 @@ header {
   letter-spacing: 2px;
   font-size: 14px;
 }
+
 .svg-wrapper:hover #shape {
   fill: rgba(255, 255, 255, 0.3);
   stroke-dasharray: 50 0;
@@ -233,6 +238,7 @@ header {
   stroke-dashoffset: 0;
   stroke: #ffb700;
 }
+
 .svg-wrapper:hover #text {
   color: #525252;
   transition: 0.5s;
@@ -242,13 +248,16 @@ header {
   position: absolute;
   right: 160px;
 }
+
 .admin-btn #shape {
   fill: rgba(255, 255, 255, 0.3);
   stroke: transparent;
 }
+
 .admin-btn #text {
   color: gray;
 }
+
 .svg-wrapper:hover .admin-btn #text {
   color: #252525;
   transition: 0.5s;
@@ -261,11 +270,13 @@ header {
   left: 180px;
   line-height: 60px;
 }
+
 .top-nav ul {
   position: absolute;
   width: 100%;
   font-size: 0px;
 }
+
 .top-nav ul li {
   position: relative;
   width: 20%;
@@ -276,6 +287,7 @@ header {
   text-align: center;
   font-size: 16px;
 }
+
 .top-nav ul li:first-child {
   color: #000000;
 }
@@ -283,6 +295,7 @@ header {
 .top-nav ul li:not(:first-child) {
   color: #898989;
 }
+
 .top-nav ul li:active {
   transform: scale(0.9);
   transition: 0.1s;
@@ -410,6 +423,7 @@ footer ul li {
   font-size: 12px;
   opacity: 0.7;
 }
+
 .bottom-nav ul li a {
    color: #000000;
   text-decoration: none;

@@ -5,12 +5,11 @@ import com.cerdure.bookshelf.domain.board.Reply;
 import com.cerdure.bookshelf.domain.member.Member;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReplyDto {
 
@@ -24,17 +23,7 @@ public class ReplyDto {
     private Integer level;
     private Long parentId;
 
-    @Builder
-    public ReplyDto(Long id, Inquire inquire, Member member, LocalDateTime regDate, String content, Long parentId) {
-        this.id = id;
-        this.inquire = inquire;
-        this.member = member;
-        this.regDate = regDate;
-        this.content = content;
-        this.parentId = parentId;
-    }
-
-    public Reply toEntity(){
+    public Reply toEntity() {
         return Reply.builder()
                 .inquire(this.inquire)
                 .member(this.member)

@@ -10,15 +10,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class NaverLoginInfoResponseDto {
+
     @Builder.Default
-    private Response response=Response.builder().build();
+    private Response response = Response.builder().build();
     private String resultCode;
     private String message;
+
     @Builder
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class Response{
+    public static class Response {
         private String id;
         private String nickName;
         private String profile_image;

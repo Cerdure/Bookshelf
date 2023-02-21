@@ -1,14 +1,17 @@
 package com.cerdure.bookshelf.domain.book;
 
 import com.cerdure.bookshelf.domain.member.Member;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
-@Entity @Getter
+import static java.util.Optional.ofNullable;
+
+@Entity
+@Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Bookmark {
 
@@ -25,10 +28,10 @@ public class Bookmark {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @Builder
-    public Bookmark(Long id, Member member, Book book) {
-        this.id = id;
-        this.member = member;
-        this.book = book;
+    private LocalDateTime regDate;
+
+    @PrePersist
+    private void prePersist() {
+        this.regDate = ofNullable(this.regDate).orElse(LocalDateTime.now());
     }
 }

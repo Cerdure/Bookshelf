@@ -17,10 +17,10 @@ body {
   background-position: center;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .meta-wrapper {
@@ -30,30 +30,35 @@ input[type=number]::-webkit-outer-spin-button {
   height: 100%;
   margin: auto;
   background-color: white;
-  box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.1);
   overflow-x: hidden;
   overflow-y: scroll;
 }
+
 .meta-wrapper::-webkit-scrollbar {
   width: 12px;
   background-color: white;
 }
+
 .meta-wrapper::-webkit-scrollbar-thumb {
   background-color: white;
   box-shadow: 0px 0px 50px 0px black;
   border: 2px solid #e3e3e3;
   border-radius: 10px;
 }
+
 .inner-wrapper {
   position: relative;
   width: 100%;
   padding: 0 40px;
 }
+
 .header {
   position: relative;
   margin: auto;
   font-family: 'Noto Sans KR', sans-serif;
 }
+
 .back-btn {
   position: absolute;
   top: 50px;
@@ -63,10 +68,12 @@ input[type=number]::-webkit-outer-spin-button {
   cursor: pointer;
   z-index: 10;
 }
+
 .back-btn:hover {
   opacity: 0.6;
   transition: 0.3s;
 }
+
 .header .text {
   position: relative;
   width: 100%;
@@ -77,6 +84,7 @@ input[type=number]::-webkit-outer-spin-button {
   padding-top: 40px;
   letter-spacing: 5px;
 }
+
 .header .sub-text {
   position: relative;
   width: 100%;
@@ -85,6 +93,7 @@ input[type=number]::-webkit-outer-spin-button {
   font-size: 12px;
   margin-bottom: 40px;
 }
+
 .contents {
   position: relative;
   width: 100%;
@@ -94,16 +103,34 @@ input[type=number]::-webkit-outer-spin-button {
 .form-group {
   position: relative;
   width: 100%;
-  height: 60px; 
+  height: 60px;
   margin: auto;
   margin-bottom: 20px;
   border: 1px solid lightgray;
   border-radius: 5px;
   overflow: hidden;
 }
+
 .form-group:focus {
   border: 1px solid rgb(55, 55, 55);
 }
+
+.passed {
+  border: 1px solid dodgerblue;
+}
+
+.passed .pw-info {
+  color: dodgerblue;
+}
+
+.not-passed {
+  border: 1px solid deeppink;
+}
+
+.not-passed .pw-info {
+  color: deeppink;
+}
+
 label {
   position: absolute;
   top: 5px;
@@ -111,17 +138,22 @@ label {
   font-size: 12px;
   font-family: 'Noto Sans KR', sans-serif;
   color: rgb(98, 98, 98);
-
 }
-.clear-btn {
+
+.reset {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   right: 10px;
   width: 15px;
-  opacity: 0.2;
-  display: none;
+  opacity: 0;
 }
+
+.form-group:hover .reset {
+  opacity: 0.2;
+  transition: 0.3s;
+}
+
 .id,
 .name {
   position: absolute;
@@ -134,6 +166,7 @@ label {
   text-indent: 15px;
   font-family: 'Noto Sans KR', sans-serif;
 }
+
 .id::placeholder,
 .name::placeholder,
 .email::placeholder,
@@ -170,13 +203,16 @@ label {
   text-indent: 14px;
   resize: none;
 }
+
 .phone:disabled {
-  color: rgb(140,140,140);
+  color: rgb(140, 140, 140);
   background-color: white;
 }
+
 .left-move {
   right: 132px;
 }
+
 .vertical-line {
   position: absolute;
   right: 0;
@@ -184,6 +220,7 @@ label {
   height: 60px;
   border-left: 1px solid silver;
 }
+
 .code-send {
   position: absolute;
   top: 50%;
@@ -194,16 +231,18 @@ label {
   border: none;
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 12px;
-  color: rgb(170,170,170);
+  color: rgb(170, 170, 170);
   line-height: 60px;
   text-align: center;
   pointer-events: none;
 }
+
 .code-send:active {
   color: cornflowerblue;
   font-size: 11px;
   transition: 0.3s;
 }
+
 .timer {
   position: absolute;
   right: 0px;
@@ -216,6 +255,7 @@ label {
   font-family: 'Noto Sans KR', sans-serif;
   display: none;
 }
+
 .code {
   position: absolute;
   bottom: 5px;
@@ -232,6 +272,7 @@ label {
   height: 0;
   display: none;
 }
+
 .code-check {
   position: absolute;
   top: 50%;
@@ -247,6 +288,7 @@ label {
   text-align: center;
   display: none;
 }
+
 .code-check:active {
   color: cornflowerblue;
   font-size: 11px;
@@ -264,6 +306,7 @@ label {
   text-indent: 15px;
   font-family: 'Noto Sans KR', sans-serif;
 }
+
 .pw-info {
   position: absolute;
   top: 7px;
@@ -271,6 +314,7 @@ label {
   font-size: 10px;
   color: rgb(160, 160, 160);
 }
+
 .view {
   position: absolute;
   top: 49%;
@@ -278,6 +322,7 @@ label {
   right: 35px;
   width: 25px;
 }
+
 .pw-check {
   position: absolute;
   bottom: 5px;
@@ -295,10 +340,12 @@ label {
   float: left;
   margin-right: 2%;
 }
+
 .city-wrapper {
   width: 58%;
   float: right;
 }
+
 .zipcode,
 .city,
 .street {
@@ -328,18 +375,30 @@ label {
   border-radius: 5px;
   cursor: pointer;
   transition: 0.5s;
-}
-.join:disabled {
-  opacity: 0.3;
-  cursor:auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.btn-yellow-fill {
+  border: 1px solid #f5b94a !important;
+  background-color: #f5b94a !important;
+  color: white !important;
+}
+
+.btn-yellow-fill:hover {
+  color: #f5b94a !important;
+  background-color: white !important;
+  border: 1px solid #f5b94a !important;
+  transition: 0.3s;
+}
 
 .buttons {
   position: relative;
   height: 250px;
   text-align: center;
 }
+
 .full-line {
   position: absolute;
   top: 34px;
@@ -348,6 +407,7 @@ label {
   background-color: silver;
   z-index: -1;
 }
+
 .buttons .title {
   position: absolute;
   top: 0px;
@@ -360,6 +420,7 @@ label {
   background-color: white;
   margin-top: 20px;
 }
+
 .buttons img {
   position: relative;
   width: 50px;
@@ -369,13 +430,13 @@ label {
   cursor: pointer;
 }
 
-
 .footer-wrapper {
   position: relative;
   bottom: 0px;
   width: 520px;
   color: gray;
 }
+
 .footer-wrapper::before {
   content: '';
   position: absolute;
@@ -385,6 +446,7 @@ label {
   height: 1px;
   background-color: #e4e4e4;
 }
+
 .footer {
   position: relative;
   width: 340px;
@@ -393,4 +455,3 @@ label {
   font-size: 14px;
   text-align: center;
 }
-

@@ -61,19 +61,18 @@
         </div>
       </div>
 
-      <button class="btn-left">
-        << /button>
-          <button class="btn-right">></button>
+      <button class="btn-left">&lt;</button>
+      <button class="btn-right">&gt;</button>
 
-          <div class="banner-index-wrapper">
-            <div class="banner-current-index">01</div>
-            <div class="banner-index-fill-box">
-              <div class="banner-index-fill"></div>
-            </div>
-            <div class="banner-last-index">16</div>
-            <div class="banner-stop"></div>
-            <div class="banner-play"></div>
-          </div>
+      <div class="banner-index-wrapper">
+        <div class="banner-current-index">01</div>
+        <div class="banner-index-fill-box">
+          <div class="banner-index-fill"></div>
+        </div>
+        <div class="banner-last-index">16</div>
+        <div class="banner-stop"></div>
+        <div class="banner-play"></div>
+      </div>
     </div>
   </div>
 
@@ -179,7 +178,6 @@
             <p class="coupon-info">| 한달 최대 4,000포인트 혜택</p>
             <p class="coupon-info">| 1,000포인트 x 4회, 당일 사용</p>
           </div>
-          <button class="btn-gray-fill">바로가기</button>
         </div>
       </div>
 
@@ -202,7 +200,6 @@
             <p class="coupon-info">| 책 리뷰 200포인트</p>
             <p class="coupon-info">| 발급 당일 사용 가능</p>
           </div>
-          <button class="btn-gray-fill">바로가기</button>
         </div>
       </div>
 
@@ -235,7 +232,7 @@
   <div class="grade-wrapper" th:with="grade = ${T(com.cerdure.bookshelf.domain.enums.MemberGrade)}">
     <div class="grade-title">| 회원 등급 혜택</div>
 
-    <div class="grade column-box" th:classappend="${member?.grade?.equals(grade.VIP)} ? 'active-grade' : ''">
+    <div class="grade column-box" th:classappend="${member?.grade?.equals(grade.VIP)} ? 'active-grade'">
       <div class="grade-top">
         <div class="vip-logo">V</div>
         <div class="grade-top-title">VIP</div>
@@ -301,7 +298,7 @@
       </div>
     </div>
 
-    <div class="grade column-box" th:classappend="${member?.grade?.equals(grade.GOLD)} ? 'active-grade' : ''">
+    <div class="grade column-box" th:classappend="${member?.grade?.equals(grade.GOLD)} ? 'active-grade'">
       <div class="grade-top">
         <div class="gold-logo">G</div>
         <div class="grade-top-title">GOLD</div>
@@ -366,7 +363,7 @@
       </div>
     </div>
 
-    <div class="grade column-box" th:classappend="${member?.grade?.equals(grade.SILVER)} ? 'active-grade' : ''">
+    <div class="grade column-box" th:classappend="${member?.grade?.equals(grade.SILVER)} ? 'active-grade'">
       <div class="grade-top">
         <div class="silver-logo">S</div>
         <div class="grade-top-title">SILVER</div>
@@ -416,7 +413,7 @@
       </div>
     </div>
 
-    <div class="grade column-box" th:classappend="${member?.grade?.equals(grade.NEW)} ? 'active-grade' : ''">
+    <div class="grade column-box" th:classappend="${member?.grade?.equals(grade.NEW)} ? 'active-grade'">
       <div class="grade-top">
         <div class="new-logo">N</div>
         <div class="grade-top-title">NEW</div>
@@ -523,49 +520,44 @@
         </div>
       </div>
       <div class="check-box-bottom">
-        <div class="check-row" >
+        <div class="check-row">
           <div class="check-day-wrapper" th:each="dayUtil : ${dayUtils}" th:with="day = ${dayUtil.day}"
-               th:if="${day < 8}"
-               th:id="'check-day'+${day}+'-wrapper'"
-               th:classappend="${dayUtil.checked} ? 'checked-day' : ''">
+            th:if="${day < 8}" th:id="'check-day'+${day}+'-wrapper'"
+            th:classappend="${dayUtil.checked} ? 'checked-day'">
             <div th:class="'check-day'+${day}" th:text="${day}"></div>
           </div>
         </div>
-        <div class="check-row" >
+        <div class="check-row">
           <div class="check-day-wrapper" th:each="dayUtil : ${dayUtils}" th:with="day = ${dayUtil.day}"
-               th:if="${day < 15 && day > 7}"
-               th:id="'check-day'+${day}+'-wrapper'"
-               th:classappend="${dayUtil.checked} ? 'checked-day' : ''">
+            th:if="${day < 15 && day > 7}" th:id="'check-day'+${day}+'-wrapper'"
+            th:classappend="${dayUtil.checked} ? 'checked-day'">
             <div th:class="'check-day'+${day}" th:text="${day}"></div>
           </div>
         </div>
-        <div class="check-row" >
+        <div class="check-row">
           <div class="check-day-wrapper" th:each="dayUtil : ${dayUtils}" th:with="day = ${dayUtil.day}"
-               th:if="${day < 22 && day > 14}"
-               th:id="'check-day'+${day}+'-wrapper'"
-               th:classappend="${dayUtil.checked} ? 'checked-day' : ''">
+            th:if="${day < 22 && day > 14}" th:id="'check-day'+${day}+'-wrapper'"
+            th:classappend="${dayUtil.checked} ? 'checked-day'">
             <div th:class="'check-day'+${day}" th:text="${day}"></div>
           </div>
         </div>
-        <div class="check-row" >
+        <div class="check-row">
           <div class="check-day-wrapper" th:each="dayUtil : ${dayUtils}" th:with="day = ${dayUtil.day}"
-               th:if="${day < 29 && day > 21}"
-               th:id="'check-day'+${day}+'-wrapper'"
-               th:classappend="${dayUtil.checked} ? 'checked-day' : ''">
+            th:if="${day < 29 && day > 21}" th:id="'check-day'+${day}+'-wrapper'"
+            th:classappend="${dayUtil.checked} ? 'checked-day'">
             <div th:class="'check-day'+${day}" th:text="${day}"></div>
           </div>
         </div>
-        <div class="check-row" >
+        <div class="check-row">
           <div class="check-day-wrapper" th:each="dayUtil : ${dayUtils}" th:with="day = ${dayUtil.day}"
-               th:if="${day > 28}"
-               th:id="'check-day'+${day}+'-wrapper'"
-               th:classappend="${dayUtil.checked} ? 'checked-day' : ''">
+            th:if="${day > 28}" th:id="'check-day'+${day}+'-wrapper'"
+            th:classappend="${dayUtil.checked} ? 'checked-day'">
             <div th:class="'check-day'+${day}" th:text="${day}"></div>
           </div>
         </div>
       </div>
     </div>
-</div>
+  </div>
 
   <div class="top-move-button">
     <div>∧</div>

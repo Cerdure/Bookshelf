@@ -1,323 +1,617 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-  layout:decorate="~{layout/default}">
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    layout:decorate="~{layout/default}">
 
 <th:block layout:fragment="css">
-  <link rel="stylesheet" th:href="@{/css/myshelf.css}">
+    <link rel="stylesheet" th:href="@{/css/myshelf.css}">
 </th:block>
 
 <th:block layout:fragment="script">
-  <script th:src="@{/js/myshelf.js}"></script>
+    <script th:src="@{/js/myshelf.js}"></script>
 </th:block>
-
 
 <div layout:fragment="content" id="page-content" data-index="3">
 
-  <modal class="coupon-modal column-box">
-    <div class="top row-box">
-      <div class="text">보유 쿠폰</div>
-      <div class="data" th:text="${member.memberCoupons.size()}"></div>
-      <div class="unit">장</div>
-      <img src="/img/icon/btn_dialog_close@2x.png">
-    </div>
-    <div class="middle column-box">
-      <item class="coupon row-box" th:each="memberCoupon : ${member.memberCoupons}"
-            th:with="coupon = ${memberCoupon.coupon}" th:data-id="${memberCoupon.id}"
-            th:classappend="'coupon-' + ${coupon.id}">
-        <div class="left-side column-box">
-          <div class="logo-box row-box">
-            <img src="/img/icon/logo.png">
-            <div class="text">BookShelf</div>
-          </div>
-          <div class="coupon-price row-box" th:data-value="${coupon.price}">
-            <div class="data" th:text="${#numbers.formatInteger(coupon.price, 3, 'COMMA')}">2,000</div>
-            <div class="unit">원</div>
-          </div>
-          <div class="coupon-min row-box">
-            <div class="data" th:text="${#numbers.formatInteger(coupon.min, 3, 'COMMA')}"></div>
-            <div class="text">원 이상 구매 시</div>
-          </div>
+    <modal class="coupon-modal column-box">
+        <div class="top row-box">
+            <div class="text">보유 쿠폰</div>
+            <div class="data" th:text="${member.memberCoupons.size()}"></div>
+            <div class="unit">장</div>
+            <img src="/img/icon/btn_dialog_close@2x.png">
         </div>
-        <div class="right-side">
-          <div class="back-circle-1"></div>
-          <div class="back-circle-2"></div>
-        </div>
-      </item>
-    </div>
-  </modal>
-
-  <div class="top-back-wrapper">
-    <div class="top-background-frame">
-      <div class="top-background"></div>
-    </div>
-    <div class="top-back-title-wrapper">
-      <img class="profile" src="/img/icon/person-circle.svg">
-      <div class="top-back-title">
-        <div class="top-back-title-name" th:text="${member.nickname}"></div>
-        <div class="top-back-title-text">의 책장</div>
-      </div>
-      <img class="top-back-setting" src="/img/icon/setting-list.svg">
-      <div class="top-back-point-wrapper row-box">
-        <img class="top-back-point-icon" src="/img/icon/bootstrap-fill.svg">
-        <div class="top-back-point-text" th:text="${member.point} + ' 포인트'"></div>
-        <div class="coupon-box row-box">
-          <img class="coupon-icon" src="/img/icon/coupon-mono.png">
-          <div class="coupon-text" th:text="'쿠폰 ' + ${member.memberCoupons.size()} + '장'"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="top-space"></div>
-
-  <div class="middle-nav-wrapper">
-    <div class="middle-nav-container">
-      <div class="middle-nav">
-        <div class="active-index">책선반</div>
-        <div>구매내역</div>
-        <div>회원 정보</div>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="meta-wrapper">
-
-    <div class="shelf-wrapper content-box">
-      <div class="favorite-wrapper">
-        <div class="favorite-contents-wrapper">
-          <div class="favorite-title-wrapper">
-            <img class="favorite-title-icon" src="/img/icon/bookmark.svg">
-            <div class="favorite-title">북마크한 책</div>
-            <div class="favorite-number">12 ></div>
-          </div>
-
-          <div class="favorite-books">
-            <div class="favorite-contents-null">북마크한 책이 자동으로 담깁니다.</div>
-            <div><img src="/img/book-cover/11.jpg"></div>
-            <div><img src="/img/book-cover/12.jpg"></div>
-            <div><img src="/img/book-cover/13.jpg"></div>
-            <div><img src="/img/book-cover/14.jpg"></div>
-            <div><img src="/img/book-cover/15.jpg"></div>
-          </div>
-          <div class="favorite-shelf"></div>
-        </div>
-      </div>
-
-      <div class="reading-wrapper">
-        <div class="reading-contents-wrapper">
-          <div class="reading-title-wrapper">
-            <img class="reading-title-icon" src="/img/icon/book.svg">
-            <div class="reading-title">구매한 책</div>
-            <div class="reading-number">12 ></div>
-          </div>
-
-          <div class="reading-books">
-            <div class="reading-contents-null">구매한 책이 자동으로 담깁니다.</div>
-            <div><img src=""></div>
-            <div><img src=""></div>
-            <div><img src=""></div>
-            <div><img src=""></div>
-            <div><img src=""></div>
-          </div>
-          <div class="reading-shelf"></div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="order-info-wrapper content-box">
-
-      <form class="order-list-title-detail-wrapper">
-        <div class="detail-title">
-          <span>상세조회</span>
-          <img src="/img/icon/btn_dialog_close@2x.png">
-        </div>
-        <div class="order-list-title-detail-info">
-          <li>조회기간 설정은 6개월 단위이며, 주문정보 조회는 최대 5년까지 가능합니다.</li>
-          <li>필터 이용 시 선택한 주문정보만 조회 가능합니다.</li>
-        </div>
-        <div class="order-list-title-detail-range">
-          <span class="detail-range-title">조회기간</span>
-          <select id="detail-range-select">
-            <option value="month-1" selected="selected">최근 1개월</option>
-            <option value="month-2">최근 2개월</option>
-            <option value="month-3">최근 3개월</option>
-            <option value="month-6">최근 6개월</option>
-            <option value="direct">직접입력</option>
-          </select>
-          <div class="detail-range-start-wrapper">
-            <input class="detail-range-start detail-range-disable" name="startDate" type="text">
-            <img class="detail-range-start-icon" src="/img/icon/calendar.svg">
-          </div>
-          <div class="detail-range-between">~</div>
-          <div class="detail-range-end-wrapper">
-            <input class="detail-range-end detail-range-disable" name="endDate" type="text">
-            <img class="detail-range-end-icon" src="/img/icon/calendar.svg">
-          </div>
-        </div>
-        <div class="order-list-detail-state">
-          <span class="detail-state-title">주문상태</span>
-          <select name="orderState" id="detail-state-select">
-            <option value="ALL" selected="selected">전체</option>
-            <option value="ORDER">결제완료</option>
-            <option value="CANCEL">취소</option>
-            <option value="SOLD">품절</option>
-          </select>
-        </div>
-        <div class="order-list-detail-search">
-          <span class="detail-search-title">검색</span>
-          <input name="name" type="text" placeholder="상품명을 입력해주세요.">
-        </div>
-        <div class="order-list-detail-bottom">
-          <div class="detail-bottom-reset">
-            <img class="detail-bottom-reset-icon" src="/img/icon/arrow-clockwise.svg">
-            <span>초기화</span>
-          </div>
-          <div class="detail-bottom-apply">
-            <input id="page" name="page" type="hidden" value="1">
-            <span>적용</span>
-          </div>
-        </div>
-      </form>
-
-      <div class="order-list-title-wrapper">
-        <div class="order-list-title-inner-wrapper">
-          <span class="order-list-title">주문 목록</span>
-          <div class="order-list-title-button">
-            <img src="/img/icon/calendar.svg">
-            <span>상세조회</span>
-          </div>
-          <span class="order-list-title-info">최근 1개월 주문내역입니다.</span>
-        </div>
-      </div>
-
-      <div class="order-list-wrapper" id="order-box">
-        <div class="search-info-box row-box" th:if="${orderSearchDto}">
-          <div class="data-box row-box">
-            <div class="search-keyword row-box">
-              <img src="/img/icon/search.svg">
-              <div class="keyword" th:text="${orderSearchDto.name}"></div>
-            </div>
-            <div class="row-box">
-              <div class="search-period row-box">
-                <div class="label">조회기간</div>
-                <div class="date-box row-box">
-                  <div class="start" th:text="${#temporals.format(orderSearchDto.startDate, 'yyyy년 M월 d일')}"></div>
-                  <div class="split">~</div>
-                  <div class="end" th:text="${#temporals.format(orderSearchDto.endDate, 'yyyy년 M월 d일')}"></div>
-                </div>
-              </div>
-              <div class="search-state row-box">
-                <div class="label">주문상태</div>
-                <th:block th:switch="${orderSearchDto.orderState}" th:with="state = ${T(com.cerdure.bookshelf.domain.enums.OrderState)}">
-                  <div class="state" th:case="${state.ALL}">전체</div>
-                  <div class="state" th:case="${state.ORDER}">결제완료</div>
-                  <div class="state" th:case="${state.CANCEL}">취소</div>
-                  <div class="state" th:case="${state.SOLD}">품절</div>
-                </th:block>
-              </div>
-            </div>
-          </div>
-          <div class="btn btn-gray">변경</div>
-        </div>
-
-        <div class="order-list-middle-box">
-          <div class="order-list-middle-box-title">
-            카드결제(간편결제,법인카드 포함) 취소 안내
-          </div>
-          <div class="order-list-middle-box-detail">
-            <li>
-              카드결제 취소 기간 안내<br>
-              &nbsp;- 전체취소 : 당일 취소/환불 처리<br>
-              &nbsp;- 부분취소 : 영업일 기준 3~5일 소요(당일 취소 포함)
-            </li>
-            <li>
-              카드사 정책에 따라 주문당일 부분취소한 경우 당일 취소 및 환불 불가합니다.
-            </li>
-            <li>
-              부분취소한 경우 카드사 승인 취소는 약 3~5일 소요됩니다.
-            </li>
-            <li>
-              카드사에서 부분취소를 지원하지 않는 카드의 경우 승인취소가 아닌 예치금으로 환불됩니다.
-            </li>
-          </div>
-        </div>
-
-        <div class="order-list-contents-wrapper column-box">
-          <div class="row-head">
-            <div class="text text-1">주문일/주문번호</div>
-            <div class="text-group">
-              <div class="text">상품정보</div>
-              <div class="text">상태</div>
-              <div class="text">확인/신청</div>
-            </div>
-          </div>
-          <div class="order-list-contents-null" th:if="${orders.numberOfElements == 0}">
-            <img src="/img/icon/exclamation-circle-fill.svg">
-            <span>조회된 주문 정보가 없습니다.</span>
-          </div>
-          <div class="column-box" id="page-box" th:data-last="${orders.last}">
-          <div class="row" th:each="order : ${orders}" th:data-price="${order.orderPrice}"
-               th:with="state = ${T(com.cerdure.bookshelf.domain.enums.OrderState)},
-                        isORDER = ${order.orderState.equals(state.ORDER)}">
-            <div class="date-code-box column-box">
-              <div class="text">주문일자</div>
-              <div class="date" th:text="${#temporals.format(order.regDate, 'yyyy-MM-dd')}"></div>
-              <div class="text">주문번호</div>
-              <div class="order-id" th:text="${order.id}"></div>
-              <button class="order-detail-btn btn-gray">주문상세보기</button>
-              <button th:classappend="${isORDER} ? 'order-cancel-btn btn-red' : 'disable btn-gray'"
-                      th:text="${isORDER} ? '전체주문취소' : '취소된 주문'"></button>
-            </div>
-            <div class="item-box column-box">
-              <div class="item row-box" th:each="item : ${order.orderItems}" th:data-id="${item.id}"
-                   th:with="book = ${item.book}, itemState = ${item.orderState}">
-                <div class="item-info row-box">
-                  <img th:src="${book.imgPath}">
-                  <div class="info column-box">
-                    <div class="name" th:utext="${book.name}"></div>
-                    <div class="row-box">
-                      <div class="amount" th:text="${item.amount} + '권'"></div>
-                      <div class="split">ㅣ</div>
-                      <div class="price"
-                        th:text="${#numbers.formatInteger(item.amount * book.discountPrice, 3, 'COMMA')} + '원'"></div>
+        <div class="middle column-box">
+            <div class="null" th:if="${member.memberCoupons.size() == 0}">보유한 쿠폰이 없습니다.</div>
+            <item class="coupon row-box" th:each="memberCoupon : ${member.memberCoupons}"
+                th:with="coupon = ${memberCoupon.coupon}" th:data-id="${memberCoupon.id}"
+                th:classappend="'coupon-' + ${coupon.id}">
+                <div class="left-side column-box">
+                    <div class="logo-box row-box">
+                        <img src="/img/icon/logo.png">
+                        <div class="text">BookShelf</div>
                     </div>
-                  </div>
+                    <div class="coupon-price row-box" th:data-value="${coupon.price}">
+                        <div class="data" th:text="${#numbers.formatInteger(coupon.price, 3, 'COMMA')}">2,000</div>
+                        <div class="unit">원</div>
+                    </div>
+                    <div class="coupon-min row-box">
+                        <div class="data" th:text="${#numbers.formatInteger(coupon.min, 3, 'COMMA')}"></div>
+                        <div class="text">원 이상 구매 시</div>
+                    </div>
                 </div>
-                <th:block th:switch="${itemState}">
-                  <div class="state" th:case="${state.ORDER}">결제완료</div>
-                  <div class="state" th:case="${state.CANCEL}">주문취소</div>
-                  <div class="state" th:case="${state.SOLD}">품절</div>
-                </th:block>
-                <div class="btn-box">
-                  <button th:classappend="${itemState == state.ORDER} ? 'item-cancel-btn btn-red' : 'disable btn-gray'"
-                          th:text="${itemState == state.ORDER} ? '주문취소' : '취소된 주문'"></button>
+                <div class="right-side">
+                    <div class="back-circle-1"></div>
+                    <div class="back-circle-2"></div>
                 </div>
-              </div>
+            </item>
+        </div>
+    </modal>
+
+    <div class="top-back-wrapper">
+        <div class="top-background-frame">
+            <div class="top-background"></div>
+        </div>
+        <div class="top-back-title-wrapper">
+            <img class="profile" th:src="${member.profilePath}">
+            <div class="top-back-title">
+                <div class="top-back-title-name" th:text="${member.nickname}"></div>
             </div>
-          </div>
-          </div>
+            <div class="top-back-point-wrapper row-box">
+                <img class="top-back-point-icon" src="/img/icon/bootstrap-fill.svg">
+                <div class="top-back-point-text" th:text="${member.point} + ' 포인트'"></div>
+                <div class="coupon-box row-box">
+                    <img class="coupon-icon" src="/img/icon/coupon-mono.png">
+                    <div class="coupon-text" th:text="'쿠폰 ' + ${member.memberCoupons.size()} + '장'"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="top-space"></div>
+
+    <div class="middle-nav-wrapper">
+        <div class="middle-nav-container">
+            <div class="middle-nav">
+                <div class="active-index">책선반</div>
+                <div>구매내역</div>
+                <div>회원정보</div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="meta-wrapper">
+
+        <div class="shelf-wrapper content-box">
+            <div class="bookmark-wrapper">
+                <div class="bookmark-contents-wrapper">
+                    <div class="bookmark-title-wrapper">
+                        <img class="bookmark-title-icon" src="/img/icon/bookmark.svg">
+                        <div class="bookmark-title">북마크한 책</div>
+                        <div class="bookmark-number" th:text="${member.bookmarks?.size()} + ' &gt;'"></div>
+                    </div>
+                    <div class="bookmark-books">
+                        <div class="bookmark-contents-null" th:if="${member.bookmarks?.size() == 0}">북마크한 책이 자동으로
+                            담깁니다.
+                        </div>
+                        <div th:each="bookmark,i : ${member.bookmarks}" th:if="${i.index < 5}">
+                            <img th:src="${bookmark.book.imgPath}">
+                        </div>
+                    </div>
+                    <div class="bookmark-shelf"></div>
+                </div>
+            </div>
+            <div class="order-book-wrapper">
+                <div class="order-book-contents-wrapper">
+                    <div class="order-book-title-wrapper">
+                        <img class="order-book-title-icon" src="/img/icon/book.svg">
+                        <div class="order-book-title">구매한 책</div>
+                        <div class="event">Event</div>
+                        <div class="order-book-number" th:text="${orderItems.size()} + ' &gt;'"></div>
+                    </div>
+                    <div class="order-book-books">
+                        <div class="order-book-contents-null" th:if="${orderItems.size() == 0}">구매한 책이 자동으로 담깁니다.</div>
+                        <div th:each="orderItem,i : ${orderItems}" th:if="${i.index < 5}">
+                            <img th:src="${orderItem.book.imgPath}">
+                        </div>
+                    </div>
+                    <div class="order-book-shelf"></div>
+                </div>
+            </div>
+
+            <modal class="all-bookmark shelf-modal column-box">
+                <div class="title-box row-box">
+                    <div class="row-box">
+                        <img class="icon" src="/img/icon/bookmark.svg">
+                        <div class="text">북마크한 책</div>
+                        <div class="data" th:text="${member.bookmarks?.size()}"></div>
+                        <div class="text">권</div>
+                    </div>
+                    <img class="close" src="/img/icon/btn_dialog_close@2x.png">
+                </div>
+                <div class="book-box row-box">
+                    <div class="null" th:if="${member.bookmarks?.size()} == 0">
+                        북마크한 책이 자동으로 담깁니다.
+                    </div>
+                    <a class="book column-box" th:each="bookmark,i : ${member.bookmarks}"
+                        th:with="book = ${bookmark.book}" th:href="@{/book(id=${book.id})}">
+                        <img th:src="${book.imgPath}">
+                        <div class="name" th:text="${book.name}"></div>
+                        <div class="author" th:text="${book.author}"></div>
+                    </a>
+                </div>
+            </modal>
+
+            <modal class="all-order-book shelf-modal column-box">
+                <div class="title-box row-box">
+                    <div class="row-box">
+                        <img class="icon" src="/img/icon/book.svg">
+                        <div class="text">구매한 책</div>
+                        <div class="data" th:text="${orderItems?.size()}"></div>
+                        <div class="text">권</div>
+                    </div>
+                    <img class="close" src="/img/icon/btn_dialog_close@2x.png">
+                </div>
+                <div class="book-box row-box">
+                    <div class="null" th:if="${orderItems?.size()} == 0">
+                        구매한 책이 자동으로 담깁니다.
+                    </div>
+                    <a class="book column-box" th:each="orderItem,i : ${orderItems}"
+                       th:with="book = ${orderItem.book}" th:href="@{/book(id=${book.id})}">
+                        <div class="img-box">
+                            <img th:src="${book.imgPath}">
+                            <div class="event-active row-box" th:if="${orderItem.reviewed} == false">
+                                <div class="text">리뷰</div>
+                                <div class="operator">+</div>
+                                <div class="point">200</div>
+                                <div class="unit">p</div>
+                            </div>
+                        </div>
+                        <div class="name" th:text="${book.name}"></div>
+                        <div class="author" th:text="${book.author}"></div>
+                    </a>
+                </div>
+            </modal>
+
         </div>
 
-        <div class="next-btn btn-gray row-box" th:if="${!orders.last}">
-          <div class="text">더보기</div>
-          <img src="/img/icon/down-arr.png">
+
+        <div class="order-info-wrapper content-box">
+
+            <form class="order-list-title-detail-wrapper">
+                <div class="detail-title">
+                    <span>상세조회</span>
+                    <img src="/img/icon/btn_dialog_close@2x.png">
+                </div>
+                <div class="order-list-title-detail-info">
+                    <li>조회기간 설정은 6개월 단위이며, 주문정보 조회는 최대 5년까지 가능합니다.</li>
+                    <li>필터 이용 시 선택한 주문정보만 조회 가능합니다.</li>
+                </div>
+                <div class="order-list-title-detail-range">
+                    <span class="detail-range-title">조회기간</span>
+                    <select id="detail-range-select">
+                        <option value="month-1" selected="selected">최근 1개월</option>
+                        <option value="month-2">최근 2개월</option>
+                        <option value="month-3">최근 3개월</option>
+                        <option value="month-6">최근 6개월</option>
+                        <option value="direct">직접입력</option>
+                    </select>
+                    <div class="detail-range-start-wrapper">
+                        <input class="detail-range-start detail-range-disable" name="startDate" type="text">
+                        <img class="detail-range-start-icon" src="/img/icon/calendar.svg">
+                    </div>
+                    <div class="detail-range-between">~</div>
+                    <div class="detail-range-end-wrapper">
+                        <input class="detail-range-end detail-range-disable" name="endDate" type="text">
+                        <img class="detail-range-end-icon" src="/img/icon/calendar.svg">
+                    </div>
+                </div>
+                <div class="order-list-detail-state">
+                    <span class="detail-state-title">주문상태</span>
+                    <select name="orderState" id="detail-state-select">
+                        <option value="ALL" selected="selected">전체</option>
+                        <option value="ORDER">결제완료</option>
+                        <option value="CANCEL">취소</option>
+                        <option value="SOLD">품절</option>
+                    </select>
+                </div>
+                <div class="order-list-detail-search">
+                    <span class="detail-search-title">검색</span>
+                    <input name="name" type="text" placeholder="상품명을 입력해주세요.">
+                </div>
+                <div class="order-list-detail-bottom">
+                    <div class="detail-bottom-reset">
+                        <img class="detail-bottom-reset-icon" src="/img/icon/arrow-clockwise.svg">
+                        <span>초기화</span>
+                    </div>
+                    <div class="detail-bottom-apply">
+                        <input id="page" name="page" type="hidden" value="1">
+                        <span>적용</span>
+                    </div>
+                </div>
+            </form>
+
+            <div class="order-list-title-wrapper">
+                <div class="order-list-title-inner-wrapper">
+                    <span class="order-list-title">주문목록</span>
+                    <div class="order-list-title-button">
+                        <img src="/img/icon/calendar.svg">
+                        <span>상세조회</span>
+                    </div>
+                    <span class="order-list-title-info">최근 1개월 주문내역입니다.</span>
+                </div>
+            </div>
+
+            <div class="order-list-wrapper" id="order-box">
+                <div class="search-info-box row-box" th:if="${orderSearchDto}">
+                    <div class="data-box row-box">
+                        <div class="search-keyword row-box">
+                            <img src="/img/icon/search.svg">
+                            <div class="keyword" th:text="${orderSearchDto.name}"></div>
+                        </div>
+                        <div class="row-box">
+                            <div class="search-period row-box">
+                                <div class="label">조회기간</div>
+                                <div class="date-box row-box">
+                                    <div class="start"
+                                        th:text="${#temporals.format(orderSearchDto.startDate, 'yyyy년 M월 d일')}"></div>
+                                    <div class="split">~</div>
+                                    <div class="end"
+                                        th:text="${#temporals.format(orderSearchDto.endDate, 'yyyy년 M월 d일')}"></div>
+                                </div>
+                            </div>
+                            <div class="search-state row-box">
+                                <div class="label">주문상태</div>
+                                <th:block th:switch="${orderSearchDto.orderState}"
+                                    th:with="state = ${T(com.cerdure.bookshelf.domain.enums.OrderState)}">
+                                    <div class="state" th:case="${state.ALL}">전체</div>
+                                    <div class="state" th:case="${state.ORDER}">결제완료</div>
+                                    <div class="state" th:case="${state.CANCEL}">취소</div>
+                                    <div class="state" th:case="${state.SOLD}">품절</div>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn btn-gray">변경</div>
+                </div>
+
+                <div class="order-list-middle-box">
+                    <div class="order-list-middle-box-title">
+                        카드결제(간편결제,법인카드 포함) 취소 안내
+                    </div>
+                    <div class="order-list-middle-box-detail">
+                        <li>
+                            카드결제 취소 기간 안내<br>
+                            &nbsp;- 전체취소 : 당일 취소/환불 처리<br>
+                            &nbsp;- 부분취소 : 영업일 기준 3~5일 소요(당일 취소 포함)
+                        </li>
+                        <li>
+                            카드사 정책에 따라 주문당일 부분취소한 경우 당일 취소 및 환불 불가합니다.
+                        </li>
+                        <li>
+                            부분취소한 경우 카드사 승인 취소는 약 3~5일 소요됩니다.
+                        </li>
+                        <li>
+                            카드사에서 부분취소를 지원하지 않는 카드의 경우 승인취소가 아닌 예치금으로 환불됩니다.
+                        </li>
+                    </div>
+                </div>
+
+                <div class="order-list-contents-wrapper column-box">
+                    <div class="row-head">
+                        <div class="text text-1">주문일/주문번호</div>
+                        <div class="text-group">
+                            <div class="text">상품정보</div>
+                            <div class="text">상태</div>
+                            <div class="text">확인/신청</div>
+                        </div>
+                    </div>
+                    <div class="order-list-contents-null" th:if="${orders.numberOfElements == 0}">
+                        <img src="/img/icon/exclamation-circle-fill.svg">
+                        <span>조회된 주문 정보가 없습니다.</span>
+                    </div>
+                    <div class="column-box" id="page-box" th:data-last="${orders.last}">
+                        <div class="row" th:each="order : ${orders}" th:data-price="${order.orderPrice}" th:with="state = ${T(com.cerdure.bookshelf.domain.enums.OrderState)},
+                        isORDER = ${order.orderState.equals(state.ORDER)}">
+                            <div class="date-code-box column-box">
+                                <div class="text">주문일자</div>
+                                <div class="date" th:text="${#temporals.format(order.regDate, 'yyyy-MM-dd')}"></div>
+                                <div class="text">주문번호</div>
+                                <div class="order-id" th:text="${order.id}"></div>
+                                <button class="order-detail-btn btn-gray">주문상세보기</button>
+                                <button th:classappend="${isORDER} ? 'order-cancel-btn btn-red' : 'disable btn-gray'"
+                                    th:text="${isORDER} ? '전체주문취소' : '취소된 주문'"></button>
+                            </div>
+                            <div class="item-box column-box">
+                                <div class="item row-box" th:each="item : ${order.orderItems}" th:data-id="${item.id}"
+                                    th:with="book = ${item.book}, itemState = ${item.orderState}">
+                                    <div class="item-info row-box">
+                                        <img th:src="${book.imgPath}">
+                                        <div class="info column-box">
+                                            <div class="name" th:utext="${book.name}"></div>
+                                            <div class="row-box">
+                                                <div class="amount" th:text="${item.amount} + '권'"></div>
+                                                <div class="split">ㅣ</div>
+                                                <div class="price"
+                                                    th:text="${#numbers.formatInteger(item.amount * book.discountPrice, 3, 'COMMA')} + '원'">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <th:block th:switch="${itemState}">
+                                        <div class="state" th:case="${state.ORDER}">결제완료</div>
+                                        <div class="state" th:case="${state.CANCEL}">주문취소</div>
+                                        <div class="state" th:case="${state.SOLD}">품절</div>
+                                    </th:block>
+                                    <div class="btn-box">
+                                        <button
+                                            th:classappend="${itemState == state.ORDER} ? 'item-cancel-btn btn-red' : 'disable btn-gray'"
+                                            th:text="${itemState == state.ORDER} ? '주문취소' : '취소된 주문'"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <modal class="order-detail column-box">
+                        <div class="title-box row-box">
+                            <div class="text">주문 상세</div>
+                            <img class="close" src="/img/icon/btn_dialog_close@2x.png">
+                        </div>
+                        <div class="info-box column-box" th:if="${order}">
+                            <div class="item-info column-box">
+                                <div class="label">상품정보</div>
+                                <div class="item-box group-box column-box">
+                                    <div class="row-head">
+                                        <div class="text">상품명</div>
+                                        <div class="text">수량</div>
+                                        <div class="text">가격</div>
+                                    </div>
+                                    <div class="row" th:each="item : ${order.orderItems}" th:with="book = ${item.book}">
+                                        <div class="text" th:text="${book.name}"></div>
+                                        <div class="text" th:text="${item.amount}"></div>
+                                        <div class="text"
+                                            th:text="${#numbers.formatInteger(book.discountPrice * item.amount, 3, 'COMMA')} + ' 원'">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item-sum row-box">
+                                    <div class="text">상품 금액 합계 :</div>
+                                    <div class="data" th:text="${#numbers.formatInteger(order.originSum, 3, 'COMMA')}">
+                                    </div>
+                                    <div class="text">원</div>
+                                </div>
+                            </div>
+
+                            <div class="delivery-info column-box">
+                                <div class="label">배송 정보</div>
+                                <div class="group-box column-box">
+                                    <div class="info-group row-box">
+                                        <div class="group-label">주문인</div>
+                                        <div class="data" th:text="${order.orderer.name}"></div>
+                                    </div>
+                                    <div class="info-group row-box">
+                                        <div class="group-label">수취인</div>
+                                        <div class="data" th:text="${order.receiver}"></div>
+                                    </div>
+                                    <div class="info-group row-box">
+                                        <div class="group-label">배송지 주소</div>
+                                        <div class="address row-box">
+                                            <div class="zipcode" th:text="'(' + ${order.address.zipcode} + ')'"></div>
+                                            <div class="city" th:text="${order.address.city}"></div>
+                                            <div class="street" th:text="${order.address.street}"></div>
+                                        </div>
+                                    </div>
+                                    <div class="info-group row-box">
+                                        <div class="group-label">휴대폰 번호</div>
+                                        <div class="data" th:text="${#strings.substring(order.phone,0,3)}"></div>
+                                        <div class="split">-</div>
+                                        <div class="data" th:text="${#strings.substring(order.phone,3,7)}"></div>
+                                        <div class="split">-</div>
+                                        <div class="data" th:text="${#strings.substring(order.phone,7)}"></div>
+                                    </div>
+                                    <div class="info-group row-box" th:if="${order.tel != '' && order.tel != null}">
+                                        <div class="group-label">전화번호</div>
+                                        <div class="data" th:text="${#strings.substring(order.tel,0,3)}"></div>
+                                        <div class="split">-</div>
+                                        <div class="data" th:text="${#strings.substring(order.tel,3,7)}"></div>
+                                        <div class="split">-</div>
+                                        <div class="data" th:text="${#strings.substring(order.tel,7)}"></div>
+                                    </div>
+                                    <div class="info-group row-box">
+                                        <div class="group-label">배송 장소</div>
+                                        <div class="data" th:text="${order.deliveryPlace}"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pay-info column-box">
+                                <div class="label">결제 정보</div>
+                                <div class="group-box column-box">
+                                    <div class="info-group row-box">
+                                        <div class="group-label">결제 수단</div>
+                                        <th:block th:switch="${order.payType}">
+                                            <div class="data" th:case="card">카드결제</div>
+                                            <div class="data" th:case="tosspay">토스페이</div>
+                                            <div class="data" th:case="kakaopay">카카오페이</div>
+                                        </th:block>
+                                    </div>
+                                    <div class="info-group row-box">
+                                        <div class="group-label">상품 주문 금액</div>
+                                        <div class="data"
+                                            th:text="${#numbers.formatInteger(order.originSum, 3, 'COMMA')}"></div>
+                                        <div class="text">원</div>
+                                    </div>
+                                    <div class="info-group row-box">
+                                        <div class="group-label">배송료</div>
+                                        <div class="operator">+</div>
+                                        <div class="data"
+                                            th:text="${#numbers.formatInteger(order.deliveryCharge, 3, 'COMMA')}"></div>
+                                        <div class="text">원</div>
+                                    </div>
+                                    <div class="info-group row-box" th:if="${order.coupon}">
+                                        <div class="group-label">쿠폰</div>
+                                        <div class="operator">-</div>
+                                        <div class="data"
+                                            th:text="${#numbers.formatInteger(order.coupon.price, 3, 'COMMA')}"></div>
+                                        <div class="text">원</div>
+                                    </div>
+                                    <div class="info-group row-box" th:if="${order.point > 0}">
+                                        <div class="group-label">포인트</div>
+                                        <div class="operator">-</div>
+                                        <div class="data" th:text="${#numbers.formatInteger(order.point, 3, 'COMMA')}">
+                                        </div>
+                                        <div class="text">포인트</div>
+                                    </div>
+                                    <div class="pay-sum info-group row-box">
+                                        <div class="group-label">결제 금액</div>
+                                        <div class="data"
+                                            th:text="${#numbers.formatInteger(order.orderPrice, 3, 'COMMA')}"></div>
+                                        <div class="text">원</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </modal>
+
+                </div>
+                <div class="next-btn btn-gray row-box" th:if="${!orders.last}">
+                    <div class="text">더보기</div>
+                    <img src="/img/icon/down-arr.png">
+                </div>
+            </div>
         </div>
 
-      </div>
+        <div class="member-info-wrapper content-box column-box" th:object="${member}"
+            th:with="joinType = ${T(com.cerdure.bookshelf.domain.enums.MemberJoinType)}">
+
+            <div class="member-info column-box">
+
+                <div class="profile-box">
+                    <img class="info-profile" th:src="${member.profilePath}">
+                    <div class="profile-change-box">
+                        <input class="profile-change column-box change-btn" type="file" data-type="profile">
+                        <img class="profile-change-icon" src="/img/icon/camera-fill.svg">
+                    </div>
+                    <div class="profile-reset-box">
+                        <img class="profile-reset" src="/img/icon/arrow-clockwise.svg">
+                    </div>
+                </div>
+
+                <div class="phone-box info-group column-box">
+                    <label>전화번호</label>
+                    <div class="row-box">
+                        <div class="phone input-box" th:text="*{phone}" th:value="*{phone}"></div>
+                        <button class="btn-gray-fill" onclick="phoneChangeOpen()">변경</button>
+                    </div>
+                </div>
+
+                <modal class="phone-change-modal column-box">
+                    <img class="close" src="/img/icon/btn_dialog_close@2x.png">
+                    <label>새로운 전화번호</label>
+                    <div class="info-group row-box">
+                        <div class="input-box">
+                            <input class="new-phone info-data column-box" type="number" placeholder="새로운 전화번호 입력">
+                            <img class="reset" src="/img/icon/x-circle-fill.svg">
+                        </div>
+                        <button class="code-send btn-gray-fill disable" onclick="verifySend(this)">인증번호 발송</button>
+                    </div>
+                    <label>인증번호</label>
+                    <div class="row-box">
+                        <div class="input-box">
+                            <input class="code column-box" type="text" placeholder="인증번호 입력">
+                            <img class="reset" src="/img/icon/x-circle-fill.svg">
+                            <div class="timer">03:00</div>
+                        </div>
+                        <button class="code-check change-btn btn-gray-fill" data-type="phone">확인</button>
+                    </div>
+                </modal>
+
+                <div class="pw-box info-group row-box">
+                    <div class="pw-group column-box">
+                        <div class="pw-label-box row-box">
+                            <label>비밀번호</label>
+                            <span class="pw-info">영문, 숫자, 특수문자 8~14글자</span>
+                        </div>
+                        <div class="input-box">
+                            <input class="pw info-data column-box" type="password" placeholder="비밀번호 입력">
+                            <img class="reset" src="/img/icon/x-circle-fill.svg">
+                        </div>
+                    </div>
+                    <div class="pw-group column-box">
+                        <label>비밀번호 확인</label>
+                        <div class="row-box">
+                            <div class="input-box">
+                                <input class="pw-check column-box" type="password" placeholder="비밀번호 재입력">
+                                <img class="reset" src="/img/icon/x-circle-fill.svg">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="pw-change change-btn btn-gray-fill disable" data-type="pw">변경</button>
+                </div>
+
+                <div class="nickname-box info-group column-box">
+                    <label>닉네임</label>
+                    <div class="row-box">
+                        <div class="input-box">
+                            <input class="nickname info-data column-box" type="text" th:value="*{nickname}"
+                                placeholder="닉네임 입력" spellcheck="false">
+                            <img class="reset" src="/img/icon/x-circle-fill.svg">
+                        </div>
+                        <button class="change-btn btn-gray-fill disable" data-type="nickname">변경</button>
+                    </div>
+                </div>
+
+                <div class="name-box info-group column-box">
+                    <label>이름</label>
+                    <div class="row-box">
+                        <div class="input-box">
+                            <input class="name info-data column-box" type="text" th:value="*{name}" placeholder="이름 입력"
+                                spellcheck="false">
+                            <img class="reset" src="/img/icon/x-circle-fill.svg">
+                        </div>
+                        <button class="change-btn btn-gray-fill disable" data-type="name">변경</button>
+                    </div>
+                </div>
+
+                <div class="email-box info-group column-box">
+                    <label>이메일</label>
+                    <div class="row-box">
+                        <div class="input-box">
+                            <input class="email info-data column-box" type="text" th:value="${member.email}"
+                                placeholder="이메일 입력" spellcheck="false">
+                            <img class="reset" src="/img/icon/x-circle-fill.svg">
+                        </div>
+                        <button class="change-btn btn-gray-fill disable" data-type="email"
+                            th:if="${member.joinType == joinType.BOOKSHELF}">변경
+                        </button>
+                    </div>
+                </div>
+
+                <div class="address-box info-group column-box">
+                    <label>주소</label>
+
+                    <div class="row-box">
+                        <input class="zipcode column-box" type="text" th:value="*{address.zipcode}"
+                            placeholder="우편번호 입력">
+                        <input class="city column-box" type="text" th:value="*{address.city}" placeholder="주소 입력">
+                    </div>
+
+                    <div class="row-box">
+                        <input class="street column-box" type="text" th:value="*{address.street}" placeholder="상세주소 입력">
+                        <button class="change-btn btn-gray-fill disable" data-type="address">변경</button>
+                    </div>
+                </div>
+
+                <button class="leave-btn btn-red">회원탈퇴</button>
+            </div>
+        </div>
+
+        <div class="top-move-button">
+            <div>∧</div>
+            <div>TOP</div>
+        </div>
+
     </div>
-
-    <div class="member-info-wrapper content-box">
-
-    </div>
-
-    <div class="top-move-button">
-      <div>∧</div>
-      <div>TOP</div>
-    </div>
-
-  </div>
 
 </html>

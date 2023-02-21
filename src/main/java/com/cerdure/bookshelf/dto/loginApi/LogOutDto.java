@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LogOutDto {
-
     private String cliend_id;
     private String logout_redirect_uri;
 };

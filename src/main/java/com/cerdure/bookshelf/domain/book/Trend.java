@@ -1,15 +1,18 @@
 package com.cerdure.bookshelf.domain.book;
 
-import com.cerdure.bookshelf.domain.enums.MemberGrade;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+
+import static java.util.Optional.ofNullable;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Trend {
 
@@ -21,18 +24,11 @@ public class Trend {
     private Integer count;
 
     @PrePersist
-    public void prePersist() {
-        this.count = this.count == null ? 1 : this.count;
+    private void prePersist() {
+        this.count = ofNullable(this.count).orElse(1);
     }
 
-    @Builder
-    public Trend(Long id, String searchData, Integer count) {
-        this.id = id;
-        this.searchData = searchData;
-        this.count = count;
-    }
-
-    public void countPlus(){
+    public void countPlus() {
         this.count++;
     }
 }

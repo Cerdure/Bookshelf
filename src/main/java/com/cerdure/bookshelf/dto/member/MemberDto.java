@@ -1,89 +1,64 @@
 package com.cerdure.bookshelf.dto.member;
 
 
-import com.cerdure.bookshelf.domain.enums.MemberJoinType;
-import com.cerdure.bookshelf.domain.member.MemberProfile;
-import com.cerdure.bookshelf.domain.order.Cart;
 import com.cerdure.bookshelf.domain.enums.MemberGrade;
-import com.cerdure.bookshelf.domain.enums.MemberRole;
+import com.cerdure.bookshelf.domain.enums.MemberJoinType;
 import com.cerdure.bookshelf.domain.member.Address;
 import com.cerdure.bookshelf.domain.member.Member;
 import com.cerdure.bookshelf.domain.order.Orders;
 import lombok.*;
-import org.springframework.lang.Nullable;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.*;
-import java.time.LocalDate;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.cerdure.bookshelf.domain.enums.MemberJoinType.*;
+
 @Data
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberDto {
 
     private Long id;
     private String pw;
+    private String pwCheck;
     private String name;
     private String nickname;
     private String phone;
     private String zipcode;
     private String city;
-    private Address address;
     private String street;
     private String email;
-    private MemberProfile memberProfile;
-    @Enumerated(EnumType.STRING)
-    private MemberGrade grade;
-    @Enumerated(EnumType.STRING)
-    private MemberJoinType memberJoinType;
     private Integer point;
-    private LocalDate regDate;
-    private Integer delflag;
-    private LocalDate delDate;
+    private MultipartFile profileImg;
+    private String profilePath;
+    private Long codeId;
     private List<Orders> orders = new ArrayList<>();
 
-    @Builder
-    public MemberDto(Long id, String pw, String name, String nickname, String phone, String zipcode, String city, Address address, String street, String email, MemberProfile memberProfile, MemberGrade grade, MemberJoinType memberJoinType, Integer point, LocalDate regDate, Integer delflag, LocalDate delDate, List<Orders> orders) {
-        this.id = id;
-        this.pw = pw;
-        this.name = name;
-        this.nickname = nickname;
-        this.phone = phone;
-        this.zipcode = zipcode;
-        this.city = city;
-        this.address = address;
-        this.street = street;
-        this.email = email;
-        this.memberProfile = memberProfile;
-        this.grade = grade;
-        this.memberJoinType = memberJoinType;
-        this.point = point;
-        this.regDate = regDate;
-        this.delflag = delflag;
-        this.delDate = delDate;
-        this.orders = orders;
-    }
+    @Enumerated(EnumType.STRING)
+    private MemberGrade grade;
 
-    public Member createMember(PasswordEncoder passwordEncoder,MemberProfile memberProfile){
+    @Enumerated(EnumType.STRING)
+    private MemberJoinType joinType;
+
+    public Member createMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .pw(passwordEncoder.encode(this.pw))
                 .name(this.name)
                 .nickname(this.nickname)
                 .phone(this.phone)
-                .address(new Address(this.city, this.street, this.zipcode))
+                .address(getAddress())
                 .email(this.email)
-                .grade(this.grade)
-                .point(this.point)
-                .regDate(this.regDate)
-                .delflag(this.delflag)
-                .delDate(this.delDate)
-                .role(MemberRole.USER)
-                .memberProfile(memberProfile)
-                .memberJoinType(MemberJoinType.BOOKSHELF)
+                .joinType(BOOKSHELF)
                 .build();
     }
 
-
+    public Address getAddress() {
+        return this.zipcode == null ? null : new Address(this.city, this.street, this.zipcode);
+    }
 }

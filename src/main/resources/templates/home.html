@@ -24,8 +24,8 @@
           <img class="banner-img-0" th:src="${bannerBook.imgPath}">
         </a>
       <div class="banner-button-wrapper">
-        <button class="btn-left"><</button>
-            <button class="btn-right">></button>
+        <button class="btn-left">&lt;</button>
+            <button class="btn-right">&gt;</button>
       </div>
       <div class="banner-index-wrapper">
         <div class="banner-current-index">1</div>
@@ -41,7 +41,7 @@
 
   <div class="simple-search-wrapper">
     <div class="simple-search">
-      <div class="simple-search-title">User 님,</div>
+      <div class="simple-search-title" th:text="${member} ? ${member.nickname} + ' 님,' : '고객님,'"></div>
       <form class="simple-search-input search-input" action="/search-result" method="get" id="search-form">
         <input id="search-input" name="name" type="text" autocomplete="off" placeholder="찾으시는 책이 있나요?">
         <img class="icon" onclick="document.getElementById('search-form').submit();" src="/img/icon/search.svg">
@@ -124,7 +124,7 @@
           <h1 class="picks-title-2">!</h1>
           <h5>새로운 즐거움을 드립니다.</h5>
           <h2>취향에 꼭 맞는 책<br>북셸프가 찾아드려요!</h2>
-          <button onclick="location.href='/login'">로그인하고 추천받기</button>
+          <button onclick="location.href='/login'" th:if="${#authorization.expression('isAnonymous()')}">로그인하고 추천받기</button>
         </li>
         <li>
           <img src="/img/background/img_welcome_picks_item_01.png" alt="">
@@ -186,7 +186,7 @@
         우리의 인생과 붙어 있다.<br>
         몸으로 영화를 본다.</div>
       <img class="bottom-banner-qutoes-right" src="/img/icon/qutoes-bottom-gray.right.png">
-      <span class="bottom-banner-booktitle">정희진, <혼자서 본 영화></span>
+      <span class="bottom-banner-booktitle">정희진, &lt;혼자서 본 영화&gt;</span>
     </div>
   </div>
 

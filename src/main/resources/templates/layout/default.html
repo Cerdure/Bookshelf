@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html  xmlns="http://www.w3.org/1999/xhtml"
-       xmlns:th="http://www.thymeleaf.org"
-       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="UTF-8">
@@ -24,23 +23,16 @@
 
     <link rel="stylesheet" th:href="@{/css/default.css}">
     <script th:src="@{/js/default.js}"></script>
-    
-    <!-- content script -->
+
     <th:block layout:fragment="css"></th:block>
-    <!-- content script -->
     <th:block layout:fragment="script"></th:block>
 </head>
 
 <body link="black" vlink="black">
-
     <header th:replace="fragments/header :: header"></header>
-
     <div th:replace="fragments/alerts :: alerts"></div>
-
     <div layout:fragment="content"></div>
-
     <div th:replace="fragments/footer :: footer"></div>
-
 </body>
 
 </html>

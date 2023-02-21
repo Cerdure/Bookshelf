@@ -10,6 +10,7 @@ import java.util.List;
 
 @Getter
 public class MemberAdapter extends User implements Serializable {
+
     private Member member;
 
     public MemberAdapter(Member member) {

@@ -10,14 +10,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class KakaoLoginInfoResponseDto {
+
     private String id;
+
     @Builder.Default
     private KakaoLoginData kakao_account = KakaoLoginData.builder().build();
+
     @Builder
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     public static class KakaoLoginData {
+
         private String gender;
         private String email;
         private String birthday;
@@ -25,8 +29,10 @@ public class KakaoLoginInfoResponseDto {
 
         @Builder.Default
         private KakaoProfile profile = KakaoProfile.builder().build();
+
         @Builder.Default
         private KakaoPropery properties = KakaoPropery.builder().build();
+
         @Builder
         @Data
         @NoArgsConstructor
@@ -35,6 +41,7 @@ public class KakaoLoginInfoResponseDto {
             private String nickname;
             private String image;
         }
+
         @Builder
         @Data
         @NoArgsConstructor

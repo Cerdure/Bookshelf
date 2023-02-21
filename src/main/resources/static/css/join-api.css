@@ -17,10 +17,10 @@ body {
   background-position: center;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 input::placeholder {
@@ -119,8 +119,6 @@ form {
   pointer-events: none;
 }
 
-
-
 .adr-btn {
   width: 140px;
   height: 40px;
@@ -168,6 +166,7 @@ form {
   bottom: 0px;
   color: gray;
 }
+
 .footer-wrapper::before {
   content: '';
   position: absolute;
@@ -177,6 +176,7 @@ form {
   height: 1px;
   background-color: #e4e4e4;
 }
+
 .footer {
   position: relative;
   width: 340px;
@@ -185,8 +185,3 @@ form {
   font-size: 14px;
   text-align: center;
 }
-
-
-
-
-

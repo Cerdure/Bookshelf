@@ -1,5 +1,6 @@
 package com.cerdure.bookshelf.domain.board;
 
+import com.cerdure.bookshelf.domain.file.UploadFile;
 import com.cerdure.bookshelf.domain.book.Book;
 import com.cerdure.bookshelf.domain.member.Member;
 import lombok.*;
@@ -10,7 +11,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity @Getter
+import static java.util.Optional.*;
+
+@Entity
+@Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Review {
 
@@ -18,6 +24,11 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "review_id")
     private Long id;
+    @Size(max = 10000)
+    private String content;
+    private String tag;
+    private Integer rating;
+    private LocalDateTime regDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
@@ -27,46 +38,27 @@ public class Review {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @Size(max=10000)
-    private String content;
-
-    private String tag;
-
-    private Integer rating;
-
-    private LocalDateTime regDate;
-
-    @OneToMany(mappedBy = "review", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "review", orphanRemoval = true)
     private List<UploadFile> files = new ArrayList<>();
 
     @PrePersist
-    public void prePersist() {
-        this.regDate = this.regDate == null ? LocalDateTime.now() : this.regDate;
+    private void prePersist() {
+        this.regDate = ofNullable(this.regDate).orElse(LocalDateTime.now());
     }
 
-    @Builder
-    public Review(Long id, Book book, Member member, String content, String tag, Integer rating, LocalDateTime regDate, List<UploadFile> files) {
-        this.id = id;
-        this.book = book;
-        this.member = member;
-        this.content = content;
-        this.tag = tag;
+    public void changeRating(Integer rating) {
         this.rating = rating;
-        this.regDate = regDate;
-        this.files = files;
     }
 
-    public void changeRating(Integer rating){
-        this.rating = rating;
-    }
-    public void changeTag(String tag){
+    public void changeTag(String tag) {
         this.tag = tag;
     }
-    public void changeContent(String content){
+
+    public void changeContent(String content) {
         this.content = content;
     }
-    public void changeFiles(List<UploadFile> files){
-        System.out.println("changeFiles");
+
+    public void changeFiles(List<UploadFile> files) {
         this.files = files;
     }
 

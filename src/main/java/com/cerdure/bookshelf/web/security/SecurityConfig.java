@@ -1,6 +1,7 @@
 package com.cerdure.bookshelf.web.security;
 
-import com.cerdure.bookshelf.service.LoginServiceImpl;
+import com.cerdure.bookshelf.service.classes.login.LoginServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,23 +20,29 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    LoginServiceImpl loginService;
-    @Autowired
-    DataSource dataSource;
+    private final LoginServiceImpl loginService;
+    private final DataSource dataSource;
+    private final LoginFailureHandler loginFailureHandler;
 
-    // 정적인 파일에 대한 요청들
-    private static final String[] AUTH_WHITELIST = {
-            // -- swagger ui
+    private static final String[] STATIC_WHITELIST = {
             "/img/**",
             "/css/**",
             "/js/**",
             "/upload-img/**",
-            // other public endpoints of your API may be appended to this array
-            "/mysql/**",
-            "/swagger-ui/**"
+    };
+
+    private static final String[] DYNAMIC_WHITELIST = {
+            "/", "/login/**", "/join/**", "/verify/**",
+            "/book/**", "/todayBook-reset/**", "/home-search-input/**", "/bestBook/**",
+            "/search/**", "/search-input/**",
+            "/search-result/**", "/search-result-input/**", "/search-trend/**",
+            "/event/**",
+            "/review/**", "/review-my/**",
+            "/inquire/**", "/inquire-detail/**",
+            "/notice", "/notice-detail/**",
     };
 
     @Bean
@@ -44,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PersistentTokenRepository tokenRepository(){
+    public PersistentTokenRepository tokenRepository() {
         JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
         jdbcTokenRepository.setDataSource(dataSource);
         return jdbcTokenRepository;
@@ -53,9 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                    .antMatchers("/", "/login/**", "/join/**", "/todayBook-reset/**", "/home-search-input/**", "/bestBook/**",
-                            "/search/**", "/search-input/**", "/search-result/**", "/search-result-input/**", "/search-trend/**", "/book/**",
-                            "/event/**", "/event-sale/**", "/review/**", "/review-my/**", "/inquire/**", "/inquire-detail/**", "/notice", "/notice-detail/**").permitAll()
+                    .antMatchers(DYNAMIC_WHITELIST).permitAll()
                     .antMatchers("/admin").hasRole("ADMIN")
                     .anyRequest().authenticated()
                 .and()
@@ -65,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .passwordParameter("pw")
                         .loginProcessingUrl("/loginProc")
                         .defaultSuccessUrl("/")
-                        .failureUrl("/login/error")
+                        .failureHandler(loginFailureHandler)
                 .and()
                     .logout()
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
@@ -74,32 +79,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .rememberMe()
                         .rememberMeParameter("rememberMe")
                         .key("rememberMe")
-                        .tokenValiditySeconds(3600)
+                        .tokenValiditySeconds(86400)
                         .alwaysRemember(false)
                         .userDetailsService(loginService)
                         .tokenRepository(tokenRepository())
                 .and()
                     .csrf().disable();
 
-        //중복 로그인
         http.sessionManagement()
-                .maximumSessions(1) //세션 최대 허용 수
-                .maxSessionsPreventsLogin(false); // false이면 중복 로그인하면 이전 로그인이 풀린다.
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(false);
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
-        // 정적인 파일 요청에 대해 무시
-        web.ignoring().antMatchers(AUTH_WHITELIST);
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers(STATIC_WHITELIST);
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .withUser("admin").password(passwordEncoder().encode("1234")).roles("ADMIN");
-        auth
-                .userDetailsService(loginService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(loginService).passwordEncoder(passwordEncoder())
+                .and()
+                    .inMemoryAuthentication()
+                        .withUser("admin").roles("ADMIN")
+                        .password(passwordEncoder().encode("1234"));
     }
 
     @Bean
@@ -107,5 +110,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
 }

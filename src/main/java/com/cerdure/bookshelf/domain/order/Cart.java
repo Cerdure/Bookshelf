@@ -3,13 +3,19 @@ package com.cerdure.bookshelf.domain.order;
 import com.cerdure.bookshelf.domain.book.Book;
 import com.cerdure.bookshelf.domain.member.Member;
 import com.cerdure.bookshelf.dto.order.CartDto;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity @Getter
+import static java.util.Optional.ofNullable;
+
+@Entity
+@Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Cart {
 
@@ -17,6 +23,10 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "cart_id")
     private Long id;
+    private Integer originPrice;
+    private Integer discountPrice;
+    private Integer amount;
+    private Boolean selected;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -26,32 +36,16 @@ public class Cart {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    private Integer originPrice;
+    @PrePersist
+    private void prePersist() {
+        this.selected = ofNullable(this.selected).orElse(true);
+    }
 
-    private Integer discountPrice;
-
-    private Integer amount;
-
-    @Builder
-    public Cart(Long id, Member member, Book book, Integer originPrice, Integer discountPrice, Integer amount) {
-        this.id = id;
-        this.member = member;
-        this.book = book;
-        this.originPrice = originPrice;
-        this.discountPrice = discountPrice;
+    public void changeAmount(Integer amount) {
         this.amount = amount;
     }
 
-    public CartDto toDto(){
-        return CartDto.builder()
-                .id(this.id)
-                .member(this.member)
-                .book(this.book)
-                .originPrice(this.originPrice)
-                .discountPrice(this.discountPrice)
-                .amount(this.amount)
-                .build();
+    public void changeSelected(boolean selected) {
+        this.selected = selected;
     }
-
-    public void changeAmount(Integer amount){this.amount = amount;}
 }

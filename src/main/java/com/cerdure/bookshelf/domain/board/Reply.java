@@ -1,18 +1,20 @@
 package com.cerdure.bookshelf.domain.board;
 
 import com.cerdure.bookshelf.domain.member.Member;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
-@Entity @Getter
+import static java.util.Optional.*;
+
+@Entity
+@Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Reply {
 
@@ -20,6 +22,11 @@ public class Reply {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "reply_id")
     private Long id;
+    @Size(max = 3000)
+    private String content;
+    private Integer seq;
+    private Integer level;
+    private LocalDateTime regDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "inquire_id")
@@ -29,11 +36,6 @@ public class Reply {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    private LocalDateTime regDate = LocalDateTime.now();
-
-    @Size(max = 3000)
-    private String content;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_reply_id")
     private Reply parent;
@@ -41,37 +43,21 @@ public class Reply {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
     private List<Reply> children;
 
-    private Integer seq;
-
-    private Integer level;
-
-
     @PrePersist
-    public void prePersist() {
-        this.regDate = this.regDate == null ? LocalDateTime.now() : this.regDate;
-        this.level = this.level == null ? 0 : this.level;
+    private void prePersist() {
+        this.level = ofNullable(this.level).orElse(0);
+        this.regDate = ofNullable(this.regDate).orElse(LocalDateTime.now());
     }
 
-    @Builder
-    public Reply(Long id, Inquire inquire, Member member, LocalDateTime regDate, String content, Reply parent, List<Reply> children, Integer seq, Integer level) {
-        this.id = id;
-        this.inquire = inquire;
-        this.member = member;
-        this.regDate = regDate;
-        this.content = content;
-        this.parent = parent;
-        this.children = children;
-        this.seq = seq;
+    public void changeLevel(Integer level) {
         this.level = level;
     }
 
-    public void changeLevel(Integer level){
-        this.level = level;
-    }
-    public void changeContent(String content){
+    public void changeContent(String content) {
         this.content = content;
     }
-    public void delete(){
+
+    public void delete() {
         this.member = null;
         this.regDate = null;
         this.content = "삭제된 댓글입니다.";

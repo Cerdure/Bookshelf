@@ -1,20 +1,25 @@
 package com.cerdure.bookshelf.domain.member;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.cerdure.bookshelf.domain.event.Coupon;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity @Getter
+import static java.util.Optional.ofNullable;
+
+@Entity
+@Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberCoupon {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "member_coupon_id")
     private Long id;
+    private LocalDateTime regDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -24,24 +29,8 @@ public class MemberCoupon {
     @JoinColumn(name = "coupon_id")
     private Coupon coupon;
 
-    private LocalDateTime regDate;
-
-    private LocalDateTime useDate;
-
     @PrePersist
-    public void prePersist(){
-        this.regDate = this.regDate == null ? LocalDateTime.now() : this.regDate;
-    }
-
-    @Builder
-    public MemberCoupon(Long id, Member member, Coupon coupon, LocalDateTime regDate) {
-        this.id = id;
-        this.member = member;
-        this.coupon = coupon;
-        this.regDate = regDate;
-    }
-
-    public void changeUseDate(LocalDateTime useDate){
-        this.useDate = useDate;
+    private void prePersist() {
+        this.regDate = ofNullable(this.regDate).orElse(LocalDateTime.now());
     }
 }

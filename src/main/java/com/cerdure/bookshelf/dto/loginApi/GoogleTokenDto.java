@@ -15,6 +15,4 @@ public class GoogleTokenDto {
     private String client_secret;
     private String redirect_uri;
     private String grant_type;
-
-
 }

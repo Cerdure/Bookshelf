@@ -26,7 +26,7 @@
   position: fixed;
   width: 100%;
   height: 290px;
-  background-image: url("/img/background/brando-makes-branding-PjhOkwN0ruY-unsplash.jpg");
+  background-image: url('/img/background/brando-makes-branding-PjhOkwN0ruY-unsplash.jpg');
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
@@ -38,7 +38,7 @@
   top: 50%;
   transform: translateY(-50%);
   height: auto;
-  animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+  animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.61, 0.355, 1) both;
   text-align: center;
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 50px;
@@ -63,19 +63,22 @@
   padding: 0 20px;
   z-index: 10;
   box-shadow: 0px -3px 5px 0px rgba(0, 0, 0, 0.05);
-  border-bottom:1px solid #ebebeb;
+  border-bottom: 1px solid #ebebeb;
 }
+
 .middle-nav-container {
   position: relative;
   width: 1000px;
   height: 45px;
   margin: auto;
 }
+
 .middle-nav {
   position: relative;
   width: 100%;
   height: 100%;
 }
+
 .middle-nav div:not(.middle-nav-underbar) {
   position: relative;
   width: 33.3%;
@@ -85,6 +88,7 @@
   text-align: center;
   cursor: pointer;
 }
+
 .middle-nav-underbar {
   position: absolute;
   bottom: 1px;
@@ -100,6 +104,7 @@
   color: white;
   transition: 0.3s;
 }
+
 .disable {
   opacity: 0.5;
   pointer-events: none;
@@ -111,18 +116,21 @@
   margin: auto;
   padding: 40px;
 }
-.notice-title-wrapper{
+
+.notice-title-wrapper {
   position: relative;
   width: 100%;
   margin-bottom: 20px;
 }
+
 .notice-title-wrapper .title {
   position: relative;
   font-size: 25px;
   font-family: 'Noto Sans KR', sans-serif;
   margin-bottom: 40px;
 }
-.notice-title-wrapper .notice-write{
+
+.notice-title-wrapper .notice-write {
   position: absolute;
   top: 0px;
   right: 0px;
@@ -139,10 +147,12 @@
   font-size: 14px;
   cursor: pointer;
 }
-.notice-title-wrapper .notice-write:hover{
+
+.notice-title-wrapper .notice-write:hover {
   background-color: #f5f5f5;
   transition: 0.3s;
 }
+
 .notice-middle-wrapper {
   position: relative;
   width: 100%;
@@ -153,12 +163,15 @@
   font-size: 18px;
   font-family: 'Noto Sans KR', sans-serif;
 }
+
 .notice-middle-wrapper .number {
   color: cornflowerblue;
 }
+
 .notice-middle-wrapper .text {
   color: rgb(92, 92, 92);
 }
+
 .notice-search-wrapper {
   position: absolute;
   bottom: 0px;
@@ -168,6 +181,7 @@
   border-radius: 10px;
   text-align: center;
 }
+
 .notice-search-wrapper .search {
   position: relative;
   top: 50%;
@@ -179,8 +193,9 @@
   overflow: hidden;
   display: inline-block;
 }
+
 .search-by {
-  position: absolute; 
+  position: absolute;
   top: 0px;
   left: 0;
   border: none;
@@ -190,7 +205,8 @@
   height: 100%;
   text-indent: 10px;
 }
-.notice-search-input{
+
+.notice-search-input {
   position: absolute;
   top: 0px;
   right: 0;
@@ -200,6 +216,7 @@
   outline: none;
   text-indent: 20px;
 }
+
 .notice-search-wrapper img {
   position: absolute;
   top: 50%;
@@ -225,6 +242,7 @@
   position: relative;
   width: 100%;
 }
+
 .notices .header {
   position: relative;
   width: 100%;
@@ -232,6 +250,7 @@
   border-bottom: 1px solid gray;
   font-size: 0px;
 }
+
 .notices .number {
   width: 10%;
   height: 50px;
@@ -240,6 +259,7 @@
   font-size: 14px;
   line-height: 50px;
 }
+
 .notices .title {
   width: 55%;
   height: 50px;
@@ -248,7 +268,8 @@
   font-size: 14px;
   line-height: 50px;
 }
-.my-notice .title{
+
+.my-notice .title {
   text-align: left;
   text-indent: 40px;
   cursor: pointer;
@@ -256,6 +277,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
 .notices .type {
   width: 15%;
   height: 50px;
@@ -264,6 +286,7 @@
   font-size: 14px;
   line-height: 50px;
 }
+
 .notices .date {
   width: 20%;
   height: 50px;
@@ -276,18 +299,17 @@
 .notices .body {
   font-size: 0px;
 }
+
 .my-notice {
   border-bottom: 1px solid lightgray;
   display: flex;
 }
 
-
-
 .notice-write-wrapper {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   width: 600px;
   height: 742px;
   background-color: white;
@@ -296,6 +318,7 @@
   display: none;
   z-index: 12;
 }
+
 .notice-write-contents {
   width: 566px;
   height: 580px;
@@ -304,43 +327,51 @@
   padding-right: 26px;
   margin-bottom: 20px;
 }
+
 .notice-write-contents::-webkit-scrollbar {
   width: 3px;
 }
+
 .notice-write-contents::-webkit-scrollbar-thumb {
   height: 30%;
   background: cornflowerblue;
   border-radius: 10px;
 }
+
 .notice-write-top {
   position: relative;
   width: 100%;
   height: auto;
   margin-bottom: 20px;
 }
+
 .notice-write-top-text {
   position: relative;
   font-size: 20px;
   font-weight: 900;
   display: inline-block;
 }
-.notice-write-top-icon{
+
+.notice-write-top-icon {
   position: absolute;
   right: 0px;
   width: 20px;
   display: inline-block;
   cursor: pointer;
 }
+
 .notice-write-header {
   position: relative;
   margin-top: 10px;
   margin-bottom: 30px;
 }
+
 .notice-write-header .title {
   font-size: 14px;
   font-family: 'Noto Sans KR', sans-serif;
   margin-bottom: 10px;
 }
+
 .notice-input-header {
   width: 100%;
   height: 40px;
@@ -353,20 +384,24 @@
   text-indent: 20px;
   overflow: hidden;
 }
+
 .notice-input-header::placeholder {
   color: rgb(150, 150, 150);
 }
+
 .notice-write-main {
   position: relative;
   width: 100%;
   margin-bottom: 30px;
 }
+
 .notice-write-main-title {
   position: relative;
   font-size: 14px;
   margin-bottom: 10px;
   font-family: 'Noto Sans KR', sans-serif;
 }
+
 .notice-write-frame {
   width: 100%;
   height: 400px;
@@ -374,6 +409,7 @@
   border-radius: 10px;
   padding: 15px 20px;
 }
+
 .notice-input-main {
   width: 100%;
   height: 350px;
@@ -383,6 +419,7 @@
   outline: none;
   line-height: 20px;
 }
+
 .notice-input-main::placeholder {
   color: rgb(150, 150, 150);
 }
@@ -402,13 +439,11 @@
   outline: none;
 }
 
-
-
 .close-alert {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   width: 360px;
   height: 200px;
   background-color: white;
@@ -419,14 +454,16 @@
   border: 1px solid silver;
   display: none;
 }
-.close-alert .text{
+
+.close-alert .text {
   position: absolute;
   top: 35%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   width: 100%;
 }
-.close-alert .cancel{
+
+.close-alert .cancel {
   position: absolute;
   bottom: 40px;
   left: 50px;
@@ -441,11 +478,13 @@
   font-size: 16px;
   cursor: pointer;
 }
-.close-alert .cancel:hover{
+
+.close-alert .cancel:hover {
   background-color: rgb(97, 97, 97);
   transition: 0.2s;
 }
-.close-alert .okay{
+
+.close-alert .okay {
   position: absolute;
   bottom: 40px;
   right: 50px;
@@ -459,13 +498,13 @@
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 16px;
   cursor: pointer;
-} 
+}
 .close-alert .okay:hover {
   background-color: rgb(80, 140, 253);
   transition: 0.2s;
 }
 
-@media only screen and (max-width:1333px) {
+@media only screen and (max-width: 1333px) {
   .top-background {
     width: 100%;
   }
@@ -476,23 +515,26 @@
     width: 91%;
   }
 }
-@media only screen and (max-width:1280px) {
+
+@media only screen and (max-width: 1280px) {
   .top-back {
     width: 100%;
   }
 }
-@media only screen and (max-width:1200px) {
+
+@media only screen and (max-width: 1200px) {
   .notice-wrapper {
     width: 100%;
   }
 }
-@media only screen and (max-width:1000px) {
+
+@media only screen and (max-width: 1000px) {
   .middle-nav-container {
     width: 100%;
   }
 }
- 
-@media only screen and (max-width:640px) {
+
+@media only screen and (max-width: 640px) {
   .top-back-wrapper {
     width: 638px;
   }
@@ -504,17 +546,16 @@
   }
 }
 
-@media only screen and (max-width:400px) {
+@media only screen and (max-width: 400px) {
   .top-nav-wrapper {
     width: 384px;
   }
 }
-@media only screen and (max-width:350px) {
+@media only screen and (max-width: 350px) {
   .bottom-nav-wrapper {
     width: 350px;
   }
 }
-
 
 @keyframes fadeout {
   0% {
@@ -602,7 +643,7 @@
 
 @keyframes background-color-change {
   0% {
-   background-color: rgb(255, 174, 0);
+    background-color: rgb(255, 174, 0);
   }
   25% {
     background-color: rgb(255, 110, 207);

@@ -72,7 +72,7 @@
         <div class="inner-box">
         <ul>
           <a th:each="trend,i : ${trends}" th:if="${i.count<6}" th:onclick="search(${trend.searchData})">
-            <span th:text="${i.count}" th:style="${i.count == 1} ? 'color: rgb(255, 166, 0);' : ''"></span>
+            <span th:text="${i.count}" th:style="${i.count == 1} ? 'color: rgb(255, 166, 0);'"></span>
             <div th:class="'trend-'+${i.count}" th:text="${trend.searchData == null ? '-' : trend.searchData}"></div>
           </a>
         </ul>

@@ -1,17 +1,17 @@
 package com.cerdure.bookshelf;
 
-import com.cerdure.bookshelf.domain.book.Trend;
 import com.cerdure.bookshelf.domain.board.Inquire;
 import com.cerdure.bookshelf.domain.board.Notice;
 import com.cerdure.bookshelf.domain.board.Reply;
-import com.cerdure.bookshelf.domain.book.Book;
-import com.cerdure.bookshelf.domain.board.UploadFile;
 import com.cerdure.bookshelf.domain.board.Review;
+import com.cerdure.bookshelf.domain.book.Book;
 import com.cerdure.bookshelf.domain.book.Category;
+import com.cerdure.bookshelf.domain.book.Trend;
 import com.cerdure.bookshelf.domain.enums.MemberRole;
+import com.cerdure.bookshelf.domain.event.Attendance;
+import com.cerdure.bookshelf.domain.event.Coupon;
+import com.cerdure.bookshelf.domain.file.UploadFile;
 import com.cerdure.bookshelf.domain.member.Address;
-import com.cerdure.bookshelf.domain.member.Attendance;
-import com.cerdure.bookshelf.domain.member.Coupon;
 import com.cerdure.bookshelf.domain.member.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,6 +26,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.cerdure.bookshelf.domain.enums.MemberJoinType.BOOKSHELF;
+
 @Component
 @RequiredArgsConstructor
 public class InitDb {
@@ -34,9 +36,9 @@ public class InitDb {
 
     @PostConstruct
     public void init() {
-//        initService.dbInitBooks();
+//        initService.dbInit();
 //        initService.initCoupon();
-//        initService.initAttendance();
+//        initService.initTrend();
     }
 
     @Component
@@ -54,38 +56,57 @@ public class InitDb {
             coupons.add(Coupon.builder().price(2000).min(30000).build());
             coupons.forEach(coupon -> em.persist(coupon));
         }
-        public void initAttendance(){
-            Member test = Member.builder()
-                    .name("www")
-                    .nickname("www")
-                    .phone("01077777777")
-                    .email("test12@bookshelf.com")
-                    .pw(passwordEncoder.encode("1234"))
-                    .address(new Address("서울 당산동","145가","K013"))
-                    .role(MemberRole.USER)
+
+        public void initTrend() {
+            Trend[] trends = new Trend[10];
+
+            trends[0] = Trend.builder()
+                    .searchData("프로그래밍")
+                    .count(10)
                     .build();
-            em.persist(test);
+            trends[1] = Trend.builder()
+                    .searchData("스프링")
+                    .count(9)
+                    .build();
+            trends[2] = Trend.builder()
+                    .searchData("자바")
+                    .count(8)
+                    .build();
+            trends[3] = Trend.builder()
+                    .searchData("해수어")
+                    .count(7)
+                    .build();
+            trends[4] = Trend.builder()
+                    .searchData("심리학")
+                    .count(6)
+                    .build();
+            trends[5] = Trend.builder()
+                    .searchData("요리")
+                    .count(5)
+                    .build();
+            trends[6] = Trend.builder()
+                    .searchData("부자")
+                    .count(4)
+                    .build();
+            trends[7] = Trend.builder()
+                    .searchData("영어")
+                    .count(4)
+                    .build();
+            trends[8] = Trend.builder()
+                    .searchData("여행")
+                    .count(4)
+                    .build();
+            trends[9] = Trend.builder()
+                    .searchData("일본어")
+                    .count(4)
+                    .build();
 
-            Attendance[] attendances = new Attendance[7];
-
-            for (int i=0; i<7; i++){
-                if(i == 0) {
-                    attendances[i] = Attendance.builder()
-                            .regDate(LocalDate.now().minusDays((i+1)))
-                            .member(test)
-                            .pointed(true)
-                            .build();
-                } else {
-                    attendances[i] = Attendance.builder()
-                            .regDate(LocalDate.now().minusDays((i+1)))
-                            .member(test)
-                            .build();
-                }
-                em.persist(attendances[i]);
+            for (Trend trend : trends) {
+                em.persist(trend);
             }
         }
 
-        public void dbInitBooks() {
+        public void dbInit() {
             Category[] categories = new Category[21];
 
             categories[1] = Category.builder()
@@ -889,6 +910,7 @@ public class InitDb {
                     .pw(passwordEncoder.encode("1234"))
                     .address(new Address("서울 당산동","145가","K013"))
                     .role(MemberRole.USER)
+                    .joinType(BOOKSHELF)
                     .build();
 
             Member member1 = Member.builder()
@@ -899,6 +921,7 @@ public class InitDb {
                     .pw(passwordEncoder.encode("1234"))
                     .address(new Address("서울 당산동","145가","K013"))
                     .role(MemberRole.USER)
+                    .joinType(BOOKSHELF)
                     .point(30000)
                     .build();
 
@@ -910,6 +933,7 @@ public class InitDb {
                     .pw(passwordEncoder.encode("1234"))
                     .address(new Address("서울 당산동","145가","K013"))
                     .role(MemberRole.USER)
+                    .joinType(BOOKSHELF)
                     .point(40000)
                     .build();
 
@@ -921,6 +945,7 @@ public class InitDb {
                     .pw(passwordEncoder.encode("1234"))
                     .address(new Address("서울 당산동","145가","K013"))
                     .role(MemberRole.USER)
+                    .joinType(BOOKSHELF)
                     .point(25000)
                     .build();
 
@@ -931,6 +956,7 @@ public class InitDb {
                     .pw(passwordEncoder.encode("1234"))
                     .address(new Address("서울 당산동","145가","K013"))
                     .role(MemberRole.ADMIN)
+                    .joinType(BOOKSHELF)
                     .point(1000000)
                     .build();
 
@@ -941,6 +967,7 @@ public class InitDb {
                     .pw(passwordEncoder.encode("1234"))
                     .address(new Address("서울 당산동","145가","K013"))
                     .role(MemberRole.ADMIN)
+                    .joinType(BOOKSHELF)
                     .point(2345678)
                     .build();
 
@@ -950,6 +977,24 @@ public class InitDb {
             em.persist(member3);
             em.persist(bookshelf);
             em.persist(center);
+
+            Attendance[] attendances = new Attendance[7];
+
+            for (int i=0; i<7; i++){
+                if(i == 0) {
+                    attendances[i] = Attendance.builder()
+                            .regDate(LocalDate.now().minusDays((i+1)))
+                            .member(member)
+                            .pointed(true)
+                            .build();
+                } else {
+                    attendances[i] = Attendance.builder()
+                            .regDate(LocalDate.now().minusDays((i+1)))
+                            .member(member)
+                            .build();
+                }
+                em.persist(attendances[i]);
+            }
 
             Review[] reviews = new Review[10];
 
@@ -1284,41 +1329,6 @@ public class InitDb {
                         em.persist(innerFile);
                     }
                 }
-            }
-
-            Trend[] trends = new Trend[7];
-
-            trends[0] = Trend.builder()
-                    .searchData("책")
-                    .count(10)
-                    .build();
-            trends[1] = Trend.builder()
-                    .searchData("여행")
-                    .count(9)
-                    .build();
-            trends[2] = Trend.builder()
-                    .searchData("인간")
-                    .count(8)
-                    .build();
-            trends[3] = Trend.builder()
-                    .searchData("법")
-                    .count(7)
-                    .build();
-            trends[4] = Trend.builder()
-                    .searchData("부자")
-                    .count(6)
-                    .build();
-            trends[5] = Trend.builder()
-                    .searchData("심리학")
-                    .count(5)
-                    .build();
-            trends[6] = Trend.builder()
-                    .searchData("과학")
-                    .count(4)
-                    .build();
-
-            for (Trend trend : trends) {
-                em.persist(trend);
             }
         }
     }

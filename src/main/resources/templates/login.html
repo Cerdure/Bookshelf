@@ -15,34 +15,63 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js" integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx" crossorigin="anonymous"></script>
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.1.0/kakao.min.js"
+        integrity="sha384-dpu02ieKC6NUeKFoGMOKz6102CLEWi9+5RQjWSV0ikYSFFd8M3Wp2reIcquJOemx"
+        crossorigin="anonymous"></script>
     <script>Kakao.init('65d359c9c919c3f1150d638177fbc8fa');</script>
     <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
     <script src="/js/login.js"></script>
+    <script src="/js/default.js"></script>
     <title>로그인 | Bookshelf</title>
 </head>
 
 <body>
+    <th:block th:if="${alertText != null}">
+        <script>
+            top.alert("[[${alertText}]]");
+        </script>
+    </th:block>
+
+    <div class="modal-background"></div>
+
+    <modal class="pw-change-modal info-group column-box">
+        <div class="title">비밀번호 재설정</div>
+        <img class="close" src="/img/icon/btn_dialog_close@2x.png">
+        <label>휴대폰 번호</label>
+        <div class="row-box">
+            <div class="input-box">
+                <input class="phone column-box" type="number" placeholder="가입 휴대폰 번호 입력">
+            </div>
+            <button class="code-send btn-gray-fill" onclick="verifySend(this)">인증번호 발송</button>
+        </div>
+        <div class="code-box column-box">
+            <label>인증번호</label>
+            <div class="row-box">
+                <div class="input-box">
+                    <input class="code column-box" type="text" placeholder="인증번호 입력">
+                    <div class="timer">03:00</div>
+                </div>
+                <button class="code-check change-btn btn-gray-fill" data-type="phone"
+                    onclick="verifyCheck()">확인</button>
+            </div>
+        </div>
+    </modal>
+
     <div class="meta-wrapper">
         <div class="inner-wrapper">
             <header onclick="location.href='/'">
                 <img src="/img/icon/logo.png" alt="">
                 <div>Bookshelf</div>
             </header>
-
             <div class="container-wrapper">
-                <form action="/loginProc" th:object="${loginDto}" method="post">
-
-                   <div th:if="${#fields.hasGlobalErrors()}">
-                        <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
-                    </div>
+                <form action="/loginProc" method="post">
 
                     <div class="form-group id-wrapper">
-                        <input th:field="*{phone}" class="user-id" type="text" />
+                        <input name="phone" class="user-id" type="text" />
                         <label class="id-info">휴대폰 번호</label>
                     </div>
                     <div class="form-group pw-wrapper">
-                        <input th:field="*{pw}" class="user-pw" type="password" />
+                        <input name="pw" class="user-pw" type="password" />
                         <label class="pw-info">비밀번호</label>
                         <img src="/img/icon/ico_eye@2x.png">
                     </div>
@@ -54,18 +83,18 @@
                         <img class="id-save-check" src="/img/icon/ico_checkbox@2x.png">
                         <span class="id-save-text">자동 로그인</span>
                     </span>
-                    <span class="find-idpw">아이디/비밀번호 찾기</span>
+                    <span class="pw-change">비밀번호 재설정</span>
                 </div>
                 <div class="button-wrapper">
                     <div class="line"></div>
                     <div class="text">간편 로그인</div>
-                    <img src="/img/icon/naver-icon.7128d171ea0b01233bb4b32a2b5ad260.svg" class="naverLogin" >
+                    <img src="/img/icon/naver-icon.7128d171ea0b01233bb4b32a2b5ad260.svg" class="naverLogin">
                     <img src="/img/icon/kakao-icon.9c9940291430ca6ad83b9ae1f3cc81a8.svg" class="kakaoLogin">
                     <img src="/img/icon/ico_sns_google@2x.png" class="googleLogin">
                 </div>
                 <div class="caution">개인정보 보호를 위해 공용 PC에서 사용 시<br>
                     SNS계정의 로그아웃 상태를 꼭 확인해 주세요.</div>
-    
+
                 <div class="join btn-gray" onclick="location.href='/join'">회원가입</div>
             </div>
             <div class="footer-wrapper">

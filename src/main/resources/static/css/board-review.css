@@ -26,7 +26,7 @@
   position: fixed;
   width: 100%;
   height: 290px;
-  background-image: url("/img/background/brando-makes-branding-PjhOkwN0ruY-unsplash.jpg");
+  background-image: url('/img/background/brando-makes-branding-PjhOkwN0ruY-unsplash.jpg');
   background-size: 100%;
   background-repeat: no-repeat;
   background-position: center;
@@ -38,7 +38,7 @@
   top: 50%;
   transform: translateY(-50%);
   height: auto;
-  animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+  animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.61, 0.355, 1) both;
   text-align: center;
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 50px;
@@ -63,19 +63,22 @@
   padding: 0 20px;
   z-index: 10;
   box-shadow: 0px -3px 5px 0px rgba(0, 0, 0, 0.05);
-  border-bottom:1px solid #ebebeb;
+  border-bottom: 1px solid #ebebeb;
 }
+
 .middle-nav-container {
   position: relative;
   width: 1000px;
   height: 45px;
   margin: auto;
 }
+
 .middle-nav {
   position: relative;
   width: 100%;
   height: 100%;
 }
+
 .middle-nav div:not(.middle-nav-underbar) {
   position: relative;
   width: 33.3%;
@@ -85,6 +88,7 @@
   text-align: center;
   cursor: pointer;
 }
+
 .middle-nav-underbar {
   position: absolute;
   bottom: 1px;
@@ -95,25 +99,27 @@
   opacity: 0.5;
 }
 
-
 .review-wrapper {
   position: relative;
   width: 1200px;
   margin: auto;
   padding: 40px;
 }
+
 .review-title-wrapper {
   position: relative;
   width: 100%;
   height: auto;
   margin-bottom: 40px;
 }
+
 .review-title {
   position: relative;
   display: inline-block;
   font-size: 25px;
   font-family: 'Noto Sans KR', sans-serif;
 }
+
 .review-title-my {
   position: relative;
   right: 0px;
@@ -131,10 +137,12 @@
   color: rgb(109, 109, 109);
   background-color: white;
 }
+
 .review-title-my:hover {
   background-color: #f8f8f8;
   transition: 0.2s;
 }
+
 .review-title-write {
   position: relative;
   right: 0px;
@@ -151,6 +159,7 @@
   font-weight: 900;
   cursor: pointer;
 }
+
 .review-title-write:hover {
   background-color: rgb(59, 121, 236);
   transition: 0.2s;
@@ -160,30 +169,33 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   width: 600px;
   height: 742px;
   background-color: white;
   padding: 30px;
   border: 1px solid silver;
   display: none;
+  flex-direction: column;
   z-index: 100;
 }
+
 .review-modify-wrapper {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   width: 600px;
   height: 742px;
   background-color: white;
   padding: 30px;
   border: 1px solid silver;
+  flex-direction: column;
   z-index: 100;
-}
-#modify-wrapper {
+  opacity: 0;
   display: none;
 }
+
 .review-write-contents {
   width: 566px;
   height: 580px;
@@ -192,26 +204,31 @@
   padding-right: 26px;
   margin-bottom: 20px;
 }
+
 .review-write-contents::-webkit-scrollbar {
   width: 3px;
 }
+
 .review-write-contents::-webkit-scrollbar-thumb {
   height: 30%;
   background: cornflowerblue;
   border-radius: 10px;
 }
+
 .review-write-top {
   position: relative;
   width: 100%;
   height: auto;
   margin-bottom: 20px;
 }
+
 .review-write-top-text {
   position: relative;
   font-size: 20px;
   font-weight: 900;
   display: inline-block;
 }
+
 .review-write-top-text div {
   position: absolute;
   top: 0px;
@@ -220,13 +237,15 @@
   height: 5px;
   background-color: cornflowerblue;
 }
-.review-write-top-icon{
+
+.review-write-top-icon {
   position: absolute;
   right: 0px;
   width: 20px;
   display: inline-block;
   cursor: pointer;
 }
+
 .review-write-find {
   position: relative;
   width: 100%;
@@ -235,8 +254,9 @@
   border: 1px solid silver;
   border-radius: 10px;
   margin-bottom: 30px;
-  cursor: pointer;;
+  cursor: pointer;
 }
+
 .review-write-find:hover {
   background-color: #fafafa;
   transition: 0.3s;
@@ -246,6 +266,7 @@
   position: relative;
   top: 3px;
 }
+
 .review-write-find-text {
   position: relative;
   line-height: 50px;
@@ -253,13 +274,11 @@
   font-family: 'Noto Sans KR', sans-serif;
 }
 
-
-
 .review-write-search-wrapper {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   width: 600px;
   height: 742px;
   background-color: white;
@@ -268,6 +287,7 @@
   display: none;
   z-index: 101;
 }
+
 .review-search-contents {
   width: 566px;
   height: 492px;
@@ -276,26 +296,31 @@
   padding-right: 26px;
   margin-bottom: 20px;
 }
+
 .review-search-contents::-webkit-scrollbar {
   width: 3px;
 }
+
 .review-search-contents::-webkit-scrollbar-thumb {
   height: 30%;
   background: cornflowerblue;
   border-radius: 10px;
 }
+
 .search-title {
   position: relative;
   width: 100%;
   height: auto;
   margin-bottom: 30px;
 }
+
 .search-title .text {
   position: relative;
   font-size: 20px;
   font-weight: 900;
   display: inline-block;
 }
+
 .search-title img {
   position: absolute;
   right: 0px;
@@ -303,6 +328,7 @@
   display: inline-block;
   cursor: pointer;
 }
+
 .search-input-wrapper {
   position: relative;
   width: 100%;
@@ -313,6 +339,7 @@
   margin-bottom: 15px;
   overflow: hidden;
 }
+
 .search-input-wrapper input {
   position: absolute;
   left: 0px;
@@ -323,9 +350,11 @@
   text-indent: 40px;
   font-size: 20px;
 }
+
 .search-input-wrapper input::placeholder {
   font-size: 16px;
 }
+
 .search-input-wrapper img {
   position: absolute;
   right: 20px;
@@ -334,33 +363,34 @@
   width: 20px;
   cursor: pointer;
 }
+
 .search-result-wrapper {
   position: relative;
   width: 100%;
   height: auto;
 }
+
 .search-result-top {
   position: relative;
   width: 100%;
   height: 50px;
 }
+
 .search-result-info {
   position: relative;
   width: 200px;
   height: 40px;
 }
+
 .search-result-info .input-value {
   display: inline-block;
   font-weight: 900;
   line-height: 35px;
 }
-.search-result-info .text1{
-}
+
 .search-result-info .number {
   color: cornflowerblue;
   font-weight: 900;
-}
-.search-result-info .text2 {
 }
 
 .search-result-order {
@@ -375,6 +405,7 @@
   font-size: 14px;
   cursor: pointer;
 }
+
 .search-result {
   position: relative;
   width: 100%;
@@ -383,19 +414,23 @@
   border-bottom: 1px solid whitesmoke;
   display: table;
 }
+
 .search-result:first-child {
   border-top: 1px solid whitesmoke;
 }
+
 .search-result-text {
   width: 420px;
   display: table-cell;
   vertical-align: middle;
 }
+
 .search-result img {
   width: 60px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
   border-radius: 5px;
 }
+
 .search-result .select {
   position: absolute;
   top: 50%;
@@ -409,6 +444,7 @@
   border: 1px solid silver;
   cursor: pointer;
 }
+
 .search-result .select:hover {
   background-color: rgb(241, 241, 241);
   transition: 0.3s;
@@ -424,6 +460,7 @@
   border-radius: 10px;
   display: none;
 }
+
 .review-modify-book-wrapper {
   position: relative;
   width: 100%;
@@ -433,6 +470,7 @@
   margin-bottom: 30px;
   border-radius: 10px;
 }
+
 .review-book-img {
   position: relative;
   width: 15%;
@@ -440,6 +478,7 @@
   border: 1px solid silver;
   box-shadow: 1px 2px 5px 0px rgba(0, 0, 0, 0.2);
 }
+
 .review-book-info {
   position: absolute;
   top: 50%;
@@ -449,6 +488,7 @@
   height: 100%;
   display: inline-block;
 }
+
 .review-book-name {
   position: absolute;
   top: 30%;
@@ -457,6 +497,7 @@
   font-size: 20px;
   color: rgba(0, 0, 0, 0.7);
 }
+
 .review-book-rating {
   position: absolute;
   top: 65%;
@@ -464,17 +505,20 @@
   width: 172.5px;
   height: 35px;
 }
+
 .review-book-rating img {
   width: 30px;
   cursor: pointer;
 }
-.review-book-rating .star-empty{
+
+.review-book-rating .star-empty {
   position: absolute;
   width: 172.5px;
   float: left;
   white-space: nowrap;
 }
-.review-book-rating .star-fill{
+
+.review-book-rating .star-fill {
   position: absolute;
   width: 0px;
   float: left;
@@ -482,36 +526,40 @@
   overflow: hidden;
   pointer-events: none;
 }
+
 .review-book-rating-number {
   position: absolute;
   top: 65%;
   transform: translateY(-50%);
   right: 150px;
 }
+
 .rating-number {
   position: relative;
   font-size: 20px;
   color: #ffae00;
   font-family: 'Noto Sans KR', sans-serif;
 }
+
 .max-number {
   position: relative;
   font-family: 'Noto Sans KR', sans-serif;
   color: gray;
 }
 
-
 .review-write-tag {
   position: relative;
   width: 100%;
   margin-bottom: 40px;
 }
+
 .review-write-tag-info {
   font-size: 14px;
   margin-bottom: 20px;
   font-family: 'Noto Sans KR', sans-serif;
 }
-.review-write-tag .tag{
+
+.review-write-tag .tag {
   position: relative;
   padding: 10px;
   border-radius: 20px;
@@ -520,10 +568,12 @@
   margin-left: 10px;
   cursor: pointer;
 }
+
 .review-write-tag .tag:hover {
-  border: 2px solid cornflowerblue;
+  border: 1px solid cornflowerblue;
   transition: 0.3s;
 }
+
 .tag-active {
   background-color: cornflowerblue;
   color: white;
@@ -535,19 +585,22 @@
   width: 100%;
   margin-bottom: 30px;
 }
+
 .review-write-main-title {
   position: relative;
   font-size: 14px;
   margin-bottom: 10px;
   font-family: 'Noto Sans KR', sans-serif;
 }
+
 .review-write-frame {
   width: 100%;
-  height: 160px;
+  min-height: 160px;
   border: 1px solid silver;
   border-radius: 10px;
   padding: 15px 20px;
 }
+
 .review-write {
   width: 100%;
   height: 110px;
@@ -557,33 +610,45 @@
   outline: none;
   line-height: 20px;
 }
+
+.review-write::-webkit-scrollbar {
+  width: 5px;
+}
+
+.review-write::-webkit-scrollbar-thumb {
+  background-color: silver;
+}
+
 .review-write::placeholder {
   color: rgb(150, 150, 150);
 }
+
 .write-number {
   position: absolute;
   bottom: 10px;
   right: 20px;
   font-size: 14px;
 }
-.review-write-attach {
-}
+
 .review-write-attach-title {
   font-size: 14px;
   margin-bottom: 10px;
   font-family: 'Noto Sans KR', sans-serif;
 }
-.review-write-attach-photo {
+
+.review-write-attach-photo,
+.review-modify-attach-photo {
   position: relative;
   width: 100%;
   height: 100px;
   margin-bottom: 10px;
 }
+
 .review-write-attach-photo-button {
   width: 100px;
   height: 100px;
   background-color: #ebebeb;
-  background-image: url("/img/icon/plus-simple.svg");
+  background-image: url('/img/icon/plus-simple.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 40%;
@@ -593,6 +658,7 @@
   float: left;
   margin: 0 3px;
 }
+
 .review-write-photo-input {
   position: relative;
   width: 100%;
@@ -600,6 +666,7 @@
   cursor: pointer;
   opacity: 0;
 }
+
 .review-write-photo-wrapper {
   position: relative;
   width: 100px;
@@ -610,6 +677,7 @@
   border-radius: 10px;
   overflow: hidden;
 }
+
 .review-write-photo {
   position: absolute;
   width: 98px;
@@ -620,9 +688,11 @@
   outline: none;
   color: rgba(0, 0, 0, 0);
 }
+
 .review-write-photo::-webkit-file-upload-button {
   display: none;
 }
+
 .review-write-photo-cancel {
   position: absolute;
   top: 0px;
@@ -637,10 +707,12 @@
   cursor: pointer;
   z-index: 1;
 }
+
 .review-write-attach-guide {
   font-size: 12px;
   color: gray;
 }
+
 .regist-button {
   position: relative;
   left: 50%;
@@ -667,30 +739,35 @@
   width: 100%;
   height: auto;
 }
+
 .my-review {
   position: relative;
   width: 100%;
   height: auto;
 }
+
 .my-review:last-child {
   border-bottom: 1px solid silver;
 }
+
 .my-review .book-name {
   position: relative;
   width: 100%;
   height: 70px;
   border-top: 1px solid silver;
-  border-bottom: 1px solid #ebebeb; 
+  border-bottom: 1px solid #ebebeb;
   line-height: 70px;
   font-family: 'Noto Sans KR', sans-serif;
-  color:rgba(0, 0, 0, 0.7);
+  color: rgba(0, 0, 0, 0.7);
 }
+
 .my-review .header {
   position: relative;
   width: 100%;
   height: 30px;
   margin: 10px 0;
 }
+
 .my-review .buyer {
   position: relative;
   width: 50px;
@@ -702,12 +779,14 @@
   line-height: 25px;
   float: left;
 }
+
 .my-review .id {
   position: relative;
   line-height: 30px;
   float: left;
   margin-left: 10px;
 }
+
 .my-review .date {
   position: relative;
   line-height: 30px;
@@ -715,6 +794,7 @@
   margin-left: 10px;
   margin-right: 10px;
 }
+
 .my-review .modify,
 .my-review .delete {
   position: relative;
@@ -724,6 +804,7 @@
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 14px;
 }
+
 .my-review .tag {
   position: relative;
   width: auto;
@@ -737,9 +818,11 @@
   border-radius: 15px;
   color: gray;
 }
+
 .my-rating-num {
   display: none;
 }
+
 .my-review .rating {
   position: relative;
   width: 103px;
@@ -748,12 +831,14 @@
   transform: translateY(-50%);
   float: right;
 }
+
 .my-review .star-empty {
   position: absolute;
   width: 103px;
   float: left;
   white-space: nowrap;
 }
+
 .my-review .star-fill {
   position: absolute;
   /* width: 0px; */
@@ -762,12 +847,14 @@
   overflow: hidden;
   pointer-events: none;
 }
+
 .my-review .body {
   position: relative;
   width: 100%;
   min-height: 70px;
   margin-bottom: 20px;
 }
+
 .my-review .review {
   position: relative;
   width: 80%;
@@ -781,16 +868,13 @@
   margin-bottom: 10px;
 }
 
-
-
-
 .my-review .photos {
-  position: absolute;   /* fixed */
-  top: 0;               /* 50% */
-  right: 0;           /* auto */
-  left: auto;           /* 50% */
-  width: 64px;          /* 600px */
-  height: 64px;         /* 400px */
+  position: absolute; /* fixed */
+  top: 0; /* 50% */
+  right: 0; /* auto */
+  left: auto; /* 50% */
+  width: 64px; /* 600px */
+  height: 64px; /* 400px */
   transform: auto;
   float: right;
   border: 1px solid black;
@@ -799,29 +883,33 @@
   background-color: rgba(0, 0, 0, 0.7);
   background-size: cover; /* contain */
   background-repeat: no-repeat;
-  background-position: center; 
-  z-index: 0;  /* 11 */
+  background-position: center;
+  z-index: 0; /* 11 */
 }
+
 .my-review .photos img {
   display: none;
 }
-.my-review .photos .number {   /* text 1 / 5 */
+
+.my-review .photos .number {
+  /* text 1 / 5 */
   position: absolute;
-  bottom: 0;  /* 10px */
-  right: 0;  /* auto */
-  left: auto;  /* 50% */
+  bottom: 0; /* 10px */
+  right: 0; /* auto */
+  left: auto; /* 50% */
   transform: none; /* translateX(-50%) */
-  width: 20px;  /* auto */
-  height: 15px;  /* auto */
-  background-color: rgba(0, 0, 0, 0.6);  /* rgba(0, 0, 0, 0) */
+  width: 20px; /* auto */
+  height: 15px; /* auto */
+  background-color: rgba(0, 0, 0, 0.6); /* rgba(0, 0, 0, 0) */
   color: white;
   text-align: center;
-  font-size: 11px;  /* 20px */
+  font-size: 11px; /* 20px */
   line-height: 15px; /* 20px */
   filter: none;
   border-radius: 5px 0 0 0;
-  text-shadow: none;  /* 0px 0px 2px black */
+  text-shadow: none; /* 0px 0px 2px black */
 }
+
 .photos .close {
   position: absolute;
   top: 0px;
@@ -832,6 +920,7 @@
   text-shadow: 0px 0px 2px black;
   display: none;
 }
+
 .photos .btn-left {
   position: absolute;
   top: 50%;
@@ -849,6 +938,7 @@
   line-height: 10px;
   display: none;
 }
+
 .photos .btn-right {
   position: absolute;
   top: 50%;
@@ -866,6 +956,7 @@
   line-height: 10px;
   display: none;
 }
+
 .photos .plus {
   position: absolute;
   top: 0;
@@ -880,18 +971,20 @@
   border-radius: 5px;
   display: none;
 }
+
 .my-review .frame {
   position: absolute;
-  top: 0;       
-  right: 0;      
-  width: 64px;        
-  height: 64px;      
+  top: 0;
+  right: 0;
+  width: 64px;
+  height: 64px;
   float: right;
   border: 1px solid rgb(255, 187, 0);
   background-color: #ebebeb;
   border-radius: 5px;
   display: none;
 }
+
 .my-review .fold-button {
   position: relative;
   width: 70px;
@@ -899,12 +992,14 @@
   display: none;
   cursor: pointer;
 }
+
 .my-review .fold-button .text {
   font-size: 14px;
   line-height: 25px;
   float: left;
   margin-right: 5px;
 }
+
 .my-review .fold-button .icon {
   position: absolute;
   top: 3px;
@@ -931,7 +1026,7 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   width: 360px;
   height: 200px;
   background-color: white;
@@ -942,14 +1037,16 @@
   border: 1px solid silver;
   display: none;
 }
-.alert-window .text{
+
+.alert-window .text {
   position: absolute;
   top: 35%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   width: 100%;
 }
-.alert-window .cancel{
+
+.alert-window .cancel {
   position: absolute;
   bottom: 40px;
   left: 50px;
@@ -964,11 +1061,13 @@
   font-size: 16px;
   cursor: pointer;
 }
-.alert-window .cancel:hover{
+
+.alert-window .cancel:hover {
   background-color: rgb(97, 97, 97);
   transition: 0.2s;
 }
-.alert-window .okay{
+
+.alert-window .okay {
   position: absolute;
   bottom: 40px;
   right: 50px;
@@ -982,16 +1081,17 @@
   font-family: 'Noto Sans KR', sans-serif;
   font-size: 16px;
   cursor: pointer;
-} 
+}
 .alert-window .okay:hover {
   background-color: rgb(80, 140, 253);
   transition: 0.2s;
 }
+
 .delete-alert {
   display: none;
 }
 
-@media only screen and (max-width:1333px) {
+@media only screen and (max-width: 1333px) {
   .top-background {
     width: 100%;
   }
@@ -1002,23 +1102,23 @@
     width: 91%;
   }
 }
-@media only screen and (max-width:1280px) {
+@media only screen and (max-width: 1280px) {
   .top-back {
     width: 100%;
   }
 }
-@media only screen and (max-width:1200px) {
+@media only screen and (max-width: 1200px) {
   .review-wrapper {
     width: 100%;
   }
 }
-@media only screen and (max-width:1000px) {
+@media only screen and (max-width: 1000px) {
   .middle-nav-container {
     width: 100%;
   }
 }
- 
-@media only screen and (max-width:640px) {
+
+@media only screen and (max-width: 640px) {
   .top-back-wrapper {
     width: 638px;
   }
@@ -1030,17 +1130,16 @@
   }
 }
 
-@media only screen and (max-width:400px) {
+@media only screen and (max-width: 400px) {
   .top-nav-wrapper {
     width: 384px;
   }
 }
-@media only screen and (max-width:350px) {
+@media only screen and (max-width: 350px) {
   .bottom-nav-wrapper {
     width: 350px;
   }
 }
-
 
 @keyframes fadeout {
   0% {
@@ -1128,7 +1227,7 @@
 
 @keyframes background-color-change {
   0% {
-   background-color: rgb(255, 174, 0);
+    background-color: rgb(255, 174, 0);
   }
   25% {
     background-color: rgb(255, 110, 207);

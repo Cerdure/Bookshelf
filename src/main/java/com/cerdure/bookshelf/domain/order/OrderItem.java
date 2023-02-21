@@ -2,20 +2,28 @@ package com.cerdure.bookshelf.domain.order;
 
 import com.cerdure.bookshelf.domain.book.Book;
 import com.cerdure.bookshelf.domain.enums.OrderState;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Entity @Getter
+import static com.cerdure.bookshelf.domain.enums.OrderState.ORDER;
+import static java.util.Optional.ofNullable;
+
+@Entity
+@Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "order_item_id")
     private Long id;
+    private Integer amount;
+
+    @Enumerated(EnumType.STRING)
+    private OrderState orderState;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "orders_id")
@@ -25,29 +33,23 @@ public class OrderItem {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    private Integer amount;
-
-    @Enumerated(EnumType.STRING)
-    private OrderState orderState;
+    private Boolean reviewed;
 
     @PrePersist
-    public void prePersist() {
-        this.orderState = this.orderState == null ? OrderState.ORDER : this.orderState;
+    private void prePersist() {
+        this.orderState = ofNullable(this.orderState).orElse(ORDER);
+        this.reviewed = ofNullable(this.reviewed).orElse(false);
     }
 
-    @Builder
-    public OrderItem(Long id, Orders orders, Book book, Integer amount, OrderState orderState) {
-        this.id = id;
-        this.orders = orders;
+    public void changeBook(Book book) {
         this.book = book;
-        this.amount = amount;
+    }
+
+    public void changeState(OrderState orderState) {
         this.orderState = orderState;
     }
 
-    public void changeBook(Book book){
-        this.book = book;
-    }
-    public void changeState(OrderState orderState){
-        this.orderState = orderState;
+    public void changeReviewed(boolean reviewed) {
+        this.reviewed = reviewed;
     }
 }

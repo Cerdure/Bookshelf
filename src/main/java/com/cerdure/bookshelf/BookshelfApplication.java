@@ -6,11 +6,11 @@ import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfigura
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @EnableFeignClients
-@SpringBootApplication(exclude={MultipartAutoConfiguration.class})
+@SpringBootApplication(exclude = {MultipartAutoConfiguration.class})
 public class BookshelfApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BookshelfApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(BookshelfApplication.class, args);
+    }
 
 }

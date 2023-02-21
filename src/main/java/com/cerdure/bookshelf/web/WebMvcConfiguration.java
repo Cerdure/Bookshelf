@@ -19,7 +19,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(loggerInterceptor);
     }
 
-    // ADD START
     @Bean
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
@@ -27,15 +26,12 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         commonsMultipartResolver.setMaxUploadSizePerFile(20 * 1024 * 1024); //20MB
         return commonsMultipartResolver;
     }
-    // ADD END
 
-    // 허락해줄 경로를 설정해줌. 앞에 file:/// 를 붙여줌
-    String PermittedPath = "file:///" +System.getProperty("user.dir") + "/src/main/resources/static/";
+    String PermittedPath = "file:///" + System.getProperty("user.dir") + "/src/main/resources/static/";
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**") // PermittedPath 경로들/+a
-                .addResourceLocations(PermittedPath); // 로컬에 저장된 파일을 읽어 올 root 경로 설정
+        registry.addResourceHandler("/**")
+                .addResourceLocations(PermittedPath);
     }
-
 }

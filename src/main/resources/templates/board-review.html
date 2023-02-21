@@ -11,13 +11,10 @@
   <script th:src="@{/js/board-review.js}"></script>
 </th:block>
 
-
 <div layout:fragment="content" id="page-content" data-index="4">
-
   <div class="top-back-wrapper">
     <div class="top-back-title">ㅣ 책리뷰 ㅣ</div>
   </div>
-
   <div class="top-space"></div>
 
   <div class="middle-nav-wrapper">
@@ -33,9 +30,7 @@
 
   <div class="meta-wrapper">
 
-    <div class="write-wrapper-back"></div>
-
-    <form action="/review" method="post" class="review-write-wrapper" enctype="multipart/form-data">
+    <form class="review-write-wrapper">
       <div class="review-write-top">
         <span class="review-write-top-text">리뷰작성</span>
         <img class="review-write-top-icon" src="/img/icon/btn_dialog_close@2x.png">
@@ -46,7 +41,7 @@
           <span class="review-write-find-text">상품 검색</span>
         </div>
         <div class="review-write-book-wrapper">
-          <input name="book" type="hidden" class="review-book-id">
+          <input name="bookId" type="hidden" class="review-book-id">
           <img class="review-book-img" src="/img/book-cover/12.jpg">
           <div class="review-book-info">
             <div class="review-book-name">책이름</div>
@@ -92,40 +87,34 @@
             <div class="write-number">0/3000</div>
           </div>
         </div>
-
         <div class="review-write-attach">
           <div class="review-write-attach-title">
             <span>ㅣ 사진 첨부 (선택)</span>
             <span>0/5</span>
           </div>
           <div class="review-write-attach-photo">
-
             <div class="review-write-attach-photo-button">
               <input name="imageFiles" class="review-write-photo-input" type="file" multiple="multiple"
-                accept=".jpg, .jpeg, .png, .gif" onchange="setThumbnail(eventState,this)">
+                accept=".jpg, .jpeg, .png, .gif" onchange="setThumbnail(event,'')">
             </div>
-
           </div>
           <div class="review-write-attach-guide">
             * JPG, PNG, GIF 파일만 최대 5장 업로드 가능합니다.
           </div>
         </div>
-
       </div>
-      <div type="submit" class="regist-button disable" onclick="formSubmit(this)">등록</div>
+      <div class="regist-button disable">등록</div>
     </form>
 
 
-
-    <div id="modify-wrapper">
-      <form action="" method="post" class="review-modify-wrapper" enctype="multipart/form-data">
+    <form action="" method="post" class="review-modify-wrapper" enctype="multipart/form-data">
       <div class="review-write-top">
         <span class="review-write-top-text">리뷰 수정</span>
         <img class="review-write-top-icon" src="/img/icon/btn_dialog_close@2x.png">
       </div>
       <div class="review-write-contents">
         <div class="review-modify-book-wrapper">
-          <input th:value="${modReview!=null?modReview.book.id:''}" name="book" type="hidden" class="review-book-id">
+          <input th:value="${modReview!=null?modReview.book.id:''}" name="bookId" type="hidden" class="review-book-id">
           <img class="review-book-img" th:src="${modReview!=null?modReview.book.imgPath:''}">
           <div class="review-book-info">
             <div th:text="${modReview!=null?modReview.book.name:''}" class="review-book-name">책이름</div>
@@ -146,30 +135,33 @@
               </div>
             </div>
             <div class="review-book-rating-number">
-              <input name="rating" th:value="${modReview!=null?modReview.rating:0}" class="rating-number-input" type="text" hidden>
+              <input name="rating" th:value="${modReview!=null?modReview.rating:0}" class="rating-number-input"
+                type="text" hidden>
               <span class="rating-number" th:text="${modReview!=null?modReview.rating:0}">0</span>
               <span class="max-number">/ 5</span>
             </div>
           </div>
         </div>
         <div class="review-write-tag">
-          <input name="tag" class="review-write-tag-input" type="hidden">
+          <input name="tag" class="review-write-tag-input" type="hidden" th:value="${modReview?.tag}">
           <div class="review-write-tag-info">
             ㅣ 가장 공감되는 키워드를 선택해주세요. *
           </div>
-          <span class="tag" th:classappend="${modReview!=null?modReview.tag:''}=='#유익해요'?'tag-active':''">#유익해요</span>
-          <span class="tag" th:classappend="${modReview!=null?modReview.tag:''}=='#재밌어요'?'tag-active':''">#재밌어요</span>
-          <span class="tag" th:classappend="${modReview!=null?modReview.tag:''}=='#공감돼요'?'tag-active':''">#공감돼요</span>
-          <span class="tag" th:classappend="${modReview!=null?modReview.tag:''}=='#최고에요'?'tag-active':''">#최고에요</span>
-          <span class="tag" th:classappend="${modReview!=null?modReview.tag:''}=='#아쉬워요'?'tag-active':''">#아쉬워요</span>
+          <span class="tag" th:classappend="${modReview?.tag}=='#유익해요'?'tag-active':''">#유익해요</span>
+          <span class="tag" th:classappend="${modReview?.tag}=='#재밌어요'?'tag-active':''">#재밌어요</span>
+          <span class="tag" th:classappend="${modReview?.tag}=='#공감돼요'?'tag-active':''">#공감돼요</span>
+          <span class="tag" th:classappend="${modReview?.tag}=='#최고에요'?'tag-active':''">#최고에요</span>
+          <span class="tag" th:classappend="${modReview?.tag}=='#아쉬워요'?'tag-active':''">#아쉬워요</span>
         </div>
         <div class="review-write-main">
           <div class="review-write-main-title">ㅣ 리뷰 작성 *</div>
           <div class="review-write-frame">
-            <textarea name="content" class="review-write" maxlength="3000" th:value="${modReview!=null?modReview.content:''}"
-                      th:utext="${modReview!=null ? #strings.replace(modReview.content, '<br>', '&#10') : ''}"
-                      placeholder="내용을 10자 이상 입력해주세요. 주제와 무관한 글은 임의로 삭제될 수 있습니다."></textarea>
-            <div class="write-number" th:text="${#strings.length((modReview!=null?modReview.content:''))} + '/3000'">0/3000</div>
+            <textarea name="content" class="review-write" maxlength="3000"
+              th:value="${modReview!=null?modReview.content:''}"
+              th:utext="${modReview!=null ? #strings.replace(modReview.content, '<br>', '&#10') : ''}"
+              placeholder="내용을 10자 이상 입력해주세요. 주제와 무관한 글은 임의로 삭제될 수 있습니다."></textarea>
+            <div class="write-number" th:text="${#strings.length((modReview!=null?modReview.content:''))} + '/3000'">
+              0/3000</div>
           </div>
         </div>
         <div class="review-write-attach">
@@ -177,32 +169,25 @@
             <span>ㅣ 사진 첨부 (선택)</span>
             <span th:text="${modReview!=null?modReview.files.size():0}+'/5'"></span>
           </div>
-          <div class="review-write-attach-photo">
-
+          <div class="review-modify-attach-photo">
             <div class="review-write-attach-photo-button">
-              <input name="imageFiles" class="review-write-photo-input" type="file" multiple="multiple" th:if="${(modReview!=null?modReview.files.size():0) < 5}"
-                accept=".jpg, .jpeg, .png, .gif" th:value="${modReview!=null?modReview.files:null}">
+              <input name="imageFiles" class="review-write-photo-input" type="file" multiple="multiple"
+                th:if="${(modReview!=null?modReview.files.size():0) < 5}" accept=".jpg, .jpeg, .png, .gif"
+                th:value="${modReview!=null?modReview.files:null}" onchange="setThumbnail(event,'mod')">
             </div>
-
             <div class="review-write-photo-wrapper" th:each="file: ${modReview!=null?modReview.files:null}">
               <div class="review-write-photo-cancel" onclick="deleteImg(this)">X</div>
-              <input class="review-write-photo" onchange="setThumbnail(eventState,this)" th:style="'background-image:url(' + ${file.fullPath} + ');'" >
+              <input class="review-write-photo" onchange="setThumbnail(event,'mod')"
+                th:style="'background-image:url(' + ${file.fullPath} + ');'">
             </div>
-
           </div>
           <div class="review-write-attach-guide">
             * JPG, PNG, GIF 파일만 최대 5장 업로드 가능합니다.
           </div>
         </div>
       </div>
-      <div class="regist-button disable" onclick="formSubmit(this)">등록</div>
+      <div class="regist-button" onclick="formSubmit(this)">등록</div>
     </form>
-    </div>
-
-
-
-
-
 
     <div class="review-write-search-wrapper">
       <div class="search-title">
@@ -213,7 +198,6 @@
         <input id="search-input" type="text" placeholder="상품을 검색해 보세요.">
         <img id="search-icon" src="/img/icon/search.svg">
       </div>
-      
       <div class="search-result-wrapper" id="search-results">
         <div class="search-result-top">
           <div class="search-result-info">
@@ -229,9 +213,7 @@
             <option value="rating">상품평순</option>
           </select>
         </div>
-
         <div class="review-search-contents" th:if="${books}">
-
           <div class="search-result" th:each="book : ${books}">
             <input type="hidden" class="book-id" th:value="${book.id}">
             <img th:src="${book.imgPath}">
@@ -243,65 +225,60 @@
             </div>
             <button class="select">선택</button>
           </div>
-
           <pagination class="row-box"
-                      th:with="start=${T(java.lang.Math).floor(books.number/10)*10 + 1}, last=(${books.totalPages})">
+            th:with="start=${T(java.lang.Math).floor(books.number/10)*10 + 1}, last=(${books.totalPages})">
             <a th:class="${books.first} ? 'disable'" th:onclick="|bookSearch('${books.number}')|">
               <img class="btn-left" src="/img/icon/btn_pagination_prev@2x.png">
             </a>
             <index class="row-box">
               <a aria-label="First" th:onclick="bookSearch('1')"
-                 th:if="${books.totalPages < 4 ? false :books.number > 1}" th:text="1">
+                th:if="${books.totalPages < 4 ? false :books.number > 1}" th:text="1">
               </a>
               <ellipsis th:if="${books.totalPages < 4 ? false :books.number > 1}">...</ellipsis>
-              <a th:each="page: ${#numbers.sequence(start, last)}"
-                 th:if="${books.first ? (page == 0 ? false : page < books.number + 4) :
+              <a th:each="page: ${#numbers.sequence(start, last)}" th:if="${books.first ? (page == 0 ? false : page < books.number + 4) :
                   (books.last ? page > books.number - 2 : (page < books.number + 3) && (page > books.number - 1))}"
-                 th:class="${page == books.number + 1} ? 'index-active'" th:text="${page}"
-                 th:onclick="|bookSearch('${page}')|">
+                th:class="${page == books.number + 1} ? 'index-active'" th:text="${page}"
+                th:onclick="|bookSearch('${page}')|">
               </a>
               <ellipsis th:if="${books.totalPages < 4 ? false :books.number < books.totalPages - 2}">...</ellipsis>
               <a aria-label="Last" th:onclick="|bookSearch('${books.totalPages}')|"
-                 th:if="${books.totalPages < 4 ? false :books.number < books.totalPages - 2}"
-                 th:text="${books.totalPages}">
+                th:if="${books.totalPages < 4 ? false :books.number < books.totalPages - 2}"
+                th:text="${books.totalPages}">
               </a>
             </index>
             <a th:class="${books.last} ? 'disable'" th:onclick="|bookSearch('${books.number + 2}')|">
               <img class="btn-right" src="/img/icon/btn_pagination_next@2x.png">
             </a>
           </pagination>
-
         </div>
       </div>
     </div>
 
-
-
-
-
     <div class="review-wrapper" id="review-wrapper">
       <div class="review-title-wrapper">
         <div class="review-title" th:text="'모두의 리뷰 ('+${reviews?.totalElements} +')'"></div>
-        <div class="review-title-write" th:classappend="${#authorization.expression('hasRole(''USER'')')}? '' : 'disable'">리뷰 작성</div>
-        <div class="review-title-my" th:classappend="${#authorization.expression('hasRole(''USER'')')}? '' : 'disable'">내가 쓴 리뷰</div>
+        <div class="review-title-write"
+          th:classappend="${#authorization.expression('hasRole(''USER'')')}? '' : 'disable'">리뷰 작성</div>
+        <div class="review-title-my" th:classappend="${#authorization.expression('hasRole(''USER'')')}? '' : 'disable'">
+          내가 쓴 리뷰</div>
       </div>
-
       <div class="reviews-wrapper">
-
         <div class="my-review" th:each="review: ${reviews}">
           <input id="review-id" th:value="${review.id}" type="hidden">
           <div class="book-name" th:text="${review.book.name}"></div>
-
           <div class="header">
             <div class="buyer">구매자</div>
             <div class="id" th:text="${review.member.nickname}"></div>
             <div class="date" th:text="${#temporals.format(review.regDate, 'yyyy-MM-dd HH:mm:ss')}"></div>
-            <div th:if="${#authorization.expression('hasRole(''ADMIN'')')} ? true :
-            (${#authorization.expression('hasRole(''USER'')')} ? (${#authentication.principal?.username} == ${review.member.phone}) : false)" class="modify">수정</div>
-            <div th:if="${#authorization.expression('hasRole(''ADMIN'')')} ? true :
-            (${#authorization.expression('hasRole(''USER'')')} ? (${#authentication.principal?.username} == ${review.member.phone}) : false)" class="delete">삭제</div>
+            <div
+              th:if="${#authorization.expression('hasRole(''ADMIN'')')} ? true :
+            (${#authorization.expression('hasRole(''USER'')')} ? (${#authentication.principal?.username} == ${review.member.phone}) : false)"
+              class="modify">수정</div>
+            <div
+              th:if="${#authorization.expression('hasRole(''ADMIN'')')} ? true :
+            (${#authorization.expression('hasRole(''USER'')')} ? (${#authentication.principal?.username} == ${review.member.phone}) : false)"
+              class="delete">삭제</div>
             <div class="tag" th:text="${review.tag}"></div>
-
             <div class="rating">
               <div class="star-empty">
                 <img src="/img/icon/star-empty.svg">
@@ -318,86 +295,62 @@
                 <img src="/img/icon/star-fill.svg">
               </div>
             </div>
-
           </div>
-
           <div class="body">
             <div class="review">
               <span th:utext="${review.content}"></span>
             </div>
             <div class="frame"></div>
             <div th:unless="${#lists.isEmpty(review.files) || review.files.size()==0 }">
-            <div class="photos" th:style="'background-image:url(' + ${review.files[0].fullPath} + ');'">
-              <div class="close">x</div>
-              <img th:each="file: ${review.files}" th:src="${file.fullPath}">
-              <div class="number" th:text="${'+' + #strings.toString(review.files.size()-1)}" th:style="${review.files.size() < 2 ? 'display:none' : ''}"></div>
-              <button class="btn-left">&lt;</button>
-              <button class="btn-right">&gt;</button>
-              <div class="plus">더보기</div>
+              <div class="photos" th:style="'background-image:url(' + ${review.files[0].fullPath} + ');'">
+                <div class="close">x</div>
+                <img th:each="file: ${review.files}" th:src="${file.fullPath}">
+                <div class="number" th:text="${'+' + #strings.toString(review.files.size()-1)}"
+                  th:style="${review.files.size() < 2 ? 'display:none' : ''}"></div>
+                <button class="btn-left">&lt;</button>
+                <button class="btn-right">&gt;</button>
+                <div class="plus">더보기</div>
               </div>
             </div>
-              <div class="fold-button">
-                <span class="text">펼치기</span>
-                <img class="icon" src="/img/icon/down.png">
-              </div>
+            <div class="fold-button">
+              <span class="text">펼치기</span>
+              <img class="icon" src="/img/icon/down.png">
             </div>
-
           </div>
-
-
         </div>
-
+      </div>
       <pagination class="row-box"
-                  th:with="start=${T(java.lang.Math).floor(reviews.number/10)*10 + 1}, last=(${reviews.totalPages})">
+        th:with="start=${T(java.lang.Math).floor(reviews.number/10)*10 + 1}, last=(${reviews.totalPages})">
         <a th:class="${reviews.first} ? 'disable'" th:href="@{/review(page=${reviews.number})}">
           <img class="btn-left" src="/img/icon/btn_pagination_prev@2x.png">
         </a>
         <index class="row-box">
           <a aria-label="First" th:href="@{/review(page=1)}"
-             th:if="${reviews.totalPages < 4 ? false :reviews.number > 1}" th:text="1">
+            th:if="${reviews.totalPages < 4 ? false :reviews.number > 1}" th:text="1">
           </a>
           <ellipsis th:if="${reviews.totalPages < 4 ? false :reviews.number > 1}">...</ellipsis>
           <a th:each="page: ${#numbers.sequence(start, last)}"
-             th:if="${reviews.first ? (page == 0 ? false : page < reviews.number + 4) :
+            th:if="${reviews.first ? (page == 0 ? false : page < reviews.number + 4) :
                   (reviews.last ? page > reviews.number - 2 : (page < reviews.number + 3) && (page > reviews.number - 1))}"
-             th:class="${page == reviews.number + 1} ? 'index-active'" th:text="${page}"
-             th:href="@{/review(page=${page})}">
+            th:class="${page == reviews.number + 1} ? 'index-active'" th:text="${page}"
+            th:href="@{/review(page=${page})}">
           </a>
           <ellipsis th:if="${reviews.totalPages < 4 ? false :reviews.number < reviews.totalPages - 2}">...</ellipsis>
           <a aria-label="Last" th:href="@{/review(page=${reviews.totalPages})}"
-             th:if="${reviews.totalPages < 4 ? false :reviews.number < reviews.totalPages - 2}"
-             th:text="${reviews.totalPages}">
+            th:if="${reviews.totalPages < 4 ? false :reviews.number < reviews.totalPages - 2}"
+            th:text="${reviews.totalPages}">
           </a>
         </index>
         <a th:class="${reviews.last} ? 'disable'" th:href="@{/review(page=${reviews.number +2})}">
           <img class="btn-right" src="/img/icon/btn_pagination_next@2x.png">
         </a>
       </pagination>
-
-        <div class="alert-window close-alert">
-          <div class="text">
-            작성한 내용은 저장되지 않습니다.<br>
-            취소하겠습니까?
-          </div>
-          <button class="cancel" onclick="hideCloseAlert(this)">취소</button>
-          <button class="okay" onclick="formClose(this)">확인</button>
-        </div>
-
-        <div class="alert-window delete-alert">
-          <div class="text">
-            리뷰를 삭제하시겠습니까?
-          </div>
-          <button class="cancel" onclick="hideDeleteAlert(this)">취소</button>
-          <button class="okay" onclick="reviewDelete(this)">확인</button>
-        </div>
-
-        <div class="top-move-button">
-          <div>∧</div>
-          <div>TOP</div>
-        </div>
-
+      <div class="top-move-button">
+        <div>∧</div>
+        <div>TOP</div>
       </div>
     </div>
   </div>
+</div>
 
 </html>

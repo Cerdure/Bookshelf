@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GoogleLoginInfoResponseDto {
-
     private String id;
     private String email;
     private String verified_email;
