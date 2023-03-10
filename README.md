@@ -407,8 +407,8 @@ resources
 처음에는 HTML의 input 태그에 hidden 속성을 주어서 보관하다가 data 속성을 이용하는 방법으로 개선했지만, 가장 쉽게 노출되는 HTML의 특성상 인증번호를 보관하기에 적합하지 않다는 생각이 들어 JavaScript의 변수로 위치를 옮겼습니다.<br/>
 그러나 사용자가 JavaScript의 데이터에도 접근할 수 있겠다는 생각이 들어 브라우저의 콘솔 창에서 확인해본 결과 예상대로 데이터에 접근이 가능했고, 서버측에 보관해야겠다는 결론을 내리고 최종적으로 다음과 같이 수정하였습니다.
 
++ **Service**
 ```java
-    // Service
     @Override
     @Transactional
     public Map<String, Object> verifyCodeSend(String phone) {
@@ -460,8 +460,8 @@ resources
 > 회원이 쿠폰을 받을 수 있도록 초기화하는 주기를 한 달로 설정하니 어떻게 초기화를 하는지가 문제였습니다. 가장 먼저 떠오른 것은 매월 1일에 일괄적으로 초기화를 하는 것이었지만, 쿠폰의 수령 여부가 계정별로 저장되어있기 때문에, 사용자가 많아질수록 한꺼번에 모든 회원의 데이터를 수정하는 것은 바람직하지 않겠다는 생각이 들었습니다.<br/>
 따라서 개별적으로 초기화를 진행하고 초기화의 트리거를 만드는 방식으로 구현하게 되었습니다. 쿠폰을 지급받는 곳은 한 곳이기 때문에 해당 페이지의 요청이 있을 때 초기화 로직을 실행하고, 관련 테이블에 컬럼을 추가하여 초기화 여부와 날짜를 저장해서 중복 실행을 방지하였습니다.
 
++ **Service**
 ```java
-    // Service
     @Override
     public void syncEventState(Member member) {  // 초기화 메서드
         EventState eventState = member.getEventState();
@@ -522,8 +522,8 @@ resources
 > 출석 체크를 구현하는 과정에서 크게 두 가지 문제가 있었습니다.<br/>
 첫 번째 문제는 스크롤 높이를 기준으로 자동 출석이 되는 방식을 적용했더니 화면 크기에 따라서 적용 높이가 달라지는 문제였습니다. 이 문제는 해당 요소의 절대 위치를 기준으로 한 것이 원인이었고, 다음과 같이 기준을 상대 위치로 변경하는 것으로 해결했습니다. 
 
++ **JavaScript**
 ```javascript
-  // JavaScript
   $(window).scroll(async () => {
     if (checked) return  // 한 번만 실행
     if (dom('.check-wrapper').getBoundingClientRect().top < 100) {  // 해당 요소가 화면에 중앙에 오면 실행
@@ -551,8 +551,8 @@ resources
 
 > 두 번째 문제는 연속 7일이 아니어도 7일만 출석하면 포인트가 지급되는 문제였습니다. 이에 출석 테이블에 별도로 연속일 수를 저장하는 컬럼을 추가하여, 연속이 아닐 시 초기화하는 방법으로 해결했습니다.
 
++ **Service**
 ```java 
-    // Service
     public void saveAttendance(Authentication authentication) {
         if (authentication == null) {
             throw new IllegalStateException("로그인 상태가 아닙니다.");
@@ -587,8 +587,8 @@ resources
 > 회원 정보를 각각 수정하도록 구현하다보니 중복되는 코드가 많아 유지보수에 어려움을 겪었습니다. 이에 개선의 필요성을 느끼고 리팩토링을 진행하였습니다.<br/>
 javascript에서는 수정하려는 항목을 type으로 구분하여 하나의 함수로 만들고, 서버에서도 controller를 통일하여 수정하려는 값을 하나의 DTO로 받음으로써 중복되는 부분을 최대한 줄였습니다. 결과적으로 javascript, controller, service에서 각각 6번씩 반복되던 코드들을 회원 정보 수정이라는 하나 기능으로 통합하여 낭비를 줄이고 유지보수성을 향상시킬 수 있었습니다. 
 
++ **JavaScript**
 ```javascript
-  // JavaScript
   $(document).on('click change', '.change-btn', async (e) => {  // 각 항목의 수정버튼 class 통일
     const info = $(e.target).closest('.info-group')
     const type = e.target.dataset.type
@@ -639,8 +639,8 @@ javascript에서는 수정하려는 항목을 type으로 구분하여 하나의 
   })
 ```
 
++ **Controller**
 ```java
-    // Controller
     @PostMapping("/myshelf/info/update")
     @ResponseBody
     public Map<String, Object> updateInfo(@ModelAttribute MemberDto memberDto, Authentication authentication) {
@@ -683,8 +683,8 @@ javascript에서는 수정하려는 항목을 type으로 구분하여 하나의 
 > 페이지별로 javscaript 파일을 분리하여 개발하다보니 동일한 기능이 있을 때마다 비슷한 코드를 반복해서 넣어줘야 했습니다. 이것이 너무 비효율적이라는 생각이 들어서 자주 사용하는 기능들을 전역으로 사용할 수 있도록 리팩토링하였습니다.<br/>
 Thymeleaf layout의 default 템플릿에서 참조하는 default.js 파일에 자주 사용하는 기능들을 추가하여 여러 페이지에서 참조할 수 있게 변경하였고, 그 결과 반복 작업이 줄어들어 생산성이 크게 향상되었습니다. 다음은 대표적인 전역 기능입니다.
 
++ **JavaScript**
 ```javascript
-// JavaScript
 const allPassed = (...passed) => passed.every((e) => e)  // 모든 조건들 pass 체크
 
 function it(_this) {  // Composite pattern 적용
